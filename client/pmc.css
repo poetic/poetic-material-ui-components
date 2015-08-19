@@ -1,0 +1,39 @@
+.dateSelector::-webkit-scrollbar { 
+    display: none; 
+}
+.hideDock {
+  z-index: 9999
+}
+.dock {
+  z-index: 999
+}
+.ccheckbox {
+  width:20px;
+  height:20px;
+  margin-right: 20px;
+}
+
+.right_action_btn{
+  position: absolute;
+  float: right;
+  top:90%;
+}
+.normal {
+  font-size: 20px;
+
+}
+.normal_small {
+  font-size: 16px;
+
+}
+.day_name
+{
+  position: relative;
+  top: 23px;
+}
+.zero{
+  position:absolute;
+  top:65px;
+  margin-left:20px;
+  margin-right:20px;
+}
