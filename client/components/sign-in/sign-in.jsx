@@ -5,14 +5,14 @@ const {
 } = mui
 
 
-pmc.signReg = React.createClass({
+pmc.signIn = React.createClass({
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
 
   getChildContext() {
     return {
-      muiTheme: mui.Styles.ThemeManager().getCurrentTheme()
+      muiTheme: ThemeManager.getCurrentTheme()
     };
   },
   componentWillMount() {
@@ -41,12 +41,6 @@ pmc.signReg = React.createClass({
     return ( 
       <div>
         <br/>
-        <RaisedButton label={this.props.label}
-         fullWidth={true}
-         linkButton={true}
-         onClick={this.props.action}
-         labelStyle={{'height':'30px','width':'204px','display':'block','margin':'0 auto'}}
-         backgroundColor='#c0f948' style={{'marginBottom':'15px','marginTop':'20px','height':'70px'}} />
         <span>BEEN HERE, DONE THAT? <a ref='sign_btn' onClick={this._showDialog} href='#' style={{'color': '#c0f948', 'textDecoration':'none'}}>SIGN IN </a></span>
         <Dialog
           title="Sign In" ref='sign_dialog'>
@@ -64,8 +58,11 @@ pmc.signReg = React.createClass({
 
 
 
-Template.reg_sign.helpers({
-  regSign() {
-    return myComps.signReg ;
+Template.pmc_signIn.helpers({
+  pmcSignIn() {
+    return pmc.signIn;
+  },
+  _action() {
+    return this.action;
   }
 })

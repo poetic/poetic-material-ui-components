@@ -135,7 +135,7 @@ pmc.creditCardComponent = React.createClass({
 
  }
 })
-Template['creditCard'].helpers({
+Template.pmc_creditCard.helpers({
 	creditCardComponent() {
 
 		return pmc.creditCardComponent;

@@ -2,7 +2,7 @@ Package.describe({
   name: 'poetic:material-ui-components',
   version: '0.0.1',
   // Brief, one-line summary of the package.
-  summary: '',
+  summary: 'A collection of helpful components using the material ui framework',
   // URL to the Git repository containing the source code for this package.
   git: '',
   // By default, Meteor will default to using README.md for documentation.
@@ -21,11 +21,42 @@ Package.onUse(function(api) {
         'underscore@1.0.3',
         'aldeed:autoform@5.3.1',
         'aldeed:collection2@2.3.3'
-    ], 'client');
-    api.imply([
-      'poetic:react-material-ui',
-      'react'
-      ]);
+  ], 'client');
+  api.imply([
+    'poetic:react-material-ui',
+    'react'
+  ]);
+
+  api.addFiles([
+    'before/lib/pmc.js',
+
+    'client/components/action-button/action-button.html',
+    'client/components/action-button/action-button.jsx',
+    'client/components/app-bar/app-bar.html',
+    'client/components/app-bar/app-bar.jsx',
+    'client/components/contacts/contacts.html',
+    'client/components/contacts/contacts.jsx',
+    'client/components/credit-card/credit-card.html',
+    'client/components/credit-card/credit-card.jsx',
+    'client/components/date-selector/date-selector.jsx',
+    'client/components/float-button/float-button.jsx',
+    'client/components/sign-in/sign-in.html',
+    'client/components/sign-in/sign-in.jsx',
+
+
+    'public/material-icons/MaterialIcons-Regular.eot',
+    'public/material-icons/MaterialIcons-Regular.ttf',
+    'public/material-icons/MaterialIcons-Regular.woff',
+    'public/material-icons/MaterialIcons-Regular.woff2',
+
+
+    'client/pmc.css',
+  ],'client');
+
+  api.export([
+    'pmc'
+  ], 'client');
+
 });
 
 Package.onTest(function(api) {
