@@ -34,6 +34,25 @@
   font-feature-settings: 'liga';
 }
 
+.cardLogo {
+  position: absolute;
+  top: 0px;
+  width:30px;
+  padding: 5px;
+
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 100%;
+}
+.pmcVisa {
+  background-image:url('../public/cards/visa.png');
+}
+.pmcMasterCard {
+  background-image:url('../public/cards/mastercard.png');
+}
+.pmcAmericanExpress {
+  background-image:url('../public/cards/amex.png');
+}
 .dateSelector::-webkit-scrollbar { 
     display: none; 
 }

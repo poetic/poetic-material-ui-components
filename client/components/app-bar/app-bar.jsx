@@ -33,7 +33,7 @@ pmc.appBar = React.createClass({
   				'top':'0px',
     			'position': 'fixed',
     			'backgroundColor':'#2a2a2a', 
-       		 'font-color':'white',
+       		'font-color':'white',
 			    'text-align': 'center',
 			    'fontFamily': 'Roboto !important',
 			    'fontSize': '20px',

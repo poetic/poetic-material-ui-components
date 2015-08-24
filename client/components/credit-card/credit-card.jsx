@@ -5,9 +5,14 @@ const
 	FlatButton
 } = mui;
 
-pmc.creditCardComponent = React.createClass({
- childContextTypes: {
+pmc.creditCard = React.createClass({
+  childContextTypes: {
     muiTheme: React.PropTypes.object
+  },
+  getInitialState() {
+    return {
+      cardLogo: ''
+    };
   },
 
   getChildContext() {
@@ -47,7 +52,7 @@ pmc.creditCardComponent = React.createClass({
 
   		}
   	};
-  	let exp = this.refs.exp.getValue().replace(/\D/g, '').match(/(\d{2})(\d{2})/)
+  	let exp = this.refs.exp.getValue().replace(/\D/g, '').match(/(\d{2})(\d{2})/);
   	card.num = this.refs.cardNumber.getValue().replace(/\D/g, '');
   	card.exp.month = exp[1];
   	card.exp.year = exp[2];
@@ -56,8 +61,38 @@ pmc.creditCardComponent = React.createClass({
   	nextProps.action(card);
   }
 },
-  _handleCard(e) {
+  _handleCardNumber(e) {
   	let x = e.target.value.replace(/\D/g, '').match(/(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,4})/);
+
+    let visa = /^4[0-9]{2,}/.test(x[1]);
+    let masterCard = /^5[1-5][0-9]{1,}/.test(x[1]);
+    let americanExpress = /^3[47][0-9]{1,}/.test(x[1]);
+
+    if(x[1].length==0)
+    {
+      this.setState({
+        cardLogo: ''
+      })
+    }
+
+    if(visa)
+    {
+      this.setState({
+        cardLogo: 'cardLogo pmcVisa'
+      })
+    }
+    if(masterCard)
+    {
+      this.setState({
+        cardLogo: 'cardLogo pmcMasterCard'
+      })
+    }
+    if(americanExpress)
+    {
+      this.setState({
+        cardLogo: 'cardLogo pmcAmericanExpress'
+      })
+    }
   	e.target.value = !x[2] ? x[1] : x[1] + ' ' + x[2] + (x[3] ? ' ' + x[3] : '') + (x[4] ? ' ' + x[4] : '');
   },
   _handleExp(e) {
@@ -71,7 +106,7 @@ pmc.creditCardComponent = React.createClass({
  render() {
  	let styles = {
  		card:{
-		    'textIndent': '51px'
+	    'textIndent': '51px'
  		} ,
  		exp:{
  			'width':'30%',
@@ -102,42 +137,41 @@ pmc.creditCardComponent = React.createClass({
 
  	return(
  		<div>
-	 		<div className='zero' style={styles.cc} >
+	 		<div style={(this.props.style == undefined) ? styles.cc : this.props.style} >
 	 			<div className='row'>
 	 				<div className='col-xs-12'>
+            <div className={this.state.cardLogo} />
 		 				<TextField
 	        			hintText="Card Number" fullWidth={true} style={styles.card}
-	        			ref="cardNumber" onChange={this._handleCard} />
-        			</div>
+	        			ref="cardNumber" onChange={this._handleCardNumber} />
+    			</div>
 	 			</div> 
 	 			<div className='row'>
 	 				<div className='col-xs-12'>
 		 				<div style={styles.exp} >
 		 					<span>EXP </span>
 		 					<TextField  ref='exp' fullWidth={true} onChange={this._handleExp} />
-	 					 </div>
-	 					 <div style={styles.zip}>
+	 					</div>
+	 					<div style={styles.zip}>
 		 					 <span>ZIP </span>
 		 					 <TextField ref='zip' fullWidth={true} onChange={this._handleZip} />
-	 					  </div>
+ 					  </div>
 	 					<div style={styles.cvc}>  
-        				<span>CVC </span>
-	        				<TextField
-	        				ref="cvc" type='number' fullWidth={true} onChange={this._handleCvc}/>
-        				</div>
+      				<span>CVC </span>
+      				<TextField
+      				ref="cvc" type='number' fullWidth={true} onChange={this._handleCvc}/>
+    				</div>
 	 				</div>
-	 
-	 			</div>
-	 		</div>
-
+        </div>
+ 		  </div>
  		</div>
  		);
 
  }
 })
 Template.pmc_creditCard.helpers({
-	creditCardComponent() {
+	creditCard() {
 
-		return pmc.creditCardComponent;
+		return pmc.creditCard;
 	}
 })

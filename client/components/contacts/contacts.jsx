@@ -14,54 +14,55 @@ pmc._contact = React.createClass({
     muiTheme: React.PropTypes.object
   },
   contextTypes: {
-        muiTheme: React.PropTypes.object
-    },
+    muiTheme: React.PropTypes.object
+  },
   getChildContext() {
     return{
       muiTheme: ThemeManager.getCurrentTheme()
     }   
   },
   getInitialState() {
-      return {
-        contact: this.props.contact,
-        checked: false,
-        image: '/unchecked.png'
-      };
-    },
+    return {
+      contact: this.props.contact,
+      checked: false,
+      image: '/unchecked.png'
+    };
+  },
 
     
-    _handleContactCheck(e) {
-      this.setState({
-        checked: !this.state.checked,
-        image: this.state.checked ? '/checked.png' : '/unchecked.png'
-      });
+  _handleContactCheck(e) {
+    this.setState({
+      checked: !this.state.checked,
+      image: this.state.checked ? '/checked.png' : '/unchecked.png'
+    });
 
-      this.setState({
-        image: this.state.checked ? '/checked.png' : '/unchecked.png'
-      });
+    this.setState({
+      image: this.state.checked ? '/checked.png' : '/unchecked.png'
+    });
 
-      this.props.feedback({
-        status: this.state.checked,
-        id: this.state.contact.id
-      })
+    this.props.feedback({
+      status: this.state.checked,
+      id: this.state.contact.id
+    })
 
-    },
-    render() {
+  },
+  render() {
 
-      
+    
 
-      return(
-        <div>
-        <div style={{'marginBottom':'20px','fontSize':'16px'}} onClick={this._handleContactCheck}>
-          <img ref='image' className='ccheckbox' src={this.state.image} />
-          {this.state.contact.name.givenName}
-        </div>
+    return(
+      <div>
+      <div style={{'marginBottom':'20px','fontSize':'16px'}} onClick={this._handleContactCheck}>
+        <img ref='image' className='ccheckbox' src={this.state.image} />
+        {this.state.contact.name.givenName}
       </div>
-        )
-    }
+    </div>
+      )
+  }
 
 })
 //Contact component ********END Here*********
+
 pmc.contacts = React.createClass({
   childContextTypes: {
     muiTheme: React.PropTypes.object
@@ -75,12 +76,12 @@ pmc.contacts = React.createClass({
     }   
   },
   getInitialState() {
-      return {
-        contacts: [],
-        chosenContacts: {}
-      };
-    },
-    componentWillMount() {
+    return {
+      contacts: [],
+      chosenContacts: {}
+    };
+  },
+  componentWillMount() {
 
     if (Meteor.isCordova & !this.state.contacts.length){
 
@@ -99,25 +100,24 @@ pmc.contacts = React.createClass({
       };
       navigator.contacts.find(["*"], onSuccess.bind(this), onError);
     }
-    
-    },
-    _handleImportContacts() {
+  
+  },
+  _handleImportContacts() {
 
-    },
-    _contactHandler(contactObj) {
-      if(contactObj.status)
-      {
-        let obj = this.state.chosenContacts;
-        obj[contactObj] = true;
-        this.setState({
-          chosenContacts: obj
-        })
-      }
-      console.dir(contactObj);
-    },
-    _filterContacts() {
+  },
+  _contactHandler(contactObj) {
+    if(contactObj.status) {
+      let obj = this.state.chosenContacts;
+      obj[contactObj] = true;
+      this.setState({
+        chosenContacts: obj
+      })
+    }
+    console.dir(contactObj);
+  },
+  _filterContacts() {
 
-    },
+  },
   
   render() {
 
@@ -150,7 +150,7 @@ pmc.contacts = React.createClass({
       <div>
       <pmc.appBar icon={true} action='/trainer/dashboard' title='IMPORT CLIENTS' />
       
-      <div className='zero' style={styles.zero}>
+      <div className='' style={styles.zero}>
         <div style={{'width':'100%'}}>
           <FontIcon className="material-icons">search</FontIcon>
           <TextField hintText="Search contacts" fullWidth={true} onChange={this._filterContacts} />

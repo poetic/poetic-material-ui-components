@@ -46,7 +46,7 @@ pmc.actionButton = React.createClass({
        <RaisedButton
         label={this.props.label}
         onClick={this.props.action != undefined ? this._handleAction : null}
-        type = {this.props.action == undefined ? 'submit' : null}
+        type = {this.props.action == undefined ? 'submit' : 'button-'}
         labelStyle={styles.label}
         backgroundColor='#c0f948'
         style={(this.props.style == undefined) ? styles.root : this.props.style} />
