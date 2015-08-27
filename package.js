@@ -49,6 +49,8 @@ Package.onUse(function(api) {
     'client/components/float-button/float-button.jsx',
     'client/components/sign-in/sign-in.html',
     'client/components/sign-in/sign-in.jsx',
+    'client/components/spinner/spinner.html',
+    'client/components/spinner/spinner.jsx',
 
 
     'public/material-icons/MaterialIcons-Regular.eot',

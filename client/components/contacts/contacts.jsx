@@ -1,3 +1,12 @@
+/**
+pmc.contacts
+
+Props
+___________
+
+action: takes a reference to callback handler which recieves an object of all chosen contacts
+
+**/
 //Pick our components from mui
 const {
   TextField,
@@ -8,13 +17,21 @@ const {
   RaisedButton
 }= mui;
 
-//Contact component ********Start Here*********
+/**
+pmc._contact 
+
+Props
+________
+feedback: takes a reeference to the callback handler, _contactHandler() in pmc.contacts. it passes the updated state of the contact component
+
+**/
+
 pmc._contact = React.createClass({
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
   contextTypes: {
-    muiTheme: React.PropTypes.object
+    muiTheme: React.PropTypes.object,
   },
   getChildContext() {
     return{
@@ -24,6 +41,7 @@ pmc._contact = React.createClass({
   getInitialState() {
     return {
       contact: this.props.contact,
+      index: this.props.index,
       checked: false,
       image: '/unchecked.png'
     };
@@ -31,33 +49,46 @@ pmc._contact = React.createClass({
 
     
   _handleContactCheck(e) {
-    this.setState({
-      checked: !this.state.checked,
-      image: this.state.checked ? '/checked.png' : '/unchecked.png'
-    });
-
-    this.setState({
-      image: this.state.checked ? '/checked.png' : '/unchecked.png'
-    });
+    let label = e.currentTarget;
+    let status = $(label).find('.checkbox')[0].checked;
 
     this.props.feedback({
-      status: this.state.checked,
-      id: this.state.contact.id
+      status: status,
+      id: this.state.contact.id,
+      index: this.state.index
+    })
+
+    this.setState({
+      checked : status
     })
 
   },
   render() {
+    let show = true;
+    let contact = null;
 
-    
+    if (!_.isEmpty(this.props.filter)) {
+      let found = _.indexOf(this.props.filter, this.state.contact.id);
+      if(found === -1) {
+        show = false;
+      }
+    }
 
+    if(show) {
+      contact =  <div>
+        <label className="pmcLabelCheckbox" onClick={this._handleContactCheck}>
+          <input type="checkbox" className="checkbox" checked ={this.state.checked} />
+           {this.state.contact.name.givenName + ' ' + (this.state.contact.name.familyName || '') }
+        </label>
+      </div> 
+    }
     return(
       <div>
-      <div style={{'marginBottom':'20px','fontSize':'16px'}} onClick={this._handleContactCheck}>
-        <img ref='image' className='ccheckbox' src={this.state.image} />
-        {this.state.contact.name.givenName}
+      { 
+        show ? contact : null
+      }
       </div>
-    </div>
-      )
+    )
   }
 
 })
@@ -68,8 +99,8 @@ pmc.contacts = React.createClass({
     muiTheme: React.PropTypes.object
   },
   contextTypes: {
-        muiTheme: React.PropTypes.object
-    },
+    muiTheme: React.PropTypes.object
+  },
   getChildContext() {
     return{
       muiTheme: ThemeManager.getCurrentTheme()
@@ -78,12 +109,13 @@ pmc.contacts = React.createClass({
   getInitialState() {
     return {
       contacts: [],
-      chosenContacts: {}
+      chosenContacts: {},
+      filteredContacts:[]
     };
   },
   componentWillMount() {
 
-    if (Meteor.isCordova & !this.state.contacts.length){
+    if (Meteor.isCordova){
 
       let cSort = function(a, b) {
         aName = a.name.givenName;
@@ -92,7 +124,6 @@ pmc.contacts = React.createClass({
       };
       function onSuccess(conts) {
         conts.sort(cSort);
-        console.log('contacts set!');
         this.setState({contacts:conts});
       }
       function onError(contactError) {
@@ -100,22 +131,45 @@ pmc.contacts = React.createClass({
       };
       navigator.contacts.find(["*"], onSuccess.bind(this), onError);
     }
-  
   },
-  _handleImportContacts() {
 
+  //This simply passes all chosen contacts as a single object, to the callback passed
+  _handleImportContacts() {
+    this.props.action(this.state.chosenContacts)
   },
+
+  // Handles on click handler for each contact component.
+  // Adds or deletes a contact as the case arises
   _contactHandler(contactObj) {
+    let obj = this.state.chosenContacts;
+
+    //Check if contact was selected
     if(contactObj.status) {
-      let obj = this.state.chosenContacts;
-      obj[contactObj] = true;
+      obj[contactObj.id] = this.state.contacts[contactObj.index];
       this.setState({
         chosenContacts: obj
       })
+    }else {
+      delete obj[contactObj.id];
     }
-    console.dir(contactObj);
   },
-  _filterContacts() {
+
+  // Handles filtering of contacts, filtered and accepted contacts will have their Id's stored in the
+  //  filteredContacts state variable
+  _filterContacts(e) {
+    let cSearch = new RegExp(e.currentTarget.value,'gi');
+    let self = this;
+
+    let fContacts =  _.map(this.state.contacts,function(contact){
+      
+      if (cSearch.test(contact.name.givenName)) {
+        return contact.id;
+      }
+    }.bind(this))
+
+    this.setState({
+      filteredContacts: fContacts
+    })
 
   },
   
@@ -123,56 +177,56 @@ pmc.contacts = React.createClass({
 
     let styles = {
       contacts: {
-        'height': '80%',
-        'width': '325px',
+        'height': screen.height - 215,
+        'width': '100%',
         'overflowX': 'hidden',
         'overflowY': 'scroll',
         'WebkitOverflowScrolling': 'touch',
         'position': 'absolute',
       },
-      zero:{
-        'height': screen.height - 65,
-        'width': screen.width - 20
+      searchIcon: {
+        'display': 'inline-block',
+        'width': '16px'
+      },
+      searchBar: {
+        'textIndent': '30px',
+        'display': 'inline-block',
       }
     }
 
     let spinner = <CircularProgress mode="indeterminate" size={5} ></CircularProgress>;
 
     let contacts = this.state.contacts.map(function(contact,index){
-          if (contact.name.givenName)
-          {
-            return <pmc._contact key={index} contact={contact} feedback={this._contactHandler} /> 
-          }   
+        if (contact.name.givenName)
+        {
+          return <pmc._contact key={contact.id} contact={contact} filter={this.state.filteredContacts} feedback={this._contactHandler} index={index} /> 
+        }   
       }.bind(this))
 
 
     return (
       <div>
-      <pmc.appBar icon={true} action='/trainer/dashboard' title='IMPORT CLIENTS' />
-      
-      <div className='' style={styles.zero}>
-        <div style={{'width':'100%'}}>
-          <FontIcon className="material-icons">search</FontIcon>
-          <TextField hintText="Search contacts" fullWidth={true} onChange={this._filterContacts} />
-        </div>
-        <div style={styles.contacts}>
-          {
-            (contacts.length) ? contacts : spinner
+        <pmc.appBar icon={true} action='/trainer/dashboard' title='IMPORT CLIENTS' />
+        <div style={{'marginTop':'65px'}}>
+          <div style={{'height':'60px'}}>
+            <FontIcon className="material-icons" color='#3a3a3a' style={{'top':'20px'}} >search</FontIcon>
+            <TextField hintText="Search contacts" onChange={this._filterContacts} fullWidth={true} style={styles.searchBar} />
+          </div>
+          <div style={styles.contacts}>
+            {
+              (contacts.length) ? contacts : spinner
 
-          }
+            }
+          </div>
         </div>
-        <RaisedButton label='Add TO CLIENT LIST'
-          onClick={this._handleImportContacts}
-              labelStyle={{'lineHeight':'30px','display':'block','color': '#979797','fontSize':'24px'}}
-              backgroundColor='#c0f948' style={{'marginLeft':'20px','marginRight':'20px','width':'280px','height':'70px','position':'absolute','bottom':'0px'}} />
-       </div>
+        <pmc.actionButton label='Add TO CLIENT LIST' action={this._handleImportContacts} />
       </div>
-      )
+    )
   }
 })
 
 Template.pmc_contacts.helpers({
-  handler () {
+  _action () {
     return this.action
   },
   contacts() {

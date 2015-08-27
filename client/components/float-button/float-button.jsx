@@ -46,13 +46,11 @@ pmc.floatButton = React.createClass({
   		$(icon).velocity({
   			top: topPos,
   			opacity: 1
-  		},{
+  		  },{
 		    duration: 150,
 		    easing: "easeOutExpo"
-		})
-
-  	})
-  	
+  		  })
+  	  })
   },
 
 
@@ -81,8 +79,30 @@ pmc.floatButton = React.createClass({
   		right: {
   			'position':'absolute',
   			'top':top,
-  			'right':'20px'
-  		}
+  			'right':'20px',
+  		},
+      leftMenuItems: {
+        'position':'absolute',
+        'top':top,
+        'left':'20px',
+        'opacity':'0'
+      },
+      rightMenuItems: {
+        'position':'absolute',
+        'top':top,
+        'right':'20px',
+        'opacity':'0'
+      },
+      spanLeft: {
+        'float':'right',
+        'marginLeft':'20px',
+        'marginTop':'15px'
+      },
+      spanRight: {
+        'float':'left',
+        'marginRight':'20px',
+        'marginTop':'15px'
+      }
   	}
   	let overlay = (this.state.showDockItems) ? styles.overlay : styles.hideOverlay;
   	return(
@@ -93,17 +113,17 @@ pmc.floatButton = React.createClass({
   			{
   				this.props.items.map(function(item, index){
 
-  					return <div style={{'position':'absolute','top':'490','right':'20px','opacity':'0'}}>
-  					<span style={{'float':'left','marginRight':'20px','marginTop':'15px'}}>{item.label}</span>
+  					return <div style={(this.state.left == undefined) ? styles.rightMenuItems : styles.leftMenuItems}>
+  					<span style={(this.state.left == undefined) ? styles.spanRight : styles.spanLeft}>{item.label}</span>
   					<FloatingActionButton backgroundColor="#c0f948"
 				 	 linkButton={true}
 				 	 href={item.action}>
 						<FontIcon className="material-icons">{item.icon}</FontIcon>
 					</FloatingActionButton></div>
-  				})
+  				}.bind(this))
   			}
 
-		 		<FloatingActionButton backgroundColor="#aeaeae" className='hideDock'
+		 		<FloatingActionButton backgroundColor={"#aeaeae"} className='hideDock'
 			 		style={(this.state.left == undefined) ? styles.right : styles.left }
 				 	 onClick={this._handleDockClick}>
 					<FontIcon className="material-icons">cancel</FontIcon>
@@ -112,7 +132,7 @@ pmc.floatButton = React.createClass({
       {/**** End Overlay ***/}
 
 			{/* Dock button stuffs below */}
-  			<FloatingActionButton backgroundColor="#c0f948" className='dock'
+  			<FloatingActionButton backgroundColor={"#c0f948"} className='dock'
 			 	 style={(this.state.left == undefined) ? styles.right : styles.left }
 			 	 onClick={this._handleDockClick}>
 					<FontIcon className="material-icons">{this.state.icon}</FontIcon>

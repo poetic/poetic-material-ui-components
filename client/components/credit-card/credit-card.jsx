@@ -34,17 +34,8 @@ pmc.creditCard = React.createClass({
   	card.cvc = this.refs.cvc.getValue();
   	card.set = true;
   	this.props.action(card);
-	// STRIPE.getToken( '#application-signup', {
-	// 	  number: $('[data-stripe="cardNumber"]').val(),
-	// 	  exp_month: $('[data-stripe="exp-month"]').val(),
-	// 	  exp_year: $('[data-stripe="exp-year"]').val(),
-	// 	  cvc: $('[data-stripe="cvc"]').val()
-	// 	}, 
-	// 	function(err,res) {
-	// 	  Router.go("/trainer/home");
-	//   	}
- //    );
   },
+  
   componentWillReceiveProps: function(nextProps) {
   if(nextProps.compute=='active'){
   	let card = {
@@ -104,6 +95,8 @@ pmc.creditCard = React.createClass({
   	e.target.value = x[1];
   },
  render() {
+  let width = screen.width - 40;
+
  	let styles = {
  		card:{
 	    'textIndent': '51px'
@@ -126,15 +119,23 @@ pmc.creditCard = React.createClass({
  			'display': 'inline-block'
  		},
  		cc:{
- 			'width': '280px',
+ 			'width': width,
       'height':'108px',
       'borderLeft': '1px solid #e4e4e4',
       'borderRight': '1px solid #e4e4e4',
       'borderTop': '1px solid #e4e4e4',
 
- 		}
+ 		},
+    button: {
+      'marginLeft':'20px',
+      'marginRight':'20px',
+      'width': width,
+      'height':'70px',
+      'position':'absolute',
+      'top': '90vh',
+      'left': '0px'
+    }
  	}
-
  	return(
  		<div>
 	 		<div style={(this.props.style == undefined) ? styles.cc : this.props.style} >
@@ -142,8 +143,8 @@ pmc.creditCard = React.createClass({
 	 				<div className='col-xs-12'>
             <div className={this.state.cardLogo} />
 		 				<TextField
-	        			hintText="Card Number" fullWidth={true} style={styles.card}
-	        			ref="cardNumber" onChange={this._handleCardNumber} />
+        			hintText="Card Number" fullWidth={true} style={styles.card}
+        			ref="cardNumber" onChange={this._handleCardNumber} />
     			</div>
 	 			</div> 
 	 			<div className='row'>
@@ -164,14 +165,19 @@ pmc.creditCard = React.createClass({
 	 				</div>
         </div>
  		  </div>
+      <pmc.actionButton
+        label='SAVE CARD'
+        action={this._handleCardSubmit} style={styles.button} />
  		</div>
- 		);
+	);
 
  }
 })
 Template.pmc_creditCard.helpers({
 	creditCard() {
-
 		return pmc.creditCard;
-	}
+	},
+  _action() {
+    return this.action;
+  }
 })

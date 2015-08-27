@@ -1,3 +1,13 @@
+/**
+pmc.actionButton
+
+Props
+___________
+
+action: takes a reference to callback handler which recieves an object of all chosen contacts
+
+**/
+
 const {
   RaisedButton
 } = mui
@@ -21,7 +31,7 @@ pmc.actionButton = React.createClass({
     this.props.action();
   },
   render() {
-    let top = screen.height * .75;
+    // let top = screen.height * .75;
     let width = screen.width - 40;
     let styles ={
       root:{
@@ -30,8 +40,7 @@ pmc.actionButton = React.createClass({
         'width': width,
         'height':'70px',
         'position':'absolute',
-        'top': top,
-        'left':'0px'
+        'top': '90vh',
       },
       label:{
         'lineHeight':'30px',
@@ -45,8 +54,8 @@ pmc.actionButton = React.createClass({
       <div>
        <RaisedButton
         label={this.props.label}
-        onClick={this.props.action != undefined ? this._handleAction : null}
-        type = {this.props.action == undefined ? 'submit' : 'button-'}
+        onClick={this.props.action ? this._handleAction : null}
+        type = {this.props.action == undefined ? 'submit' : 'button'}
         labelStyle={styles.label}
         backgroundColor='#c0f948'
         style={(this.props.style == undefined) ? styles.root : this.props.style} />

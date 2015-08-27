@@ -35,7 +35,7 @@ pmc.appBar = React.createClass({
     			'backgroundColor':'#2a2a2a', 
        		'font-color':'white',
 			    'text-align': 'center',
-			    'fontFamily': 'Roboto !important',
+			    'fontFamily': 'Roboto-Regular !important',
 			    'fontSize': '20px',
 			    'textAlign': 'center',
 			    'width' : '100%',
@@ -55,8 +55,8 @@ pmc.appBar = React.createClass({
   	}
   	return (
   		<div>
-			<AppBar id={this.props.barId} className='AppBar' title={this.props.title}
-       	showMenuIconButton={(this.props.icon == undefined) ? false : this.props.icon }
+			<AppBar id={this.props.barId} className='pmcAppBar' title={this.props.title}
+       	showMenuIconButton={(this.props.icon) ? this.props.icon : false }
 				iconElementLeft={icon}
        	style={styles.appBar} />
      	</div>
