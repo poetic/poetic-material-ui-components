@@ -45,9 +45,10 @@ pmc.floatButton = React.createClass({
   		let topPos = self.state.showDockItems ? top : (top - ((index+1)*80));
   		$(icon).velocity({
   			top: topPos,
-  			opacity: 1
+  			opacity: 1,
   		  },{
 		    duration: 150,
+        'display':'block',
 		    easing: "easeOutExpo"
   		  })
   	  })
@@ -62,14 +63,16 @@ pmc.floatButton = React.createClass({
   			'backgroundColor':'rgba(255,255,255,0.9)',
   			'zIndex': '9999',
   			'width':'100%',
-  			'height':'98%',
+  			'height':'100vh',
+        'top':'0px',
   			'opacity':'1'
   		},
   		hideOverlay: {
   			'zIndex': '999',
+        'display':'none',
   			'opacity':'0',
   			'width':'100%',
-  			'height':'98%',
+  			'height':'100vh',
   		},
   		left: {
   			'position':'absolute',
@@ -85,13 +88,15 @@ pmc.floatButton = React.createClass({
         'position':'absolute',
         'top':top,
         'left':'20px',
-        'opacity':'0'
+        'opacity':'0',
+        'display':'none'
       },
       rightMenuItems: {
         'position':'absolute',
         'top':top,
         'right':'20px',
-        'opacity':'0'
+        'opacity':'0',
+        'display':'none'
       },
       spanLeft: {
         'float':'right',

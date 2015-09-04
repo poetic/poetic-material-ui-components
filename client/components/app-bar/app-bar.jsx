@@ -1,3 +1,18 @@
+/**
+pmc.appBar
+
+Props
+___________
+
+action: takes a reference to callback handler which should handle the event when the left icon is clicked.
+        Note: for the action prop to be used, you must pass an icon string through the "icon" prop
+
+title: The title to be displayed on the app bar
+
+icon: takes a string that should correspond to a google material icon. Note, use underscores between words of the icon and not spaces
+
+**/
+
 const {
 	AppBar,
 	IconButton
@@ -15,14 +30,14 @@ pmc.appBar = React.createClass({
 	},
 	_handleAction() {
 		//Throw error if no action is supplied
-		if(this.props.action == undefined)
+		if(this.props.action === undefined)
 		{
 			throw("You must specify an action! if using an icon");
 		}
 		else
 		{
 
-			Router.go(this.props.action);	
+			this.props.action();	
 		}
 	},
 	render() {
@@ -50,12 +65,12 @@ pmc.appBar = React.createClass({
 	       		 onClick={this._handleAction}
 	       	 	 tooltipPosition="bottom-center"
 		       	 style={{'marginTop':'-8px'}}
-  				 tooltip="Go Back">arrow_back
+  				 tooltip="Go Back">{this.props.icon}
 					</IconButton>
   	}
   	return (
   		<div>
-			<AppBar id={this.props.barId} className='pmcAppBar' title={this.props.title}
+			<AppBar id={this.props.barId} className='pmcAppBar' title={this.props.title.toUpperCase()}
        	showMenuIconButton={(this.props.icon) ? this.props.icon : false }
 				iconElementLeft={icon}
        	style={styles.appBar} />

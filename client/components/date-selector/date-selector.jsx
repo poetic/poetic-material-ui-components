@@ -96,8 +96,8 @@ pmc.dateSelector = React.createClass({
   				let month = dateString.substr(4,4);
   				let daystring = dateString[0] +' '+ dateString.substr(8,2);
   				return <div key={index} className={'day'+index} onClick={this._handleActiveDay} style={(this.state.selectedIndex == index) ? styles.date_selected : {'position':'absolute','backgroundImage': 'none','display':'inline-block','width':'70px','left':left,'textAlign': 'center','color':'#3a3a3a'}}>
-		    				<p className={'day'+index} onClick={this._handleActiveDay}>{month}</p>
-		    				<p className={'day'+index} onClick={this._handleActiveDay}>{daystring}</p>
+		    				<p className={'day'+index} >{month}</p>
+		    				<p className={'day'+index} >{daystring}</p>
 	    				</div>
   			}.bind(this))
   		}

@@ -41,8 +41,11 @@ Package.onUse(function(api) {
     'client/components/app-bar/app-bar.jsx',
     'client/components/camera-avatar/camera-avatar.html',
     'client/components/camera-avatar/camera-avatar.jsx',
+    'client/components/contact/contact.html',
+    'client/components/contact/contact.jsx',
     'client/components/contacts/contacts.html',
     'client/components/contacts/contacts.jsx',
+    'client/components/dialog/dialog.jsx',
     'client/components/credit-card/credit-card.html',
     'client/components/credit-card/credit-card.jsx',
     'client/components/date-selector/date-selector.jsx',
@@ -57,6 +60,8 @@ Package.onUse(function(api) {
     'public/material-icons/MaterialIcons-Regular.ttf',
     'public/material-icons/MaterialIcons-Regular.woff',
     'public/material-icons/MaterialIcons-Regular.woff2',
+
+    'public/roboto/Roboto-Regular.ttf',
 
     'public/cards/amex.png',
     'public/cards/mastercard.png',

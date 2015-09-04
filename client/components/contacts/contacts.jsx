@@ -7,6 +7,20 @@ ___________
 action: takes a reference to callback handler which recieves an object of all chosen contacts
 
 **/
+
+
+/**
+pmc._contact 
+
+Note: do not reference this class directly, it is to be used by pmc.contacts only!
+      For a contact-like comoponent, please see pmc.contact.
+
+Props
+________
+feedback: takes a reference to the callback handler, _contactHandler() in pmc.contacts. it passes the updated state of the contact component
+
+**/
+
 //Pick our components from mui
 const {
   TextField,
@@ -17,15 +31,7 @@ const {
   RaisedButton
 }= mui;
 
-/**
-pmc._contact 
-
-Props
-________
-feedback: takes a reeference to the callback handler, _contactHandler() in pmc.contacts. it passes the updated state of the contact component
-
-**/
-
+//-------pmc.contact-------
 pmc._contact = React.createClass({
   childContextTypes: {
     muiTheme: React.PropTypes.object
@@ -67,8 +73,12 @@ pmc._contact = React.createClass({
     let show = true;
     let contact = null;
 
+    //check if filter prop is empty
     if (!_.isEmpty(this.props.filter)) {
+
       let found = _.indexOf(this.props.filter, this.state.contact.id);
+
+      //set show to false if not found
       if(found === -1) {
         show = false;
       }
@@ -92,7 +102,7 @@ pmc._contact = React.createClass({
   }
 
 })
-//Contact component ********END Here*********
+//********End pmc.contact*********
 
 pmc.contacts = React.createClass({
   childContextTypes: {
@@ -157,7 +167,7 @@ pmc.contacts = React.createClass({
   // Handles filtering of contacts, filtered and accepted contacts will have their Id's stored in the
   //  filteredContacts state variable
   _filterContacts(e) {
-    let cSearch = new RegExp(e.currentTarget.value,'gi');
+    let cSearch = new RegExp(e.currentTarget.value,'gi'); //global and case insensitive search
     let self = this;
 
     let fContacts =  _.map(this.state.contacts,function(contact){
@@ -174,10 +184,11 @@ pmc.contacts = React.createClass({
   },
   
   render() {
-
+    let contactsHeight = screen.height - 215;
+    let actionButtonTop = contactsHeight + 125;
     let styles = {
       contacts: {
-        'height': screen.height - 215,
+        'height': contactsHeight,
         'width': '100%',
         'overflowX': 'hidden',
         'overflowY': 'scroll',
@@ -191,6 +202,14 @@ pmc.contacts = React.createClass({
       searchBar: {
         'textIndent': '30px',
         'display': 'inline-block',
+      },
+      actionButton: {
+        position:'absolute',
+        'marginLeft':'20px',
+        'marginRight':'20px',
+        'width': screen.width - 40,
+        'height':'70px',
+        top: actionButtonTop
       }
     }
 
@@ -206,7 +225,7 @@ pmc.contacts = React.createClass({
 
     return (
       <div>
-        <pmc.appBar icon={true} action='/trainer/dashboard' title='IMPORT CLIENTS' />
+        <pmc.appBar icon='arrow_back' action={this.props.cancel} title='IMPORT CLIENTS' />
         <div style={{'marginTop':'65px'}}>
           <div style={{'height':'60px'}}>
             <FontIcon className="material-icons" color='#3a3a3a' style={{'top':'20px'}} >search</FontIcon>
@@ -219,7 +238,7 @@ pmc.contacts = React.createClass({
             }
           </div>
         </div>
-        <pmc.actionButton label='Add TO CLIENT LIST' action={this._handleImportContacts} />
+        <pmc.actionButton label='Add TO CLIENT LIST' action={this._handleImportContacts} style={styles.actionButton} />
       </div>
     )
   }
@@ -228,6 +247,9 @@ pmc.contacts = React.createClass({
 Template.pmc_contacts.helpers({
   _action () {
     return this.action
+  },
+   cancel () {
+    return this.cancel
   },
   contacts() {
 

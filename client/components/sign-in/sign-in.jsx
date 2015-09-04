@@ -1,3 +1,15 @@
+/**
+pmc._contact 
+
+Note: do not reference this class directly, it is to be used by pmc.contacts only!
+      For a contact-like comoponent, please see pmc.contact.
+
+Props
+________
+action: takes a reference to a callback handler which is called on successful login. it returns the current userid to the callback handler specified.
+
+**/
+
 const {
   Dialog,
   TextField,
@@ -33,14 +45,14 @@ pmc.signIn = React.createClass({
       if(err) {
         alert(err.reason)
       }else{
-        Router.go(self.props.route)
+        let userId = Meteor.userId();
+        self.props.action(userId);
       }
 
     })
   },
   render() {
-    //if no action prop supplied
-    let action = (this.props.action == undefined) ? '#' : this.props.action
+  
     return ( 
       <div>
         <br/>
@@ -48,7 +60,7 @@ pmc.signIn = React.createClass({
         <Dialog
           title="Sign In" ref='sign_dialog'>
           <TextField
-            hintText="Email" ref='email' fullWidth={true} />
+            hintText="Email" ref='email' type='email' fullWidth={true} />
           <TextField
              hintText="Password" ref='password' type='password' fullWidth={true} />
          <a ref='sign_btn' href='#' onClick={this._signIn} style={{'color': '#c0f948', 'textDecoration':'none','float':'right'}}>GO</a>

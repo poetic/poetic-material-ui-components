@@ -40,7 +40,6 @@ pmc.actionButton = React.createClass({
         'width': width,
         'height':'70px',
         'position':'absolute',
-        'top': '90vh',
       },
       label:{
         'lineHeight':'30px',
