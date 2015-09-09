@@ -1,6 +1,6 @@
 Package.describe({
   name: 'poetic:material-ui-components',
-  version: '0.0.2',
+  version: '0.0.1',
   // Brief, one-line summary of the package.
   summary: 'A collection of helpful components using the material ui framework',
   // URL to the Git repository containing the source code for this package.
