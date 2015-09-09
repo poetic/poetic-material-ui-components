@@ -1,5 +1,5 @@
 /**
-pmc._contact 
+pmc._contact
 
 Note: do not reference this class directly, it is to be used by pmc.contacts only!
       For a contact-like comoponent, please see pmc.contact.
@@ -29,7 +29,7 @@ pmc.signIn = React.createClass({
   },
   componentWillMount() {
     this.setState({
-      
+
     })
   },
   _showDialog(e) {
@@ -52,20 +52,26 @@ pmc.signIn = React.createClass({
     })
   },
   render() {
-  
-    return ( 
-      <div>
-        <br/>
-        <span>BEEN HERE, DONE THAT? <a ref='sign_btn' onClick={this._showDialog} href='#' style={{'color': '#c0f948', 'textDecoration':'none'}}>SIGN IN </a></span>
-        <Dialog
-          title="Sign In" ref='sign_dialog'>
-          <TextField
-            hintText="Email" ref='email' type='email' fullWidth={true} />
-          <TextField
-             hintText="Password" ref='password' type='password' fullWidth={true} />
-         <a ref='sign_btn' href='#' onClick={this._signIn} style={{'color': '#c0f948', 'textDecoration':'none','float':'right'}}>GO</a>
-        </Dialog>
-      </div>  
+    let style = _.extend({
+       'display': 'block',
+       'position':'relative',
+       'bottom':'-20px',
+       'marginLeft':'50px'
+    },this.props.style)
+    return (
+      <div style={{'display':'block','position':'relative'}}>
+      <div style={style}>
+      <span>BEEN HERE, DONE THAT? <a ref='sign_btn' onClick={this._showDialog} href='#' style={{'color': '#c0f948', 'textDecoration':'none'}}>SIGN IN </a></span>
+      </div>
+      <Dialog
+      title="Sign In" ref='sign_dialog'>
+      <TextField
+      hintText="Email" ref='email' type='email' fullWidth={true} />
+      <TextField
+      hintText="Password" ref='password' type='password' fullWidth={true} />
+      <a ref='sign_btn' href='#' onClick={this._signIn} style={{'color': '#c0f948', 'textDecoration':'none','float':'right'}}>GO</a>
+      </Dialog>
+      </div>
     )
   }
 })

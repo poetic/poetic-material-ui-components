@@ -31,6 +31,7 @@ pmc.floatButton = React.createClass({
   	if(this.state.items > 6){
   		throw('Number of menu items cannot be greater than 6!')
   	}
+    pmc._setDefaultPalette();
   },
 
   _handleDockClick(e) {
@@ -63,7 +64,7 @@ pmc.floatButton = React.createClass({
   			'backgroundColor':'rgba(255,255,255,0.9)',
   			'zIndex': '9999',
   			'width':'100%',
-  			'height':'100vh',
+  			'height':'100%',
         'top':'0px',
   			'opacity':'1'
   		},
@@ -120,7 +121,7 @@ pmc.floatButton = React.createClass({
 
   					return <div style={(this.state.left == undefined) ? styles.rightMenuItems : styles.leftMenuItems}>
   					<span style={(this.state.left == undefined) ? styles.spanRight : styles.spanLeft}>{item.label}</span>
-  					<FloatingActionButton backgroundColor="#c0f948"
+  					<FloatingActionButton
 				 	 linkButton={true}
 				 	 href={item.action}>
 						<FontIcon className="material-icons">{item.icon}</FontIcon>

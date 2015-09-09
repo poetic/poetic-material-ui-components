@@ -42,6 +42,8 @@ pmc.contact = React.createClass({
     return(
       <div>
       <ListItem primaryText={this.props.contact.profile.name}
+        disableFocusRipple={true}
+        disableTouchRipple={true}
         rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
         leftAvatar={<Avatar src="/userplaceholderimage.png"  />}
         onClick={this._handleContactClick}

@@ -21,7 +21,8 @@ Package.onUse(function(api) {
     'underscore@1.0.3',
     'aldeed:autoform@5.3.1',
     'aldeed:collection2@2.3.3',
-    'mdg:camera@1.1.5'
+    'mdg:camera@1.1.5',
+    'fourseven:scss@3.2.0'
   ], 'client');
   api.imply([
     'poetic:react-material-ui',
@@ -34,6 +35,7 @@ Package.onUse(function(api) {
 
   api.addFiles([
     'before/lib/pmc.js',
+    'before/lib/theme-manager.jsx',
 
     'client/components/action-button/action-button.html',
     'client/components/action-button/action-button.jsx',

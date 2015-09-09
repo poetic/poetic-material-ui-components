@@ -31,34 +31,35 @@ pmc.actionButton = React.createClass({
     this.props.action();
   },
   render() {
-    // let top = screen.height * .75;
     let width = screen.width - 40;
-    let styles ={
-      root:{
-        'marginLeft':'20px',
-        'marginRight':'20px',
-        'width': width,
-        'height':'70px',
-        'position':'absolute',
-      },
-      label:{
-        'lineHeight':'30px',
-        'display':'block',
-        'color': '#979797', 
-        'fontSize':'24px'
-      }
-    }
+    let style = _.extend({
+      'marginLeft':'20px',
+      'marginRight':'20px',
+      'width': width,
+      'height':'70px',
+      'position':'absolute',
+      'left':'0px',
+      'bottom':'70px'
+    },this.props.style);
+    let labelStyle =
+      _.extend({
+      'lineHeight':'30px',
+      'display':'block',
+      'color': '#979797',
+      'fontSize':'24px'
+      },this.props.labelStyle)
 
-    return ( 
+
+    return (
       <div>
        <RaisedButton
         label={this.props.label}
         onClick={this.props.action ? this._handleAction : null}
         type = {this.props.action == undefined ? 'submit' : 'button'}
-        labelStyle={styles.label}
+        labelStyle={labelStyle}
         backgroundColor='#c0f948'
-        style={(this.props.style == undefined) ? styles.root : this.props.style} />
-      </div>  
+        style={style} />
+      </div>
     )
   }
 })
