@@ -1,4 +1,4 @@
-pmc._setDefaultTheme = function(){ 
+pmc._setDefaultTheme = function(){
   ThemeManager.setComponentThemes({
     raisedButton: {
       height: 70,

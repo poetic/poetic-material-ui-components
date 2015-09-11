@@ -54,12 +54,13 @@ pmc.signIn = React.createClass({
   render() {
     let style = _.extend({
        'display': 'block',
-       'position':'relative',
+       'position':'absolute',
        'bottom':'-20px',
-       'marginLeft':'50px'
+       'marginLeft':'50px',
+       'fontSize':'14px'
     },this.props.style)
     return (
-      <div style={{'display':'block','position':'relative'}}>
+      <div style={{'display':'block'}}>
       <div style={style}>
       <span>BEEN HERE, DONE THAT? <a ref='sign_btn' onClick={this._showDialog} href='#' style={{'color': '#c0f948', 'textDecoration':'none'}}>SIGN IN </a></span>
       </div>
