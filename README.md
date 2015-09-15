@@ -63,11 +63,17 @@
 #### Props
 - TBD
 
-### pmc.dialog
-  this component is available through the pmc global object or optionally through its template {{>pmc_contacts}}. this component, reads all contacts from the phone book and allows for multipple selection of contacts. it returns all contacts selected as an object.
-
+### pmc.showDialog
+This component gives you a modal dialog which is centered on the screen.
 #### props
-- tbd
+- Takes an object with the following keys:
+```javascript
+{
+title: 'sample title', //optional
+body: 'this content should represent your message',
+action: callback //This is called when the confirmation button is clicked
+}
+```
 
 ### pmc.floatButton
   this component is available through the pmc global object or optionally through its template {{>pmc_contacts}}. this component, reads all contacts from the phone book and allows for multipple selection of contacts. it returns all contacts selected as an object.
@@ -82,10 +88,16 @@
 - tbd
 
 ### pmc.simpleDialog
-  this component is available through the pmc global object or optionally through its template {{>pmc_contacts}}. this component, reads all contacts from the phone book and allows for multipple selection of contacts. it returns all contacts selected as an object.
+Similar to pmc.showDialog, however, you only get a confirmation button much like a simple alert box.
 
 #### props
-- tbd
+- Takes an object with the following keys:
+```javascript
+{
+title: 'sample title', //optional
+body: 'this content should represent your message',
+}
+```
 
 ### pmc.showSpinner
   this component is available through the pmc global object or optionally through its template {{>pmc_contacts}}. this component, reads all contacts from the phone book and allows for multipple selection of contacts. it returns all contacts selected as an object.
