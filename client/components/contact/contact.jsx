@@ -27,7 +27,7 @@ pmc.contact = React.createClass({
   getChildContext() {
     return{
       muiTheme: ThemeManager.getCurrentTheme()
-    }   
+    }
   },
   _handleContactClick(e) {
     this.props.action(this.props.contact);
@@ -39,13 +39,18 @@ pmc.contact = React.createClass({
         width: '60px'
       }
     }
+    let image = "/userplaceholderimage.png" ;
+    if (this.props.contact.profile.image) {
+      image = this.props.contact.profile.image;
+      image = image.getFileRecord().url();
+    }
     return(
       <div>
       <ListItem primaryText={this.props.contact.profile.name}
         disableFocusRipple={true}
         disableTouchRipple={true}
         rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
-        leftAvatar={<Avatar src="/userplaceholderimage.png"  />}
+        leftAvatar={<Avatar src={image} />}
         onClick={this._handleContactClick}
          />
       <ListDivider />

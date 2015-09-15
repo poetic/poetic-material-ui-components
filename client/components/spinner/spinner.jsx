@@ -12,7 +12,7 @@ pmc.spinner = React.createClass({
       muiTheme: ThemeManager.getCurrentTheme()
     };
   },
-  
+
   _handleAction(e) {
     this.props.action();
   },
@@ -33,9 +33,6 @@ pmc.showSpinner = function() {
   let spinner = React.createElement(pmc.spinner,{show:true});
   React.render(spinner,document.getElementById('spinner'))
 }
-pmc.hideSpinner = function() {
-  React.unmountComponentAtNode(document.getElementById('spinner'),pmc.spinner)
-} 
 
 Template.pmc_spinner.helpers({
   spinner(){

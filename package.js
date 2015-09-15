@@ -1,6 +1,6 @@
 Package.describe({
   name: 'poetic:material-ui-components',
-  version: '0.0.2',
+  version: '0.0.3',
   // Brief, one-line summary of the package.
   summary: 'A collection of helpful components using the material ui framework',
   // URL to the Git repository containing the source code for this package.
@@ -35,6 +35,7 @@ Package.onUse(function(api) {
 
   api.addFiles([
     'before/lib/pmc.js',
+    'before/lib/utils.jsx',
     'before/lib/theme-manager.jsx',
 
     'client/components/action-button/action-button.html',
@@ -54,6 +55,7 @@ Package.onUse(function(api) {
     'client/components/float-button/float-button.jsx',
     'client/components/sign-in/sign-in.html',
     'client/components/sign-in/sign-in.jsx',
+    'client/components/simple-dialog/simple-dialog.jsx',
     'client/components/spinner/spinner.html',
     'client/components/spinner/spinner.jsx',
 

@@ -2,7 +2,7 @@ const {
   Dialog,
 }= mui;
 
-pmc._dialog = React.createClass({
+pmc._sdialog = React.createClass({
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
@@ -11,24 +11,19 @@ pmc._dialog = React.createClass({
       muiTheme: ThemeManager.getCurrentTheme()
     };
   },
-  _onDialogSubmit(e) {
-    this.refs.pmc_dialog.dismiss();
-    this.props.action();
-  },
   render() {
     let title = this.props.title || 'Dialog';
     let body = this.props.body;
 
     let standardActions = [
-      { text: 'Cancel' },
-      { text: 'Continue', onTouchTap: this._onDialogSubmit, ref: 'submit' }
+      { text: 'Ok' }
     ];
     return (
       <Dialog
         title={title} ref='sign_dialog'
         actions={standardActions}
         openImmediately={true}
-        ref='pmc_dialog'
+        ref='pmc_sdialog'
         >
         {
           this.props.body
@@ -37,4 +32,3 @@ pmc._dialog = React.createClass({
     )
   }
 })
-
