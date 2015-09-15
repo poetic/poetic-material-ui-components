@@ -80,6 +80,7 @@
 
 #### props
 - tbd
+
 ### pmc.simpleDialog
   this component is available through the pmc global object or optionally through its template {{>pmc_contacts}}. this component, reads all contacts from the phone book and allows for multipple selection of contacts. it returns all contacts selected as an object.
 
