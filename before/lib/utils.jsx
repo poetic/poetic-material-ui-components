@@ -3,6 +3,15 @@ pmc.showDialog = function(obj) {
   let dialog = React.createElement(pmc._dialog,obj);
   React.render(dialog,document.getElementById('pmc_dialog'))
 }
+pmc.showSpinner = function() {
+  $('body').prepend("<div id='spinner'> </div>");
+  $('#spinner').css({
+    'background-color' : 'white',
+    'position': 'absolute'
+  })
+  let spinner = React.createElement(pmc.spinner,{show:true});
+  React.render(spinner,document.getElementById('spinner'))
+}
 
 
 pmc.hideSpinner = function() {

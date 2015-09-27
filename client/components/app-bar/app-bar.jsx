@@ -54,9 +54,8 @@ pmc.appBar = React.createClass({
       'fontSize': '20px',
       'textAlign': 'center',
       'width' : '100%',
-      'height': '65px !important',
+      'height': '50px !important',
       'minHeight': '50px',
-      'paddingTop': '10px'
     }
     if(this.props.icon)
       {

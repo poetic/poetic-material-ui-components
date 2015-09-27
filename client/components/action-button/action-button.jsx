@@ -19,11 +19,12 @@ pmc.actionButton = React.createClass({
 
   getChildContext() {
     return {
-      muiTheme: mui.Styles.ThemeManager().getCurrentTheme()
+      muiTheme: ThemeManager.getCurrentTheme()
     };
   },
+
   componentWillMount() {
-    if(this.props.label == undefined){
+    if(!this.props.label){
       throw new Error("You must specify a label for action button");
     }
   },
@@ -33,8 +34,6 @@ pmc.actionButton = React.createClass({
   render() {
     let width = screen.width - 40;
     let style = _.extend({
-      'marginLeft':'20px',
-      'marginRight':'20px',
       'width': width,
       'height':'70px',
       'position':'absolute',
@@ -46,25 +45,35 @@ pmc.actionButton = React.createClass({
       'color': '#979797',
       'fontSize':'24px'
     },this.props.labelStyle)
+let disabled = false;
 
+if(this.props.track !== undefined) {
+  disabled = !this.props.track
+}
 
-    return (
-      <div>
-      <RaisedButton
-      label={this.props.label}
-      onClick={this.props.action ? this._handleAction : null}
-      type = {this.props.action == undefined ? 'submit' : 'button'}
-      labelStyle={labelStyle}
-      backgroundColor='#c0f948'
-      style={style} />
-      </div>
-    )
-  }
+      return (
+        <div>
+        <RaisedButton
+        ref='actionButton'
+        label={this.props.label}
+        onClick={this.props.action ? this._handleAction : null}
+        type = {this.props.action == undefined ? 'submit' : 'button'}
+        labelStyle={labelStyle}
+        disabled={disabled}
+        primary={true}
+        className='pmcActionButton'
+        style={style} />
+        </div>
+      )
+    }
 })
 
 Template.pmc_actionButton.helpers({
   _action(){
     return this.action;
+  },
+  _track() {
+   return this.track;
   },
   actionButton() {
     return pmc.actionButton

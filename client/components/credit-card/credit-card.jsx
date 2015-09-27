@@ -26,32 +26,25 @@ pmc.creditCard = React.createClass({
 
       }
     };
-    let exp = this.refs.exp.getValue().replace(/\D/g, '').match(/(\d{2})(\d{2})/)
-    card.num = this.refs.cardNumber.getValue().replace(/\D/g, '');
-    card.exp.month = exp[1];
-    card.exp.year = exp[2];
-    card.zip = this.refs.zip.getValue();
-    card.cvc = this.refs.cvc.getValue();
-    card.set = true;
-    this.props.action(card);
-  },
 
-  componentWillReceiveProps: function(nextProps) {
-    if(nextProps.compute=='active'){
-      let card = {
-        exp:{
+      let exp = this.refs.exp.getValue()
+      let num = this.refs.cardNumber.getValue()
+      let zip = this.refs.zip.getValue()
+      let cvc = this.refs.cvc.getValue()
 
-        }
-      };
-      let exp = this.refs.exp.getValue().replace(/\D/g, '').match(/(\d{2})(\d{2})/);
-      card.num = this.refs.cardNumber.getValue().replace(/\D/g, '');
+      if(exp && num && zip && cvc){
+
+      exp = exp.replace(/\D/g, '').match(/(\d{2})(\d{2})/);
       card.exp.month = exp[1];
       card.exp.year = exp[2];
-      card.zip = this.refs.zip.getValue();
-      card.cvc = this.refs.cvc.getValue();
-      nextProps.action(card);
-    }
+      card.num = num.replace(/\D/g, '');
+      card.zip = zip;
+      card.cvc = cvc;
+
+    this.props.action(card);
+      }
   },
+
   _handleCardNumber(e) {
     let x = e.target.value.replace(/\D/g, '').match(/(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,4})/);
 
@@ -85,18 +78,27 @@ pmc.creditCard = React.createClass({
               })
             }
             e.target.value = !x[2] ? x[1] : x[1] + ' ' + x[2] + (x[3] ? ' ' + x[3] : '') + (x[4] ? ' ' + x[4] : '');
+
+            if(visa || masterCard || americanExpress){
+               this._handleCardSubmit()
+            }
   },
   _handleExp(e) {
     let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,2})/);
     e.target.value = !x[2] ? x[1] : x[1] +'/'+ x[2];
+
+    this._handleCardSubmit()
   },
   _handleCvc(e) {
     let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})/);
     e.target.value = x[1];
+
+    this._handleCardSubmit()
   },
   render() {
     let width = screen.width - 40;
 
+    let userStyle = this.props.style || {}
     let styles = {
       card:{
         'textIndent': '51px'
@@ -107,7 +109,7 @@ pmc.creditCard = React.createClass({
       },
       zip:{
         'width':'40%',
-        'height':'60px',
+        'height':'40px',
         'display': 'inline-block',
         'borderRight': '1px solid #e4e4e4',
         'borderLeft': '1px solid #e4e4e4',
@@ -120,45 +122,32 @@ pmc.creditCard = React.createClass({
       },
       cc:_.extend({
         'width': width,
-        'height':'108px',
+        'position':'relative',
+        'height':'90px',
         'borderLeft': '1px solid #e4e4e4',
         'borderRight': '1px solid #e4e4e4',
         'borderTop': '1px solid #e4e4e4',
-
-      },this.props.style.card),
-      button:_.extend({
-        'marginLeft':'20px',
-        'marginRight':'20px',
-        'width': width,
-        'height':'70px',
-        'position':'absolute',
-        'left': '0px'
-      },this.props.style.button)
+'borderRadius':'4px'
+      },this.props.style),
     }
     return(
-      <div>
+      <div className='pmcCreditCard'>
         <div style={styles.cc} >
           <div className={this.state.cardLogo} />
           <TextField
             hintText="Card Number" fullWidth={true} style={styles.card}
             ref="cardNumber" onChange={this._handleCardNumber} />
           <div style={styles.exp} >
-            <span>EXP </span>
-            <TextField  ref='exp' fullWidth={true} onChange={this._handleExp} />
+            <TextField  ref='exp' hintText='MM/YY' fullWidth={true} onChange={this._handleExp} />
           </div>
           <div style={styles.zip}>
-            <span>ZIP </span>
-            <TextField ref='zip' fullWidth={true} onChange={this._handleZip} />
+            <TextField ref="cvc" type='number' hintText='CVC' onChange={this._handleCvc} fullWidth={true}  />
           </div>
           <div style={styles.cvc}>
-            <span>CVC </span>
-            <TextField
-              ref="cvc" type='number' fullWidth={true} onChange={this._handleCvc}/>
+            <TextField ref='zip'
+              fullWidth={true} hintText='ZIP CODE' onChange={this._handleCardSubmit}/>
           </div>
         </div>
-        <pmc.actionButton
-          label='SAVE CARD'
-          action={this._handleCardSubmit} style={styles.button} />
       </div>
     );
 

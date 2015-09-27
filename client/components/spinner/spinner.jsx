@@ -24,15 +24,6 @@ pmc.spinner = React.createClass({
   }
 })
 
-pmc.showSpinner = function() {
-  $('body').prepend("<div id='spinner'> </div>");
-  $('#spinner').css({
-    'background-color' : 'white',
-    'position': 'absolute'
-  })
-  let spinner = React.createElement(pmc.spinner,{show:true});
-  React.render(spinner,document.getElementById('spinner'))
-}
 
 Template.pmc_spinner.helpers({
   spinner(){

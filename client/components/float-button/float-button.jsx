@@ -130,7 +130,9 @@ pmc.floatButton = React.createClass({
 
           <FloatingActionButton backgroundColor={"#aeaeae"} className='hideDock'
             style={(this.state.left == undefined) ? styles.right : styles.left }
-            onClick={this._handleDockClick}>
+            onClick={this._handleDockClick}
+           secondary={true}
+            >
             <FontIcon className="material-icons">cancel</FontIcon>
           </FloatingActionButton>
         </Paper>

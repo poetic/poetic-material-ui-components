@@ -13,11 +13,17 @@ action: takes a reference to a callback handler which is called on successful lo
 const {
   Dialog,
   TextField,
+  LinearProgress,
   RaisedButton
 } = mui
 
 
 pmc.signIn = React.createClass({
+  getInitialState(){
+    return ({
+      loading: null
+    })
+  },
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
@@ -26,11 +32,6 @@ pmc.signIn = React.createClass({
     return {
       muiTheme: ThemeManager.getCurrentTheme()
     };
-  },
-  componentWillMount() {
-    this.setState({
-
-    })
   },
   _showDialog(e) {
     this.refs.sign_dialog.show();
@@ -54,15 +55,18 @@ pmc.signIn = React.createClass({
   render() {
     let style = _.extend({
        'display': 'block',
-       'position':'absolute',
-       'bottom':'-20px',
-       'marginLeft':'50px',
-       'fontSize':'14px'
+       'fontSize':'14px',
+       'fontWeight':'bold',
+       'textAlign': 'center'
     },this.props.style)
+
+    let label = this.props.label || '';
+
+    let loading = this.state.loading
     return (
-      <div style={{'display':'block'}}>
+      <div className='pmcSignIn'>
       <div style={style}>
-      <span>BEEN HERE, DONE THAT? <a ref='sign_btn' onClick={this._showDialog} href='#' style={{'color': '#c0f948', 'textDecoration':'none'}}>SIGN IN </a></span>
+      <span>{label} <a ref='sign_btn' onClick={this._showDialog} href='#' style={{'textDecoration':'none'}}>SIGN IN </a></span>
       </div>
       <Dialog
       title="Sign In" ref='sign_dialog'>
@@ -70,7 +74,7 @@ pmc.signIn = React.createClass({
       hintText="Email" ref='email' type='email' fullWidth={true} />
       <TextField
       hintText="Password" ref='password' type='password' fullWidth={true} />
-      <a ref='sign_btn' href='#' onClick={this._signIn} style={{'color': '#c0f948', 'textDecoration':'none','float':'right'}}>GO</a>
+      <a ref='sign_btn' href='#' onClick={this._signIn} style={{'textDecoration':'none','float':'right'}}>GO</a>
       </Dialog>
       </div>
     )
