@@ -36,7 +36,7 @@ Package.onUse(function(api) {
   api.addFiles([
     'before/lib/pmc.js',
     'before/lib/utils.jsx',
-    'before/lib/theme-manager.jsx',
+    'client/lib/theme-manager.jsx',
 
     'client/components/action-button/action-button.html',
     'client/components/action-button/action-button.jsx',
