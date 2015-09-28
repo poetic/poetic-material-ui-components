@@ -13,7 +13,7 @@
 @font-face {
   font-family: 'Roboto-Regular';
   src: url(../public/roboto/Roboto-Regular.ttf) format('truetype');
-}d
+}
 
 .material-icons {
   font-family: 'Material Icons';
@@ -108,6 +108,10 @@
   background-repeat: no-repeat;
   height: 100%;
 }
+.pmcAppBar {
+  display:flex;
+  align-items:center;
+}
 .pmcVisa {
   background-image:url('../public/cards/visa.png');
 }
@@ -117,8 +121,8 @@
 .pmcAmericanExpress {
   background-image:url('../public/cards/amex.png');
 }
-.dateSelector::-webkit-scrollbar { 
-    display: none; 
+.dateSelector::-webkit-scrollbar {
+    display: none;
 }
 .hideDock {
   z-index: 9999
@@ -136,14 +140,6 @@
   position: absolute;
   float: right;
   top:90%;
-}
-.normal {
-  font-size: 20px;
-
-}
-.normal_small {
-  font-size: 16px;
-
 }
 .day_name
 {
