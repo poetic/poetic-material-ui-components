@@ -32,11 +32,10 @@ pmc.actionButton = React.createClass({
     this.props.action();
   },
   render() {
-    let width = screen.width - 40;
     let style = _.extend({
-      'width': width,
-      'height':'70px',
-      'position':'absolute',
+      'width': '100%',
+      'height':'100%',
+      'position':'relative',
     },this.props.style);
     let labelStyle =
       _.extend({
@@ -61,7 +60,6 @@ if(this.props.track !== undefined) {
         labelStyle={labelStyle}
         disabled={disabled}
         primary={true}
-        className='pmcActionButton'
         style={style} />
         </div>
       )

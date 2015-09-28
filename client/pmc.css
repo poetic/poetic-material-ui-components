@@ -10,11 +10,6 @@
        url(../public/material-icons/MaterialIcons-Regular.ttf) format('truetype');
 }
 
-@font-face {
-  font-family: 'Roboto-Regular';
-  src: url(../public/roboto/Roboto-Regular.ttf) format('truetype');
-}
-
 .material-icons {
   font-family: 'Material Icons';
   font-weight: normal;
