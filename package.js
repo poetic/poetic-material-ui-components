@@ -1,6 +1,6 @@
 Package.describe({
   name: 'poetic:material-ui-components',
-  version: '0.0.3',
+  version: '0.0.4',
   // Brief, one-line summary of the package.
   summary: 'A collection of helpful components using the material ui framework',
   // URL to the Git repository containing the source code for this package.
@@ -64,8 +64,6 @@ Package.onUse(function(api) {
     'public/material-icons/MaterialIcons-Regular.ttf',
     'public/material-icons/MaterialIcons-Regular.woff',
     'public/material-icons/MaterialIcons-Regular.woff2',
-
-    'public/roboto/Roboto-Regular.ttf',
 
     'public/cards/amex.png',
     'public/cards/mastercard.png',

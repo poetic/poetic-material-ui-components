@@ -23,6 +23,13 @@ pmc.actionButton = React.createClass({
     };
   },
 
+  componentDidMount() {
+    let domNode = React.findDOMNode(this)
+    $(domNode).css({
+      'height':'100%',
+      'width':'100%'
+    })
+  },
   componentWillMount() {
     if(!this.props.label){
       throw new Error("You must specify a label for action button");

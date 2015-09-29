@@ -13,17 +13,11 @@ action: takes a reference to a callback handler which is called on successful lo
 const {
   Dialog,
   TextField,
-  LinearProgress,
   RaisedButton
 } = mui
 
 
 pmc.signIn = React.createClass({
-  getInitialState(){
-    return ({
-      loading: null
-    })
-  },
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
@@ -32,6 +26,13 @@ pmc.signIn = React.createClass({
     return {
       muiTheme: ThemeManager.getCurrentTheme()
     };
+  },
+  componentDidMount() {
+    let domNode = React.findDOMNode(this)
+    $(domNode).css({
+      'height':'100%',
+      'width':'100%'
+    })
   },
   _showDialog(e) {
     this.refs.sign_dialog.show();
@@ -55,16 +56,13 @@ pmc.signIn = React.createClass({
   render() {
     let style = _.extend({
        'display': 'block',
-       'fontSize':'14px',
-       'fontWeight':'bold',
        'textAlign': 'center'
     },this.props.style)
 
     let label = this.props.label || '';
 
-    let loading = this.state.loading
     return (
-      <div className='pmcSignIn'>
+      <div>
       <div style={style}>
       <span>{label} <a ref='sign_btn' onClick={this._showDialog} href='#' style={{'textDecoration':'none'}}>SIGN IN </a></span>
       </div>

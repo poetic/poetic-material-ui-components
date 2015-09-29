@@ -32,6 +32,24 @@ pmc.contact = React.createClass({
   _handleContactClick(e) {
     this.props.action(this.props.contact);
   },
+  componentDidMount(){
+    let comoponentDomNode = React.findDOMNode(this)
+    comoponentDomNode = $(comoponentDomNode).children()[0]
+
+    if(this.props.height){
+      $(comoponentDomNode).css({
+        height: this.props.height + 'px'
+      })
+    }
+    $(comoponentDomNode).find('.material-icons').css({
+      'margin-right': '20.1px',
+      fill: '#000000'
+    }).addClass('pmcContactIcon')
+
+    $(comoponentDomNode).find('a div div').css({
+      'margin-left': '19px',
+    }).addClass('pmcContactText')
+  },
   render() {
     let styles ={
       Avatar: {
@@ -39,18 +57,15 @@ pmc.contact = React.createClass({
         width: '60px'
       }
     }
-    let image = "/userplaceholderimage.png" ;
-    if (this.props.contact.profile.image) {
-      image = this.props.contact.profile.image;
-      image = image.getFileRecord().url();
-    }
+    let avatarSize = this.props.size || 40
+    let image = this.props.image || "/userplaceholderimage.png" ;
     return(
       <div>
       <ListItem primaryText={this.props.contact.profile.name}
         disableFocusRipple={true}
         disableTouchRipple={true}
         rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
-        leftAvatar={<Avatar src={image} />}
+        leftAvatar={<Avatar src={image} size={avatarSize}/>}
         onClick={this._handleContactClick}
          />
       <ListDivider />
