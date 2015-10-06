@@ -54,10 +54,7 @@ pmc.signIn = React.createClass({
     })
   },
   render() {
-    let style = _.extend({
-       'display': 'block',
-       'textAlign': 'center'
-    },this.props.style)
+    let style = _.extend({},this.props.style)
 
     let label = this.props.label || '';
 

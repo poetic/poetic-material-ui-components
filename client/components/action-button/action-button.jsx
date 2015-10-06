@@ -58,7 +58,7 @@ if(this.props.track !== undefined) {
 }
 
       return (
-        <div>
+        <div >
         <RaisedButton
         ref='actionButton'
         label={this.props.label}

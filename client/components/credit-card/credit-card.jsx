@@ -34,14 +34,17 @@ pmc.creditCard = React.createClass({
 
       if(exp && num && zip && cvc){
 
-      exp = exp.replace(/\D/g, '').match(/(\d{2})(\d{2})/);
-      card.exp.month = exp[1];
-      card.exp.year = exp[2];
-      card.num = num.replace(/\D/g, '');
-      card.zip = zip;
-      card.cvc = cvc;
+        exp = exp.replace(/\D/g, '').match(/(\d{2})(\d{2})/);
+        card.exp.month = exp[1];
+        card.exp.year = exp[2];
+        card.num = num.replace(/\D/g, '');
+        card.zip = zip;
+        card.cvc = cvc;
 
-    this.props.action(card);
+        this.props.action(card);
+      }else{
+        //Send null to invalidate any previous state
+        this.props.action(null);
       }
   },
 
