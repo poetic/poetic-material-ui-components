@@ -70,7 +70,7 @@ pmc.appBar = React.createClass({
       return (
         <div>
           <AppBar id={this.props.barId} className='pmcAppBar' title={this.props.title.toUpperCase()}
-            showMenuIconButton={(this.props.icon) ? this.props.icon : false }
+            showMenuIconButton={(this.props.icon) ? true : false }
             iconElementLeft={icon}
             style={styles.appBar} />
         </div>

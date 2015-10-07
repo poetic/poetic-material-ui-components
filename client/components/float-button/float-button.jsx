@@ -118,7 +118,7 @@ pmc.floatButton = React.createClass({
           {
             this.props.items.map(function(item, index){
 
-              return <div style={(this.state.left == undefined) ? styles.rightMenuItems : styles.leftMenuItems}>
+              return <div key={index} style={(this.state.left == undefined) ? styles.rightMenuItems : styles.leftMenuItems}>
                 <span style={(this.state.left == undefined) ? styles.spanRight : styles.spanLeft}>{item.label}</span>
                 <FloatingActionButton
                   linkButton={true}
