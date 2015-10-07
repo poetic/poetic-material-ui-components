@@ -21,6 +21,7 @@ Package.onUse(function(api) {
     'underscore@1.0.3',
     'aldeed:autoform@5.3.1',
     'aldeed:collection2@2.3.3',
+    'momentjs:moment@2.8.4',
     'mdg:camera@1.1.5',
     'fourseven:scss@3.2.0'
   ], 'client');

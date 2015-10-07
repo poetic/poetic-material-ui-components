@@ -12,10 +12,17 @@ pmc.dateSelector = React.createClass({
     }
   },
   getInitialState() {
+    let dateRange = this.props.range ? this.props.range : 90;
+    let days = []
+
+    _(dateRange).times(function(dayNumber){
+      let day = moment().add(dayNumber, 'days')
+      days.push(day)
+    })
+
     return {
-      date_zero: new Date(),
-      date_89: [],
-      selectedIndex: null
+      days: days,
+      selectedIndex: 0
     };
   },
   _handleActiveDay(e) {
@@ -35,26 +42,6 @@ pmc.dateSelector = React.createClass({
       'color':'#fff',
       'width':'80px'
     })
-  },
-  componentWillMount() {
-    let times = 89;
-    let index =1;
-    let day_zero = {};
-    day_zero.date = this.state.date_zero;
-
-    this.state.selectedIndex = 0;
-
-    this.state.date_89.push(day_zero)
-
-    while(times>0)
-      {
-        let day = {};
-        let newdate = new Date(this.state.date_zero.getYear(),this.state.date_zero.getMonth(),this.state.date_zero.getDate()+index);
-        day.date = newdate;
-        this.state.date_89.push(day)
-        ++index;
-        --times;
-      }
   },
   render() {
     let styles = {
@@ -86,20 +73,22 @@ pmc.dateSelector = React.createClass({
         'width':'70px'
       },
     }
-
+    let allDays = this.state.days
+    let selectedIndex = this.state.selectedIndex
     return(
       <div className='dateSelector' style={styles.parent}>
         {
-          this.state.date_89.map(function(day,index){
+          _.map(allDays,function(day,index){
             let left = index * 70;
-            let dateString = day.date.toDateString();
-            let month = dateString.substr(4,4);
-            let daystring = dateString[0] +' '+ dateString.substr(8,2);
-            return <div key={index} className={'day'+index} onClick={this._handleActiveDay} style={(this.state.selectedIndex == index) ? styles.date_selected : {'position':'absolute','backgroundImage': 'none','display':'inline-block','width':'70px','left':left,'textAlign': 'center','color':'#3a3a3a'}}>
+            let month = day.format('MMM')
+            let daystring = day.format('dd') + ' ' + day.format('D')
+            return <div key={index} className={'day'+index}
+              onClick={this._handleActiveDay}
+              style={(selectedIndex === index) ? styles.date_selected : {'position':'absolute','backgroundImage': 'none','display':'inline-block','width':'70px','left':left,'textAlign': 'center','color':'#3a3a3a'}}>
               <p className={'day'+index} >{month}</p>
               <p className={'day'+index} >{daystring}</p>
             </div>
-            }.bind(this))
+            })
         }
 
       </div>
