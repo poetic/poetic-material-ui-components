@@ -23,6 +23,7 @@ Package.onUse(function(api) {
     'aldeed:collection2@2.3.3',
     'momentjs:moment@2.8.4',
     'mdg:camera@1.1.5',
+    'sergeyt:typeahead@0.11.1_4',
     'fourseven:scss@3.2.0'
   ], 'client');
   api.imply([
@@ -59,6 +60,7 @@ Package.onUse(function(api) {
     'client/components/simple-dialog/simple-dialog.jsx',
     'client/components/spinner/spinner.html',
     'client/components/spinner/spinner.jsx',
+    'client/components/text-auto/text-auto.jsx',
 
 
     'public/material-icons/MaterialIcons-Regular.eot',

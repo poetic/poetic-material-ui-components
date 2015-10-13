@@ -32,6 +32,16 @@ pmc.floatButton = React.createClass({
       throw('Number of menu items cannot be greater than 6!')
     }
   },
+  componentDidMount(){
+    let dockBtn = this.refs.hideDock.getDOMNode()
+    let self = this
+    $(dockBtn).focusout('',function(){
+      self.setState({
+        showDockItems: false
+      })
+    })
+
+  },
 
   _handleDockClick(e) {
     let self = this;
@@ -77,17 +87,21 @@ pmc.floatButton = React.createClass({
       left: {
         'position':'absolute',
         'top':top,
-        'left':'20px',
+        'fontSize':'39px',
+        'color':'#aeaeae',
+        'left':'28px',
       },
       right: {
         'position':'absolute',
         'top':top,
-        'right':'20px',
+        'fontSize':'39px',
+        'color':'#aeaeae',
+        'right':'28px',
       },
       leftMenuItems: {
         'position':'absolute',
         'top':top,
-        'left':'20px',
+        'left':'28px',
         'opacity':'0',
         'display':'none'
       },
@@ -128,13 +142,11 @@ pmc.floatButton = React.createClass({
               }.bind(this))
           }
 
-          <FloatingActionButton backgroundColor={"#aeaeae"} className='hideDock'
-            style={(this.state.left == undefined) ? styles.right : styles.left }
+            <FontIcon
             onClick={this._handleDockClick}
-           secondary={true}
-            >
-            <FontIcon className="material-icons">cancel</FontIcon>
-          </FloatingActionButton>
+            ref='hideDock'
+            style={(this.state.left == undefined) ? styles.right : styles.left }
+              className="material-icons hideDock">cancel</FontIcon>
         </Paper>
         {/**** End Overlay ***/}
 
