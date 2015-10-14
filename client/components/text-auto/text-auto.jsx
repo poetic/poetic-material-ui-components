@@ -51,11 +51,13 @@ pmc.textAuto = React.createClass({
     let dataSource = this.props.dataSource
 
     syncTypeahead(_.map(dataSource,function(dataItem){
-      let suggestion = dataItem.suggestion
-      let matchesQuery = _.contains(suggestion,query)
+      let suggestion = dataItem.suggestion.toLowerCase()
+      let matchesQuery = suggestion.indexOf(query.toLowerCase())
+      matchesQuery = matchesQuery != -1
+
       if(matchesQuery){
         return {
-          value:suggestion,
+          value:dataItem.suggestion,
           obj: dataItem
         }
       }else{
