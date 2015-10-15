@@ -23,3 +23,9 @@ pmc.simpleDialog = function(obj) {
   let dialog = React.createElement(pmc._sdialog,obj);
   React.render(dialog,document.getElementById('pmc_sdialog'))
 }
+
+pmc.confirmationDialog = function(obj) {
+  $('body').prepend("<div id='pmc_cdialog'> </div>");
+  let dialog = React.createElement(pmc._dialog,obj);
+  React.render(dialog,document.getElementById('pmc_cdialog'))
+}
