@@ -91,8 +91,25 @@
 }
 /*End Checkbox styles*/
 
+.pmcDateSelected {
+  position:relative;
+  background-image: url(/calendar-arrow.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  display:inline-block;
+  text-align: center;
+  color:#fff;
+  width:80px;
+}
 
-
+.pmcDateNormal {
+position:absolute;
+background-image: none;
+display:inline-block;
+width:70px;
+text-align: center;
+color:#3a3a3a;
+}
 .cardLogo {
   position: absolute;
   top: 0px;

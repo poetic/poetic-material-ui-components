@@ -22,9 +22,7 @@ Package.onUse(function(api) {
     'aldeed:autoform@5.3.1',
     'aldeed:collection2@2.3.3',
     'momentjs:moment@2.8.4',
-    'mdg:camera@1.1.5',
     'sergeyt:typeahead@0.11.1_4',
-    'fourseven:scss@3.2.0'
   ], 'client');
   api.imply([
     'poetic:react-material-ui',

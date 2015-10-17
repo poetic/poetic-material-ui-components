@@ -31,6 +31,10 @@ pmc.textAuto = React.createClass({
   getValue() {
     return this.state.activeObject
   },
+  clearValue() {
+    let textAuto = this.refs.typeaheadContainer
+    textAuto.clearValue()
+  },
   componentDidMount(){
     Meteor.typeahead.inject();
     let typeaheadContainer = this.refs.typeaheadContainer.getDOMNode()

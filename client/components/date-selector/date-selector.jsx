@@ -25,23 +25,14 @@ pmc.dateSelector = React.createClass({
       selectedIndex: 0
     };
   },
-  _handleActiveDay(e) {
-
-    $('div.day'+this.state.selectedIndex).css({
-      'backgroundImage': 'none',
-      'color':'#3a3a3a',
-      'width':'70px'
+  _handleActiveDay(index) {
+    this.setState({
+      selectedIndex: index
     })
 
-    this.state.selectedIndex = parseInt((e.target.className).match(/\d{1,2}/)[0]);
-
-    $('div.day'+this.state.selectedIndex).css({
-      'backgroundImage': 'url(../calendar-arrow.png)',
-      'backgroundSize': 'contain',
-      'backgroundRepeat': 'no-repeat',
-      'color':'#fff',
-      'width':'80px'
-    })
+    let {onChange} = this.props
+    let date = this.state.days[index]
+    onChange(date)
   },
   render() {
     let styles = {
@@ -54,27 +45,10 @@ pmc.dateSelector = React.createClass({
         'overflowY': 'hidden',
         'position':'absolute'
       },
-      date_selected:{
-        'position':'relative',
-        'backgroundImage': 'url(../calendar-arrow.png)',
-        'backgroundSize': 'contain',
-        'backgroundRepeat': 'no-repeat',
-        'display':'inline-block',
-        'textAlign': 'center',
-        'color':'#fff',
-        'width':'80px'
-      },
-      date:{
-        'position':'relative',
-        'backgroundImage': 'none',
-        'display':'inline-block',
-        'textAlign': 'center',
-        'color':'#3a3a3a',
-        'width':'70px'
-      },
     }
     let allDays = this.state.days
     let selectedIndex = this.state.selectedIndex
+    let onChange = this._handleActiveDay
     return(
       <div className='dateSelector' style={styles.parent}>
         {
@@ -82,13 +56,14 @@ pmc.dateSelector = React.createClass({
             let left = index * 70;
             let month = day.format('MMM')
             let daystring = day.format('dd') + ' ' + day.format('D')
-            return <div key={index} className={'day'+index}
-              onClick={this._handleActiveDay}
-              style={(selectedIndex === index) ? styles.date_selected : {'position':'absolute','backgroundImage': 'none','display':'inline-block','width':'70px','left':left,'textAlign': 'center','color':'#3a3a3a'}}>
+            let className = (index === selectedIndex) ? 'pmcDateSelected' : 'pmcDateNormal'
+            return <div key={index} className={className}
+              onClick={onChange.bind(this,index)}
+              style={{'left':left}}>
               <p className={'day'+index} >{month}</p>
               <p className={'day'+index} >{daystring}</p>
             </div>
-            })
+            }.bind(this))
         }
 
       </div>
