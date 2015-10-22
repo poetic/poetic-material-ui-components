@@ -19,6 +19,7 @@ Package.onUse(function(api) {
     'poetic:react-material-ui@0.0.2',
     'templating@1.1.1',
     'underscore@1.0.3',
+    'fortawesome:fontawesome@4.4.0',
     'aldeed:autoform@5.3.1',
     'aldeed:collection2@2.3.3',
     'momentjs:moment@2.8.4',
@@ -73,6 +74,7 @@ Package.onUse(function(api) {
 
     'client/pmc.css',
   ],'client');
+
 
   api.export([
     'pmc'
