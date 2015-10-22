@@ -69,7 +69,7 @@ pmc.floatButton = React.createClass({
     let top = screen.height - 175;
     let styles ={
       overlay: {
-        'position':'absolute',
+        'position':'fixed',
         'backgroundColor':'rgba(255,255,255,0.9)',
         'zIndex': '9999',
         'width':'100%',
@@ -136,6 +136,7 @@ pmc.floatButton = React.createClass({
                 <span style={(this.state.left == undefined) ? styles.spanRight : styles.spanLeft}>{item.label}</span>
                 <FloatingActionButton
                   linkButton={true}
+                  onClick={this._handleDockClick}
                   href={item.action}>
                   <FontIcon className="material-icons">{item.icon}</FontIcon>
               </FloatingActionButton></div>

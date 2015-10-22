@@ -31,7 +31,7 @@ pmc.textAuto = React.createClass({
   getValue() {
     return this.state.activeObject
   },
-  clearValue() {
+  clear() {
     let textAuto = this.refs.typeaheadContainer
     textAuto.clearValue()
   },
