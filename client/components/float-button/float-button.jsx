@@ -63,8 +63,10 @@ pmc.floatButton = React.createClass({
       })
     })
   },
-
-
+  _menuClick(action){
+    this._handleDockClick()
+    action()
+  },
   render() {
     let top = screen.height - 175;
     let styles ={
@@ -136,8 +138,8 @@ pmc.floatButton = React.createClass({
                 <span style={(this.state.left == undefined) ? styles.spanRight : styles.spanLeft}>{item.label}</span>
                 <FloatingActionButton
                   linkButton={true}
-                  onClick={this._handleDockClick}
-                  href={item.action}>
+                  onClick={this._menuClick.bind(this, item.action)}
+                  >
                   <FontIcon className="material-icons">{item.icon}</FontIcon>
               </FloatingActionButton></div>
               }.bind(this))
