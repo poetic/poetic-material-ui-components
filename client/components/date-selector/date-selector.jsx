@@ -6,11 +6,6 @@ pmc.dateSelector = React.createClass({
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
-  getChildContext() {
-    return{
-      muiTheme: ThemeManager.getCurrentTheme()
-    }
-  },
   getInitialState() {
     let dateRange = this.props.range ? this.props.range : 90;
     let days = []

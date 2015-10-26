@@ -10,7 +10,7 @@ action: takes a reference to callback handler which recieves an object of all ch
 
 
 /**
-pmc._contact 
+pmc._contact
 
 Note: do not reference this class directly, it is to be used by pmc.contacts only!
       For a contact-like comoponent, please see pmc.contact.
@@ -39,11 +39,6 @@ pmc._contact = React.createClass({
   contextTypes: {
     muiTheme: React.PropTypes.object,
   },
-  getChildContext() {
-    return{
-      muiTheme: ThemeManager.getCurrentTheme()
-    }   
-  },
   getInitialState() {
     return {
       contact: this.props.contact,
@@ -53,7 +48,7 @@ pmc._contact = React.createClass({
     };
   },
 
-    
+
   _handleContactCheck(e) {
     let label = e.currentTarget;
     let status = $(label).find('.checkbox')[0].checked;
@@ -90,11 +85,11 @@ pmc._contact = React.createClass({
           <input type="checkbox" className="checkbox" checked ={this.state.checked} />
            {this.state.contact.name.givenName + ' ' + (this.state.contact.name.familyName || '') }
         </label>
-      </div> 
+      </div>
     }
     return(
       <div>
-      { 
+      {
         show ? contact : null
       }
       </div>
@@ -114,7 +109,7 @@ pmc.contacts = React.createClass({
   getChildContext() {
     return{
       muiTheme: ThemeManager.getCurrentTheme()
-    }   
+    }
   },
   getInitialState() {
     return {
@@ -171,7 +166,7 @@ pmc.contacts = React.createClass({
     let self = this;
 
     let fContacts =  _.map(this.state.contacts,function(contact){
-      
+
       if (cSearch.test(contact.name.givenName)) {
         return contact.id;
       }
@@ -182,7 +177,7 @@ pmc.contacts = React.createClass({
     })
 
   },
-  
+
   render() {
     let contactsHeight = screen.height - 215;
     let actionButtonTop = contactsHeight + 125;
@@ -218,8 +213,8 @@ pmc.contacts = React.createClass({
     let contacts = this.state.contacts.map(function(contact,index){
         if (contact.name.givenName)
         {
-          return <pmc._contact key={contact.id} contact={contact} filter={this.state.filteredContacts} feedback={this._contactHandler} index={index} /> 
-        }   
+          return <pmc._contact key={contact.id} contact={contact} filter={this.state.filteredContacts} feedback={this._contactHandler} index={index} />
+        }
       }.bind(this))
 
 

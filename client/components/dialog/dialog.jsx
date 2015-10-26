@@ -37,4 +37,3 @@ pmc._dialog = React.createClass({
     )
   }
 })
-

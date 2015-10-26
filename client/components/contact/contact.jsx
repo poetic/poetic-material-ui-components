@@ -24,11 +24,6 @@ pmc.contact = React.createClass({
   contextTypes: {
     muiTheme: React.PropTypes.object,
   },
-  getChildContext() {
-    return{
-      muiTheme: ThemeManager.getCurrentTheme()
-    }
-  },
   _handleContactClick(e) {
     this.props.action(this.props.contact);
   },

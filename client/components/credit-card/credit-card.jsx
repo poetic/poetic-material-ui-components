@@ -15,11 +15,6 @@ pmc.creditCard = React.createClass({
     };
   },
 
-  getChildContext() {
-    return {
-      muiTheme: ThemeManager.getCurrentTheme()
-    };
-  },
   _handleCardSubmit(e) {
     let card = {
       exp:{
