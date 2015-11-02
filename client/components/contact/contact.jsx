@@ -56,7 +56,7 @@ pmc.contact = React.createClass({
     let image = this.props.image || "/userplaceholderimage.png" ;
     return(
       <div>
-      <ListItem primaryText={this.props.contact.profile.name}
+      <ListItem primaryText={this.props.contact.client.name}
         disableFocusRipple={true}
         disableTouchRipple={true}
         rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
