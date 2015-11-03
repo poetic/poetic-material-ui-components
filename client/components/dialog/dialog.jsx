@@ -16,7 +16,7 @@ pmc._dialog = React.createClass({
     this.props.action();
   },
   render() {
-    let title = this.props.title || 'Dialog';
+    let title = this.props.title;
     let body = this.props.body;
 
     let standardActions = [
