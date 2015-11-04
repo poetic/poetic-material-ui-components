@@ -133,14 +133,17 @@ pmc.floatButton = React.createClass({
         <Paper refs='overlay' zDepth={3} style={overlay} >
           {
             this.props.items.map(function(item, index){
-
+              let icon = <FontIcon className="material-icons">{item.icon}</FontIcon>;
+              if(item.customIcon){
+                icon = <img className='customIcon' src={item.customURL} />;
+              }
               return <div key={index} style={(this.state.left == undefined) ? styles.rightMenuItems : styles.leftMenuItems}>
                 <span style={(this.state.left == undefined) ? styles.spanRight : styles.spanLeft}>{item.label}</span>
                 <FloatingActionButton
                   linkButton={true}
                   onClick={this._menuClick.bind(this, item.action)}
                   >
-                  <FontIcon className="material-icons">{item.icon}</FontIcon>
+                  {icon}
               </FloatingActionButton></div>
               }.bind(this))
           }
