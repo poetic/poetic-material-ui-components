@@ -23,11 +23,13 @@ Package.onUse(function(api) {
     'aldeed:autoform@5.3.1',
     'aldeed:collection2@2.3.3',
     'momentjs:moment@2.8.4',
+    'sewdn:masked-input',
     'sergeyt:typeahead@0.11.1_4',
   ], 'client');
   api.imply([
     'poetic:react-material-ui',
-    'react'
+    'react',
+    'sewdn:masked-input',
   ]);
 
   Cordova.depends({
@@ -54,6 +56,8 @@ Package.onUse(function(api) {
     'client/components/credit-card/credit-card.jsx',
     'client/components/date-selector/date-selector.jsx',
     'client/components/float-button/float-button.jsx',
+    'client/components/phone-input/phone-input.html',
+    'client/components/phone-input/phone-input.jsx',
     'client/components/sign-in/sign-in.html',
     'client/components/sign-in/sign-in.jsx',
     'client/components/simple-dialog/simple-dialog.jsx',
@@ -77,7 +81,7 @@ Package.onUse(function(api) {
 
 
   api.export([
-    'pmc'
+    'pmc',
   ], 'client');
 
 });

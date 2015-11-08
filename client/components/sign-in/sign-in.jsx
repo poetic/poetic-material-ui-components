@@ -35,8 +35,22 @@ pmc.signIn = React.createClass({
     })
   },
   _showDialog(e) {
-    this.refs.sign_dialog.show();
+    let {passwordless} = this.props
+
+    if(passwordless) {
+      this.refs.sign_dialog_passwordless.show();
+    }else{
+      this.refs.sign_dialog.show();
+    }
     e.preventDefault();
+  },
+  requestCode() {
+    let {requestCodeAction} = this.props
+    let number = this.refs.phone.getValue()
+    requestCodeAction(number)
+  },
+  _signInPasswordless() {
+    console.log('passwordless')
   },
   _signIn() {
     let self = this;
@@ -50,7 +64,6 @@ pmc.signIn = React.createClass({
         let userId = Meteor.userId();
         self.props.action(userId);
       }
-
     })
   },
   render() {
@@ -60,9 +73,11 @@ pmc.signIn = React.createClass({
 
     return (
       <div>
+
       <div style={style}>
       <span>{label} <a ref='sign_btn' onClick={this._showDialog} href='#' style={{'textDecoration':'none'}}>SIGN IN </a></span>
       </div>
+
       <Dialog
       title="Sign In" ref='sign_dialog'>
       <TextField
@@ -70,6 +85,15 @@ pmc.signIn = React.createClass({
       <TextField
       hintText="Password" ref='password' type='password' fullWidth={true} />
       <a ref='sign_btn' href='#' onClick={this._signIn} style={{'textDecoration':'none','float':'right'}}>GO</a>
+      </Dialog>
+
+      <Dialog
+      title="Sign In" ref='sign_dialog_passwordless'>
+      <pmc.phoneInput ref='phone' />
+      <TextField
+      hintText="Enter code recieved" ref='code' fullWidth={true} />
+      <a ref='request_btn' href='#' onClick={this._requestCode} style={{'textDecoration':'none','float':'left'}}>Request Code</a>
+      <a ref='sign_btn_passwordless' href='#' onClick={this._signInPasswordless} style={{'textDecoration':'none','float':'right'}}>GO</a>
       </Dialog>
       </div>
     )
