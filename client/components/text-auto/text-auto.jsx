@@ -31,6 +31,10 @@ pmc.textAuto = React.createClass({
   getValue() {
     return this.state.activeObject
   },
+  setValue(value) {
+    let TextField = this.refs.typeaheadContainer
+    TextField.setValue(value)
+  },
   clear() {
     let textAuto = this.refs.typeaheadContainer
     textAuto.clearValue()
@@ -70,14 +74,25 @@ pmc.textAuto = React.createClass({
     }))
   },
   render(){
-    let label = this.props.label || ''
-    let hintText = this.props.hintText || ''
-    return(
+    let {label,hintText,defaultValue} = this.props
+    defaultValue = defaultValue
+
+    let component =
       <TextField
         floatingLabelText={label}
         hintText={hintText}
         ref='typeaheadContainer'
       />
-    )
+      if(defaultValue) {
+        component =
+          <TextField
+            floatingLabelText={label}
+            defaultValue={defaultValue}
+            hintText={hintText}
+            ref='typeaheadContainer'
+          />
+
+      }
+    return component
   }
 })

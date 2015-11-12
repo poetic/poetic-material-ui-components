@@ -22,6 +22,16 @@ pmc.phoneInput  = React.createClass({
     let value = this.refs.phone.getValue()
     return value
   },
+  changedHandler() {
+    let {onChange} = this.props
+    let hasValidListener = _.isFunction(onChange)
+
+    if(hasValidListener) {
+      let value = this.refs.phone.getValue()
+      onChange(value)
+    }
+
+  },
    changed(event) {
      let target = this.refs.phone.getDOMNode()
      let value = this.refs.phone.getValue()
@@ -37,14 +47,16 @@ pmc.phoneInput  = React.createClass({
 
      let maskedValue = firstThree + secondThree + lastFour
      this.refs.phone.setValue(maskedValue)
-     //this.refs.phone.setValue(maskedValue)
    },
    render: function() {
+     let hintText = this.props.hintText || '(xxx) xxx-xxxx'
      return (
        <TextField
          ref='phone'
          type='tel'
+         hintText={hintText}
          fullWidth={true}
+         onChange={this.changedHandler}
        />
      );
    }

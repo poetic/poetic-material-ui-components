@@ -44,13 +44,20 @@ pmc.signIn = React.createClass({
     }
     e.preventDefault();
   },
-  requestCode() {
+  _requestCode() {
     let {requestCodeAction} = this.props
     let number = this.refs.phone.getValue()
     requestCodeAction(number)
   },
   _signInPasswordless() {
-    console.log('passwordless')
+    let phoneNumber = this.refs.phone.getValue()
+    let code = this.refs.code.getValue()
+    let {passwordlessAction} = this.props
+
+    passwordlessAction({
+      phoneNumber: phoneNumber,
+      code: code
+    })
   },
   _signIn() {
     let self = this;

@@ -51,10 +51,10 @@ pmc.floatButton = React.createClass({
 
     this.props.items.map(function(item, index){
       let icon = $(self.getDOMNode())[0].children[0].children[index];
-      let top = screen.height - 175;
-      let topPos = self.state.showDockItems ? top : (top - ((index+1)*80));
+      let top = 0;
+      let topPos = self.state.showDockItems ? top : (top + ((index+1)*80));
       $(icon).velocity({
-        top: topPos,
+        bottom: topPos,
         opacity: 1,
       },{
         duration: 150,
@@ -88,28 +88,30 @@ pmc.floatButton = React.createClass({
       },
       left: {
         'position':'absolute',
-        'top':top,
+        'bottom':'0px',
+        'marginBottom': '19px',
         'fontSize':'39px',
         'color':'#aeaeae',
         'left':'28px',
       },
       right: {
         'position':'absolute',
-        'top':top,
+        'bottom':'0px',
+        'marginBottom': '19px',
         'fontSize':'39px',
         'color':'#aeaeae',
         'right':'28px',
       },
       leftMenuItems: {
         'position':'absolute',
-        'top':top,
+        'bottom':'0px',
         'left':'28px',
         'opacity':'0',
         'display':'none'
       },
       rightMenuItems: {
         'position':'absolute',
-        'top':top,
+        'bottom':'0px',
         'right':'20px',
         'opacity':'0',
         'display':'none'
