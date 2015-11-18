@@ -8,10 +8,14 @@ const {
 pmc.floatButton = React.createClass({
 
   getInitialState() {
+
+  let items = this.props.items
+  items = items ? items.length : null
+
     return({
       showDockBtn: true,
       showDockItems: false,
-      items: this.props.items.length,
+      items: items,
       left: this.props.left,
       icon: (this.props.icon == undefined) ? 'add' : this.props.icon
     })
@@ -128,13 +132,15 @@ pmc.floatButton = React.createClass({
       }
     }
     let overlay = (this.state.showDockItems) ? styles.overlay : styles.hideOverlay;
+    let items = this.props.items
+    items = items ? items : []
     return(
       <div>
 
         {/* Overlay and menu buttons */}
         <Paper refs='overlay' zDepth={3} style={overlay} >
           {
-            this.props.items.map(function(item, index){
+            items.map(function(item, index){
               let icon = <FontIcon className="material-icons">{item.icon}</FontIcon>;
               if(item.customIcon){
                 icon = <img className='customIcon' src={item.customURL} />;
@@ -150,11 +156,11 @@ pmc.floatButton = React.createClass({
               }.bind(this))
           }
 
-            <FontIcon
+          <FontIcon
             onClick={this._handleDockClick}
             ref='hideDock'
             style={(this.state.left == undefined) ? styles.right : styles.left }
-              className="material-icons hideDock">cancel</FontIcon>
+            className="material-icons hideDock">cancel</FontIcon>
         </Paper>
         {/**** End Overlay ***/}
 

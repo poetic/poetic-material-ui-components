@@ -63,13 +63,16 @@ pmc.signIn = React.createClass({
     let self = this;
     let email = this.refs.email.getValue().toLowerCase();
     let password = this.refs.password.getValue();
+    let dialog = this.refs.sign_dialog
 
     Meteor.loginWithPassword(email,password ,function(err){
+      dialog.dismiss()
+
       if(err) {
-        alert(err.reason)
+        self.props.action(err.reason,null);
       }else{
         let userId = Meteor.userId();
-        self.props.action(userId);
+        self.props.action(null,userId);
       }
     })
   },

@@ -40,8 +40,21 @@ pmc.appBar = React.createClass({
           this.props.action();
         }
   },
+  _handleActionRight() {
+    //Throw error if no action is supplied
+    if(this.props.actionRight === undefined)
+      {
+        throw("You must specify an action! if using an icon");
+      }
+      else
+        {
+
+          this.props.actionRight();
+        }
+  },
   render() {
-    let icon=false;
+    let icon = false;
+    let iconRight = false;
     let styles = {};
 
     styles.appBar = {
@@ -67,11 +80,22 @@ pmc.appBar = React.createClass({
           tooltip="Go Back">{this.props.icon}
         </IconButton>
       }
+    if(this.props.iconRight)
+      {
+        iconRight = <IconButton
+          iconClassName="material-icons"
+          onClick={this._handleActionRight}
+          tooltipPosition="bottom-center"
+          style={{'marginTop':'-8px'}}
+          tooltip="Go Back">{this.props.iconRight}
+        </IconButton>
+      }
       return (
         <div>
           <AppBar id={this.props.barId} className='pmcAppBar' title={this.props.title.toUpperCase()}
             showMenuIconButton={(this.props.icon) ? true : false }
             iconElementLeft={icon}
+            iconElementRight={iconRight}
             style={styles.appBar} />
         </div>
       )
