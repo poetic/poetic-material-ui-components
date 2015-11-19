@@ -18,10 +18,10 @@ pmc._dialog = React.createClass({
   render() {
     let title = this.props.title;
     let body = this.props.body;
-
+    let buttons = this.props.buttonText || {confirm: 'Continue', cancel: 'Cancel'};
     let standardActions = [
-      { text: 'Cancel' },
-      { text: 'Continue', onTouchTap: this._onDialogSubmit, ref: 'submit' }
+      { text: buttons.cancel },
+      { text: buttons.confirm, onTouchTap: this._onDialogSubmit, ref: 'submit' }
     ];
     return (
       <Dialog
