@@ -35,80 +35,83 @@ pmc.signIn = React.createClass({
     })
   },
   _showDialog(e) {
-    let {passwordless} = this.props
+    let {passwordless} = this.props;
 
     if(passwordless) {
       this.refs.sign_dialog_passwordless.show();
-    }else{
+    } else {
       this.refs.sign_dialog.show();
     }
     e.preventDefault();
   },
-  _requestCode() {
-    let {requestCodeAction} = this.props
-    let number = this.refs.phone.getValue()
-    requestCodeAction(number)
-  },
-  _signInPasswordless() {
-    let phoneNumber = this.refs.phone.getValue()
-    let code = this.refs.code.getValue()
-    let {passwordlessAction} = this.props
 
-    passwordlessAction({
-      phoneNumber: phoneNumber,
-      code: code
-    })
+  _requestCode() {
+    let {requestCodeAction} = this.props;
+    let number = this.refs.phone.getValue();
+    requestCodeAction(number);
   },
+
+  _signInPasswordless() {
+    let phoneNumber = this.refs.phone.getValue();
+    let code = this.refs.code.getValue();
+    let {passwordlessAction} = this.props;
+    passwordlessAction({ phoneNumber, code, });
+  },
+
   _signIn() {
     let self = this;
     let email = this.refs.email.getValue().toLowerCase();
     let password = this.refs.password.getValue();
-    let dialog = this.refs.sign_dialog
+    let dialog = this.refs.sign_dialog;
 
-    Meteor.loginWithPassword(email,password ,function(err){
-      dialog.dismiss()
+    Meteor.loginWithPassword( email, password, function(err){
+      dialog.dismiss();
 
       if(err) {
         self.props.action(err.reason,null);
-      }else{
+      } else {
         let userId = Meteor.userId();
         self.props.action(null,userId);
       }
-    })
+    });
   },
-  render() {
-    let style = _.extend({},this.props.style)
 
+  closeModal(){
+    this.refs.sign_dialog.dismiss();
+  },
+
+  render() {
+    let style = _.extend({},this.props.style);
     let label = this.props.label || '';
 
     return (
       <div>
+        <div style={style}>
+          <span>{label} <a ref='sign_btn' onClick={this._showDialog} href='#' style={{'textDecoration':'none'}}>SIGN IN </a></span>
+        </div>
 
-      <div style={style}>
-      <span>{label} <a ref='sign_btn' onClick={this._showDialog} href='#' style={{'textDecoration':'none'}}>SIGN IN </a></span>
-      </div>
+        <Dialog
+        title="Sign In" ref='sign_dialog'>
+          <TextField
+          hintText="Email" ref='email' type='email' fullWidth={true} />
+          <TextField
+          hintText="Password" ref='password' type='password' fullWidth={true} />
+          <a ref='close_btn' href='#' onClick={this.closeModal} style={{'textDecoration':'none','float':'left'}}>CLOSE</a>
+          <a ref='sign_btn' href='#' onClick={this._signIn} style={{'textDecoration':'none','float':'right'}}>GO</a>
+        </Dialog>
 
-      <Dialog
-      title="Sign In" ref='sign_dialog'>
-      <TextField
-      hintText="Email" ref='email' type='email' fullWidth={true} />
-      <TextField
-      hintText="Password" ref='password' type='password' fullWidth={true} />
-      <a ref='sign_btn' href='#' onClick={this._signIn} style={{'textDecoration':'none','float':'right'}}>GO</a>
-      </Dialog>
-
-      <Dialog
-      title="Sign In" ref='sign_dialog_passwordless'>
-      <pmc.phoneInput ref='phone' />
-      <TextField
-      hintText="Enter code recieved" ref='code' fullWidth={true} />
-      <a ref='request_btn' href='#' onClick={this._requestCode} style={{'textDecoration':'none','float':'left'}}>Request Code</a>
-      <a ref='sign_btn_passwordless' href='#' onClick={this._signInPasswordless} style={{'textDecoration':'none','float':'right'}}>GO</a>
-      </Dialog>
+        <Dialog
+        title="Sign In" ref='sign_dialog_passwordless'>
+          <pmc.phoneInput ref='phone' />
+          <TextField
+          hintText="Enter code recieved" ref='code' fullWidth={true} />
+          <a ref='request_btn' href='#' onClick={this._requestCode} style={{'textDecoration':'none','float':'left'}}>Request Code</a>
+          <a ref='sign_btn_passwordless' href='#' onClick={this._signInPasswordless} style={{'textDecoration':'none','float':'right'}}>GO</a>
+        </Dialog>
       </div>
     )
   }
-})
+});
 
 
 
