@@ -88,6 +88,10 @@ pmc.signIn = React.createClass({
     });
   },
 
+  closeModal() {
+    this.refs.sign_dialog.dismiss()
+  },
+
   render() {
     let style = _.extend({},this.props.style);
     let label = this.props.label || '';
