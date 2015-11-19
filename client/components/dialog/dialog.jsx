@@ -1,20 +1,23 @@
 const {
   Dialog,
-}= mui;
+} = mui;
 
 pmc._dialog = React.createClass({
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
+
   getChildContext() {
     return {
       muiTheme: ThemeManager.getCurrentTheme()
     };
   },
+
   _onDialogSubmit(e) {
     this.refs.pmc_dialog.dismiss();
     this.props.action();
   },
+
   render() {
     let title = this.props.title;
     let body = this.props.body;
@@ -29,6 +32,7 @@ pmc._dialog = React.createClass({
         actions={standardActions}
         openImmediately={true}
         ref='pmc_dialog'
+        style={{marginLeft: '-5%', width: '110%'}}
         >
         {
           this.props.body

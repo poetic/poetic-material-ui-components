@@ -28,11 +28,11 @@ pmc.signIn = React.createClass({
     };
   },
   componentDidMount() {
-    let domNode = React.findDOMNode(this)
+    let domNode = React.findDOMNode(this);
     $(domNode).css({
       'height':'100%',
       'width':'100%'
-    })
+    });
   },
   _showDialog(e) {
     let {passwordless} = this.props;
@@ -81,17 +81,29 @@ pmc.signIn = React.createClass({
   },
 
   render() {
-    let style = _.extend({},this.props.style);
+    console.log(this.props.style)
+    let style = _.extend({paddingTop: '20px'}, this.props.style);
     let label = this.props.label || '';
+
+    let signInLink = {
+      backgroundColor: '#c0f948',
+      color: 'grey',
+      padding: '15px',
+      textDecoration: 'none',
+      marginTop: '10px',
+      borderRadius: '5%',
+      boxShadow: '2px 2px 3px #cfcfcf',
+      marginLeft: '20px'
+    };
 
     return (
       <div>
         <div style={style}>
-          <span>{label} <a ref='sign_btn' onClick={this._showDialog} href='#' style={{'textDecoration':'none'}}>SIGN IN </a></span>
+          <span>{label} <a ref='sign_btn' onClick={this._showDialog} href='#' style={signInLink}>SIGN IN </a></span>
         </div>
 
         <Dialog
-        title="Sign In" ref='sign_dialog'>
+        title="Sign In" ref='sign_dialog' style={{marginLeft: '-5%', width: '110%'}}>
           <TextField
           hintText="Email" ref='email' type='email' fullWidth={true} />
           <TextField
@@ -101,7 +113,7 @@ pmc.signIn = React.createClass({
         </Dialog>
 
         <Dialog
-        title="Sign In" ref='sign_dialog_passwordless'>
+        title="Sign In" ref='sign_dialog_passwordless' style={{marginLeft: '-5%', width: '110%'}}>
           <pmc.phoneInput ref='phone' />
           <TextField
           hintText="Enter code recieved" ref='code' fullWidth={true} />

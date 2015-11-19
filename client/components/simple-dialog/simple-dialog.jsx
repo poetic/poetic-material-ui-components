@@ -24,6 +24,7 @@ pmc._sdialog = React.createClass({
         actions={standardActions}
         openImmediately={true}
         ref='pmc_sdialog'
+        style={{marginLeft: '-5%', width: '110%'}}
         >
         {
           this.props.body
