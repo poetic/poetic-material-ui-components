@@ -13,11 +13,19 @@ action: takes a reference to a callback handler which is called on successful lo
 const {
   Dialog,
   TextField,
+  LinearProgress,
   RaisedButton
 } = mui
 
 
 pmc.signIn = React.createClass({
+
+  getInitialState() {
+    return {
+      loading: false
+    }
+  },
+
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
@@ -64,8 +72,12 @@ pmc.signIn = React.createClass({
     let password = this.refs.password.getValue();
     let dialog = this.refs.sign_dialog;
 
-    Meteor.loginWithPassword( email, password, function(err){
-      dialog.dismiss();
+    this.setState({
+      loading: true
+    })
+
+    Meteor.loginWithPassword(email,password ,function(err){
+      dialog.dismiss()
 
       if(err) {
         self.props.action(err.reason,null);
@@ -76,13 +88,14 @@ pmc.signIn = React.createClass({
     });
   },
 
-  closeModal(){
-    this.refs.sign_dialog.dismiss();
-  },
-
   render() {
     let style = _.extend({},this.props.style);
     let label = this.props.label || '';
+    let progress = []
+
+    if(this.state.loading) {
+      progress.push(<LinearProgress mode="indeterminate"  />)
+    }
 
     return (
       <div>
@@ -108,7 +121,7 @@ pmc.signIn = React.createClass({
           <a ref='request_btn' href='#' onClick={this._requestCode} style={{'textDecoration':'none','float':'left'}}>Request Code</a>
           <a ref='sign_btn_passwordless' href='#' onClick={this._signInPasswordless} style={{'textDecoration':'none','float':'right'}}>GO</a>
         </Dialog>
-      </div>
+        </div>
     )
   }
 });
