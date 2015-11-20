@@ -80,8 +80,8 @@ pmc._contact = React.createClass({
     }
 
     if(show) {
-      contact =  <div>
-        <label className="pmcLabelCheckbox" onClick={this._handleContactCheck}>
+      contact =  <div onClick={this._handleContactCheck}>
+        <label className="pmcLabelCheckbox">
           <input type="checkbox" className="checkbox" checked ={this.state.checked} />
            {this.state.contact.name.givenName + ' ' + (this.state.contact.name.familyName || '') }
         </label>
