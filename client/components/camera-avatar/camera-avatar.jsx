@@ -66,7 +66,7 @@ pmc.cameraAvatar = React.createClass({
     let avatar1 = <div>
       <Avatar className='pmcCameraAvatar'  ref='pmcCameraAvatar' style={{'display':'block','height':'60px','width':'60px'}}
         icon={
-          <FontIcon style={{'height':'30px','width':'30px'}} className='material-icons'>photo_camera</FontIcon>
+          <FontIcon style={{'height':'30px','width':'30px','marginTop':'18px'}} className='material-icons'>photo_camera</FontIcon>
           } />
         <a href='#' onClick={this._takePicture}> upload</a>
 
