@@ -48,19 +48,19 @@ pmc._contact = React.createClass({
     };
   },
 
-
   _handleContactCheck(e) {
     let label = e.currentTarget;
     let status = $(label).find('.checkbox')[0].checked;
+    status = !status
+
+    this.setState({
+      checked : status,
+    })
 
     this.props.feedback({
       status: status,
       id: this.state.contact.id,
       index: this.state.index
-    })
-
-    this.setState({
-      checked : status
     })
 
   },
@@ -80,12 +80,13 @@ pmc._contact = React.createClass({
     }
 
     if(show) {
-      contact =  <div onClick={this._handleContactCheck}>
-        <label className="pmcLabelCheckbox">
-          <input type="checkbox" className="checkbox" checked ={this.state.checked} />
-           {this.state.contact.name.givenName + ' ' + (this.state.contact.name.familyName || '') }
-        </label>
-      </div>
+      contact =
+        <div className='contactContainer' onClick={this._handleContactCheck}>
+          <label className="pmcLabelCheckbox">
+            <input type="checkbox" className="checkbox" checked ={this.state.checked} />
+            {this.state.contact.name.givenName + ' ' + (this.state.contact.name.familyName || '') }
+          </label>
+        </div>
     }
     return(
       <div>

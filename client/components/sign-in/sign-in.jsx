@@ -93,7 +93,6 @@ pmc.signIn = React.createClass({
   },
 
   render() {
-    console.log(this.props.style)
     let style = _.extend({paddingTop: '20px'}, this.props.style);
     let label = this.props.label || '';
     let progress = []
