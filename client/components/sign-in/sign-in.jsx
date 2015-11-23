@@ -36,6 +36,19 @@ pmc.signIn = React.createClass({
       muiTheme: ThemeManager.getCurrentTheme()
     };
   },
+
+  componentDidUpdate() {
+
+    let self = this;
+    let email = this.refs.email.getValue().toLowerCase();
+    let password = this.refs.password.getValue();
+    let dialog = this.refs.sign_dialog;
+
+    if(this.state.loading){
+      this._signIn()
+    }
+  },
+
   componentDidMount() {
     let domNode = React.findDOMNode(this);
     $(domNode).css({
@@ -43,6 +56,7 @@ pmc.signIn = React.createClass({
       'width':'100%'
     });
   },
+
   _showDialog(e) {
     let {passwordless} = this.props;
 
@@ -78,7 +92,7 @@ pmc.signIn = React.createClass({
       if(err) {
 
         self.setState({
-          loading: true,
+          loading: false,
           error: err.reason
         })
 
@@ -88,6 +102,12 @@ pmc.signIn = React.createClass({
         self.props.action(null,userId);
       }
     });
+  },
+
+  _triggerLoadingState() {
+    this.setState({
+      loading: true
+    })
   },
 
   closeModal() {
@@ -121,6 +141,7 @@ pmc.signIn = React.createClass({
         <Dialog
         title="Sign In" ref='sign_dialog' style={{marginLeft: '-5%', width: '110%'}}>
           <p style={{'color': 'red'}}> {errorText} </p>
+          {progress}
           <TextField
           hintText="Email" ref='email' type='email' fullWidth={true} />
           <TextField
@@ -129,7 +150,7 @@ pmc.signIn = React.createClass({
           fullWidth={true}
           ref='sign_btn'
           href='#'
-          onClick={this._signIn}
+          onClick={this._triggerLoadingState}
           primary={true}
           label='GO'
           />
