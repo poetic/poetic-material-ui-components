@@ -22,7 +22,8 @@ pmc.signIn = React.createClass({
 
   getInitialState() {
     return {
-      loading: false
+      loading: false,
+      error: ''
     }
   },
 
@@ -72,17 +73,18 @@ pmc.signIn = React.createClass({
     let password = this.refs.password.getValue();
     let dialog = this.refs.sign_dialog;
 
-    this.setState({
-      loading: true
-    })
 
     Meteor.loginWithPassword(email,password ,function(err){
-      dialog.dismiss()
-
       if(err) {
-        self.props.action(err.reason,null);
+
+        self.setState({
+          loading: true,
+          error: err.reason
+        })
+
       } else {
         let userId = Meteor.userId();
+        dialog.dismiss();
         self.props.action(null,userId);
       }
     });
@@ -96,20 +98,18 @@ pmc.signIn = React.createClass({
     let style = _.extend({paddingTop: '20px'}, this.props.style);
     let label = this.props.label || '';
     let progress = []
+    let errorText = this.state.error
 
     if(this.state.loading) {
       progress.push(<LinearProgress mode="indeterminate"  />)
     }
 
     let signInLink = {
-      backgroundColor: '#c0f948',
-      color: 'grey',
+      color: '#24e47a',
       padding: '15px',
       textDecoration: 'none',
       marginTop: '10px',
-      borderRadius: '5%',
-      boxShadow: '2px 2px 3px #cfcfcf',
-      marginLeft: '20px'
+      marginBottom: '20px'
     };
 
     return (
@@ -120,12 +120,19 @@ pmc.signIn = React.createClass({
 
         <Dialog
         title="Sign In" ref='sign_dialog' style={{marginLeft: '-5%', width: '110%'}}>
+          <p style={{'color': 'red'}}> {errorText} </p>
           <TextField
           hintText="Email" ref='email' type='email' fullWidth={true} />
           <TextField
           hintText="Password" ref='password' type='password' fullWidth={true} />
-          <a ref='close_btn' href='#' onClick={this.closeModal} style={{'textDecoration':'none','float':'left'}}>CLOSE</a>
-          <a ref='sign_btn' href='#' onClick={this._signIn} style={{'textDecoration':'none','float':'right'}}>GO</a>
+          <RaisedButton
+          fullWidth={true}
+          ref='sign_btn'
+          href='#'
+          onClick={this._signIn}
+          primary={true}
+          label='GO'
+          />
         </Dialog>
 
         <Dialog
