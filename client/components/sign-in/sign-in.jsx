@@ -13,19 +13,11 @@ action: takes a reference to a callback handler which is called on successful lo
 const {
   Dialog,
   TextField,
-  LinearProgress,
   RaisedButton
 } = mui
 
 
 pmc.signIn = React.createClass({
-
-  getInitialState() {
-    return {
-      loading: false
-    }
-  },
-
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
@@ -72,12 +64,8 @@ pmc.signIn = React.createClass({
     let password = this.refs.password.getValue();
     let dialog = this.refs.sign_dialog;
 
-    this.setState({
-      loading: true
-    })
-
-    Meteor.loginWithPassword(email,password ,function(err){
-      dialog.dismiss()
+    Meteor.loginWithPassword( email, password, function(err){
+      dialog.dismiss();
 
       if(err) {
         self.props.action(err.reason,null);
@@ -88,19 +76,13 @@ pmc.signIn = React.createClass({
     });
   },
 
-  closeModal() {
-    this.refs.sign_dialog.dismiss()
+  closeModal(){
+    this.refs.sign_dialog.dismiss();
   },
 
   render() {
-    console.log(this.props.style)
     let style = _.extend({paddingTop: '20px'}, this.props.style);
     let label = this.props.label || '';
-    let progress = []
-
-    if(this.state.loading) {
-      progress.push(<LinearProgress mode="indeterminate"  />)
-    }
 
     let signInLink = {
       backgroundColor: '#c0f948',
@@ -137,7 +119,7 @@ pmc.signIn = React.createClass({
           <a ref='request_btn' href='#' onClick={this._requestCode} style={{'textDecoration':'none','float':'left'}}>Request Code</a>
           <a ref='sign_btn_passwordless' href='#' onClick={this._signInPasswordless} style={{'textDecoration':'none','float':'right'}}>GO</a>
         </Dialog>
-        </div>
+      </div>
     )
   }
 });
