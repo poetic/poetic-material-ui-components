@@ -48,19 +48,19 @@ pmc._contact = React.createClass({
     };
   },
 
-
   _handleContactCheck(e) {
     let label = e.currentTarget;
     let status = $(label).find('.checkbox')[0].checked;
+    status = !status
+
+    this.setState({
+      checked : status,
+    })
 
     this.props.feedback({
       status: status,
       id: this.state.contact.id,
       index: this.state.index
-    })
-
-    this.setState({
-      checked : status
     })
 
   },
@@ -80,12 +80,13 @@ pmc._contact = React.createClass({
     }
 
     if(show) {
-      contact =  <div>
-        <label className="pmcLabelCheckbox" onClick={this._handleContactCheck}>
-          <input type="checkbox" className="checkbox" checked ={this.state.checked} />
-           {this.state.contact.name.givenName + ' ' + (this.state.contact.name.familyName || '') }
-        </label>
-      </div>
+      contact =
+        <div className='contactContainer' onClick={this._handleContactCheck}>
+          <label className="pmcLabelCheckbox">
+            <input type="checkbox" className="checkbox" checked ={this.state.checked} />
+            {this.state.contact.name.givenName + ' ' + (this.state.contact.name.familyName || '') }
+          </label>
+        </div>
     }
     return(
       <div>
@@ -191,12 +192,14 @@ pmc.contacts = React.createClass({
         'position': 'absolute',
       },
       searchIcon: {
-        'display': 'inline-block',
-        'width': '16px'
+        'top':'20px'
       },
       searchBar: {
         'textIndent': '30px',
         'display': 'inline-block',
+        'height': '100%',
+        'left': '0px',
+        'position': 'absolute',
       },
       actionButton: {
         position:'absolute',
@@ -222,9 +225,13 @@ pmc.contacts = React.createClass({
       <div>
         <pmc.appBar icon='arrow_back' action={this.props.cancel} title='IMPORT CLIENTS' />
         <div style={{'marginTop':'65px'}}>
-          <div style={{'height':'60px'}}>
-            <FontIcon className="material-icons" color='#3a3a3a' style={{'top':'20px'}} >search</FontIcon>
-            <TextField hintText="Search contacts" onChange={this._filterContacts} fullWidth={true} style={styles.searchBar} />
+          <div className='searchBarContainer' style={{'height':'60px','position': 'relative'}}>
+            <FontIcon className="material-icons" color='#3a3a3a' style={styles.searchIcon} >search</FontIcon>
+            <TextField hintText="Search contacts" className='searchBar'
+              hintStyle={{'bottom':'0px','top':'20px'}}
+              onChange={this._filterContacts}
+              fullWidth={true}
+              style={styles.searchBar} />
           </div>
           <div style={styles.contacts}>
             {

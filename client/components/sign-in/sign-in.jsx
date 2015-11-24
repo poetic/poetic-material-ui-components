@@ -14,10 +14,18 @@ const {
   Dialog,
   TextField,
   RaisedButton
-} = mui
+} = mui;
 
 
 pmc.signIn = React.createClass({
+
+  getInitialState() {
+    return {
+      loading: false,
+      error: ''
+    };
+  },
+
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
@@ -27,6 +35,18 @@ pmc.signIn = React.createClass({
       muiTheme: ThemeManager.getCurrentTheme()
     };
   },
+
+  componentDidUpdate() {
+
+    let email = this.refs.email.getValue().toLowerCase();
+    let password = this.refs.password.getValue();
+    let dialog = this.refs.sign_dialog;
+
+    if(this.state.loading){
+      this._signIn();
+    }
+  },
+
   componentDidMount() {
     let domNode = React.findDOMNode(this);
     $(domNode).css({
@@ -34,6 +54,7 @@ pmc.signIn = React.createClass({
       'width':'100%'
     });
   },
+
   _showDialog(e) {
     let {passwordless} = this.props;
 
@@ -68,31 +89,46 @@ pmc.signIn = React.createClass({
       dialog.dismiss();
 
       if(err) {
-        self.props.action(err.reason,null);
+
+        self.setState({
+          loading: false,
+          error: err.reason
+        })
+
       } else {
         let userId = Meteor.userId();
+        dialog.dismiss();
         self.props.action(null,userId);
       }
     });
   },
 
-  closeModal(){
-    this.refs.sign_dialog.dismiss();
+  _triggerLoadingState() {
+    this.setState({
+      loading: true
+    })
+  },
+
+  closeModal() {
+    this.refs.sign_dialog.dismiss()
   },
 
   render() {
     let style = _.extend({paddingTop: '20px'}, this.props.style);
     let label = this.props.label || '';
+    let progress = []
+    let errorText = this.state.error
+
+    if(this.state.loading) {
+      progress.push(<LinearProgress mode="indeterminate"  />)
+    }
 
     let signInLink = {
-      backgroundColor: '#c0f948',
-      color: 'grey',
+      color: '#24e47a',
       padding: '15px',
       textDecoration: 'none',
       marginTop: '10px',
-      borderRadius: '5%',
-      boxShadow: '2px 2px 3px #cfcfcf',
-      marginLeft: '20px'
+      marginBottom: '20px'
     };
 
     return (
@@ -103,12 +139,20 @@ pmc.signIn = React.createClass({
 
         <Dialog
         title="Sign In" ref='sign_dialog' style={{marginLeft: '-5%', width: '110%'}}>
+          <p style={{'color': 'red'}}> {errorText} </p>
+          {progress}
           <TextField
           hintText="Email" ref='email' type='email' fullWidth={true} />
           <TextField
           hintText="Password" ref='password' type='password' fullWidth={true} />
-          <a ref='close_btn' href='#' onClick={this.closeModal} style={{'textDecoration':'none','float':'left'}}>CLOSE</a>
-          <a ref='sign_btn' href='#' onClick={this._signIn} style={{'textDecoration':'none','float':'right'}}>GO</a>
+          <RaisedButton
+          fullWidth={true}
+          ref='sign_btn'
+          href='#'
+          onClick={this._triggerLoadingState}
+          primary={true}
+          label='GO'
+          />
         </Dialog>
 
         <Dialog

@@ -60,22 +60,24 @@ pmc.cameraAvatar = React.createClass({
       avatar: {
         'height' : '90px',
         'display' : 'inline-block'
+      },
+      cameraAvatarText: {
+        'fontSize': '16px'
       }
     }
     let avatar;
     let avatar1 = <div>
       <Avatar className='pmcCameraAvatar'  ref='pmcCameraAvatar' style={{'display':'block','height':'60px','width':'60px'}}
         icon={
-          <FontIcon style={{'height':'30px','width':'30px'}} className='material-icons'>photo_camera</FontIcon>
+          <FontIcon style={{'height':'30px','width':'30px','marginTop':'18px'}} className='material-icons'>photo_camera</FontIcon>
           } />
-        <a href='#' onClick={this._takePicture}> upload</a>
-
+        <a href='#' style={styles.cameraAvatarText} onClick={this._takePicture}>upload</a>
       </div>;
 
 
       if(this.state.picTaken || this.state.pic) {
         avatar = <div><Avatar className='pmcCameraAvatar' ref='pmcCameraAvatar' style={{'display':'block','height':'60px','width':'60px'}}
-            src={this.state.pic} /><a href='#' onClick={this._takePicture}>Change</a></div>
+            src={this.state.pic} /><a href='#' style={styles.cameraAvatarText} onClick={this._takePicture}>Change</a></div>
       }
       else{
         avatar = avatar1;
