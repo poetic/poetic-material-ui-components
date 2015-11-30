@@ -20,7 +20,7 @@ pmc.cameraAvatar = React.createClass({
     })
   },
   _takePicture(e) {
-        let fileUploadDom = React.findDOMNode(this.refs.fileUpload);
+    let fileUploadDom = React.findDOMNode(this.refs.fileUpload);
     fileUploadDom.click();
     e.preventDefault();
   },
@@ -44,7 +44,7 @@ pmc.cameraAvatar = React.createClass({
       reader.readAsDataURL(file);
 
     }else{
-      alert('invalid file recieved!')
+      console.dir('invalid file recieved!')
     }
   },
   render() {
@@ -65,23 +65,24 @@ pmc.cameraAvatar = React.createClass({
         'fontSize': '16px'
       }
     }
-    let avatar;
-    let avatar1 = <div>
-      <Avatar className='pmcCameraAvatar'  ref='pmcCameraAvatar' style={{'display':'block','height':'60px','width':'60px'}}
-        icon={
-          <FontIcon style={{'height':'30px','width':'30px','marginTop':'18px'}} className='material-icons'>photo_camera</FontIcon>
-          } />
-        <a href='#' style={styles.cameraAvatarText} onClick={this._takePicture}>upload</a>
-      </div>;
+    let avatar = [];
+    let text = 'Upload'
 
+    if(this.state.picTaken || this.state.pic) {
+      text = 'Change'
+    }
 
-      if(this.state.picTaken || this.state.pic) {
-        avatar = <div><Avatar className='pmcCameraAvatar' ref='pmcCameraAvatar' style={{'display':'block','height':'60px','width':'60px'}}
-            src={this.state.pic} /><a href='#' style={styles.cameraAvatarText} onClick={this._takePicture}>Change</a></div>
-      }
-      else{
-        avatar = avatar1;
-      }
+    avatar.push(
+      <div
+        onClick={this._takePicture}
+        >
+        <Avatar className='pmcCameraAvatar'
+          ref='pmcCameraAvatar'
+          style={{'display':'block','height':'60px','width':'60px'}}
+          src={this.state.pic} />
+        <a href='#' style={styles.cameraAvatarText} >{text}</a>
+      </div>
+    )
       return (
         <div style={styles.avatar}>
           {avatar}
