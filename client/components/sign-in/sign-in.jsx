@@ -13,6 +13,7 @@ action: takes a reference to a callback handler which is called on successful lo
 const {
   Dialog,
   TextField,
+  LinearProgress,
   RaisedButton
 } = mui;
 
