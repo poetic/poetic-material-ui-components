@@ -13,9 +13,8 @@ action: takes a reference to a callback handler which is called on successful lo
 const {
   Dialog,
   TextField,
-  LinearProgress,
   RaisedButton
-} = mui
+} = mui;
 
 
 pmc.signIn = React.createClass({
@@ -24,7 +23,7 @@ pmc.signIn = React.createClass({
     return {
       loading: false,
       error: ''
-    }
+    };
   },
 
   childContextTypes: {
@@ -39,13 +38,12 @@ pmc.signIn = React.createClass({
 
   componentDidUpdate() {
 
-    let self = this;
     let email = this.refs.email.getValue().toLowerCase();
     let password = this.refs.password.getValue();
     let dialog = this.refs.sign_dialog;
 
     if(this.state.loading){
-      this._signIn()
+      this._signIn();
     }
   },
 
@@ -87,8 +85,9 @@ pmc.signIn = React.createClass({
     let password = this.refs.password.getValue();
     let dialog = this.refs.sign_dialog;
 
+    Meteor.loginWithPassword( email, password, function(err){
+      dialog.dismiss();
 
-    Meteor.loginWithPassword(email,password ,function(err){
       if(err) {
 
         self.setState({
@@ -164,7 +163,7 @@ pmc.signIn = React.createClass({
           <a ref='request_btn' href='#' onClick={this._requestCode} style={{'textDecoration':'none','float':'left'}}>Request Code</a>
           <a ref='sign_btn_passwordless' href='#' onClick={this._signInPasswordless} style={{'textDecoration':'none','float':'right'}}>GO</a>
         </Dialog>
-        </div>
+      </div>
     )
   }
 });

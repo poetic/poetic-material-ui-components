@@ -64,19 +64,22 @@ pmc.appBar = React.createClass({
       'font-color':'white',
       'text-align': 'center',
       'fontFamily': 'Roboto-Regular !important',
-      'fontSize': '20px',
+      'fontSize': '16px',
       'textAlign': 'center',
       'width' : '100%',
-      'height': '50px !important',
-      'minHeight': '50px',
-    }
+      'height': '64px !important',
+      'lineHeight': '64px',
+    };
+
     if(this.props.icon)
       {
         icon = <IconButton
           iconClassName="material-icons"
           onClick={this._handleAction}
           tooltipPosition="bottom-center"
-          style={{'marginTop':'-8px'}}
+          style={{position: 'relative',
+                  top: '-8px',
+                  lineHeight: '90px'}}
           tooltip="Go Back">{this.props.icon}
         </IconButton>
       }
@@ -86,7 +89,7 @@ pmc.appBar = React.createClass({
           iconClassName="material-icons"
           onClick={this._handleActionRight}
           tooltipPosition="bottom-center"
-          style={{'marginTop':'-8px'}}
+          style={{margin:'none !important', height: '50px' }}
           tooltip="Go Back">{this.props.iconRight}
         </IconButton>
       }
