@@ -21,10 +21,7 @@ const {
 pmc.signIn = React.createClass({
 
   getInitialState() {
-    return {
-      loading: false,
-      error: ''
-    };
+    return { loading: false, error: '' };
   },
 
   childContextTypes: {
@@ -32,86 +29,60 @@ pmc.signIn = React.createClass({
   },
 
   getChildContext() {
-    return {
-      muiTheme: ThemeManager.getCurrentTheme()
-    };
+    return { muiTheme: ThemeManager.getCurrentTheme() };
   },
 
   componentDidUpdate() {
-
-    let email = this.refs.email.getValue().toLowerCase();
-    let password = this.refs.password.getValue();
-    let dialog = this.refs.sign_dialog;
-
     if(this.state.loading){
       this._signIn();
     }
   },
 
   componentDidMount() {
-    let domNode = React.findDOMNode(this);
-    $(domNode).css({
-      'height':'100%',
-      'width':'100%'
-    });
+    $(React.findDOMNode(this)).css({ 'height':'100%', 'width':'100%' });
   },
 
   _showDialog(e) {
-    let {passwordless} = this.props;
-
-    if(passwordless) {
+    if(this.props.passwordless) {
       this.refs.sign_dialog_passwordless.show();
-    } else {
-      this.refs.sign_dialog.show();
-    }
+    } else { this.refs.sign_dialog.show(); }
+
     e.preventDefault();
   },
 
   _requestCode() {
-    let {requestCodeAction} = this.props;
-    let number = this.refs.phone.getValue();
-    requestCodeAction(number);
+    this.props.requestCodeAction(this.refs.phone.getValue());
   },
 
   _signInPasswordless() {
-    let phoneNumber = this.refs.phone.getValue();
-    let code = this.refs.code.getValue();
-    let {passwordlessAction} = this.props;
-    passwordlessAction({ phoneNumber, code, });
+    let phoneNumber = this.refs.phone.getValue(),
+        code = this.refs.code.getValue();
+
+    this.props.passwordlessAction({ phoneNumber, code});
   },
 
   _signIn() {
-    let self = this;
-    let email = this.refs.email.getValue().toLowerCase();
-    let password = this.refs.password.getValue();
-    let dialog = this.refs.sign_dialog;
+    let self = this,
+        email = this.refs.email.getValue().toLowerCase(),
+        password = this.refs.password.getValue(),
+        dialog = this.refs.sign_dialog;
 
     Meteor.loginWithPassword( email, password, function(err){
-      dialog.dismiss();
-
       if(err) {
-
-        self.setState({
-          loading: false,
-          error: err.reason
-        })
-
+        self.setState({ loading: false, error: err.reason });
       } else {
-        let userId = Meteor.userId();
         dialog.dismiss();
-        self.props.action(null,userId);
+        self.props.action(null, Meteor.userId());
       }
     });
   },
 
   _triggerLoadingState() {
-    this.setState({
-      loading: true
-    })
+    this.setState({ loading: true });
   },
 
   closeModal() {
-    this.refs.sign_dialog.dismiss()
+    this.refs.sign_dialog.dismiss();
   },
 
   render() {
@@ -120,9 +91,22 @@ pmc.signIn = React.createClass({
     let progress = []
     let errorText = this.state.error
 
+    let goButton = <RaisedButton
+                    fullWidth={true}
+                    ref='sign_btn'
+                    href='#'
+                    onClick={this._triggerLoadingState}
+                    primary={true}
+                    label='GO'
+                    />;
+
     if(this.state.loading) {
       progress.push(<LinearProgress mode="indeterminate"  />)
+      if(this.props.useSpinner){
+        goButton = this.props.spinner;
+      }
     }
+
 
     let signInLink = {
       color: '#24e47a',
@@ -146,14 +130,10 @@ pmc.signIn = React.createClass({
           hintText="Email" ref='email' type='email' fullWidth={true} />
           <TextField
           hintText="Password" ref='password' type='password' fullWidth={true} />
-          <RaisedButton
-          fullWidth={true}
-          ref='sign_btn'
-          href='#'
-          onClick={this._triggerLoadingState}
-          primary={true}
-          label='GO'
-          />
+
+          <div className="sign-go">
+            {goButton}
+          </div>
         </Dialog>
 
         <Dialog
@@ -169,9 +149,6 @@ pmc.signIn = React.createClass({
   }
 });
 
-
-
-
 Template.pmc_signIn.helpers({
   pmcSignIn() {
     return pmc.signIn;
@@ -179,4 +156,6 @@ Template.pmc_signIn.helpers({
   _action() {
     return this.action;
   }
-})
+});
+
+
