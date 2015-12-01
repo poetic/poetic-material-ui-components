@@ -67,8 +67,8 @@ pmc.appBar = React.createClass({
       'fontSize': '16px',
       'textAlign': 'center',
       'width' : '100%',
-      'height': '64px !important',
-      'lineHeight': '64px',
+      height: '50px',
+      lineHeight: '50px',
     };
 
     if(this.props.icon)
@@ -78,8 +78,8 @@ pmc.appBar = React.createClass({
           onClick={this._handleAction}
           tooltipPosition="bottom-center"
           style={{position: 'relative',
-                  top: '-8px',
-                  lineHeight: '90px'}}
+            top: '-8px',
+          lineHeight: '90px'}}
           tooltip="Go Back">{this.props.icon}
         </IconButton>
       }
