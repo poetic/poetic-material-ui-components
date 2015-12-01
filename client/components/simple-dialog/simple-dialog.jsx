@@ -11,16 +11,26 @@ pmc._sdialog = React.createClass({
       muiTheme: ThemeManager.getCurrentTheme()
     };
   },
+
+  _onDialogSubmit(e) {
+    this.refs.pmc_sdialog.dismiss();
+    let isFunction = _.isFunction(this.props.action)
+
+    if(isFunction) {
+      this.props.action();
+    }
+  },
+
   render() {
     let title = this.props.title || 'Dialog';
     let body = this.props.body;
 
     let standardActions = [
-      { text: 'Ok' }
+      { text: 'Ok', onTouchTap: this._onDialogSubmit, ref: 'okButton'  }
     ];
     return (
       <Dialog
-        title={title} ref='sign_dialog'
+        title={title}
         actions={standardActions}
         openImmediately={true}
         ref='pmc_sdialog'
