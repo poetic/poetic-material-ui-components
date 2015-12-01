@@ -102,8 +102,8 @@ pmc.signIn = React.createClass({
 
     if(this.state.loading) {
       progress.push(<LinearProgress mode="indeterminate"  />)
-      if(this.props.fpn){
-        goButton = LoadingHtml;
+      if(this.props.useSpinner){
+        goButton = this.props.spinner;
       }
     }
 
@@ -158,10 +158,4 @@ Template.pmc_signIn.helpers({
   }
 });
 
-let LoadingHtml = <div className="trainer-button spinner--wave">
-    <div className="spinner-item" style={{marginLeft: "2px"}}></div>
-    <div className="spinner-item" style={{marginLeft: "2px"}}></div>
-    <div className="spinner-item" style={{marginLeft: "2px"}}></div>
-    <div className="spinner-item" style={{marginLeft: "2px"}}></div>
-    <div className="spinner-item" style={{marginLeft: "2px"}}></div>
-  </div>;
+
