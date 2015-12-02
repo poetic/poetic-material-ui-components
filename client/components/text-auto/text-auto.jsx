@@ -57,21 +57,23 @@ pmc.textAuto = React.createClass({
 
   typeaheadSource(query,syncTypeahead,asyncTypeahead){
     let dataSource = this.props.dataSource
+    let result =[]
 
-    syncTypeahead(_.map(dataSource,function(dataItem){
+    _.each(dataSource,function(dataItem){
       let suggestion = dataItem.suggestion.toLowerCase()
       let matchesQuery = suggestion.indexOf(query.toLowerCase())
       matchesQuery = matchesQuery != -1
 
       if(matchesQuery){
-        return {
-          value:dataItem.suggestion,
-          obj: dataItem
-        }
-      }else{
-        return {value:''}
+        result.push(
+          {
+            value:dataItem.suggestion,
+            obj: dataItem
+          }
+        )
       }
-    }))
+    });
+    syncTypeahead(result)
   },
   render(){
     let {label,hintText,defaultValue} = this.props
