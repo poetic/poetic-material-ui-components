@@ -81,8 +81,7 @@ pmc.textAuto = React.createClass({
 
     let component =
       <TextField
-        floatingLabelText={label}
-        hintText={hintText}
+        hintText={label}
         ref='typeaheadContainer'
       />
       if(defaultValue) {
