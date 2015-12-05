@@ -125,7 +125,6 @@ pmc.signIn = React.createClass({
         <Dialog
         title="Sign In" ref='sign_dialog' style={{marginLeft: '-5%', width: '110%'}}>
           <p style={{'color': 'red'}}> {errorText} </p>
-          {progress}
           <TextField
           hintText="Email" ref='email' type='email' fullWidth={true} />
           <TextField

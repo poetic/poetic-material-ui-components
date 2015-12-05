@@ -46,12 +46,14 @@ pmc.contact = React.createClass({
     }).addClass('pmcContactText')
   },
   render() {
-    let styles ={
+    let defaultStyle = {
       Avatar: {
         height: '60px',
         width: '60px'
       }
     }
+    let styles = _.extend(defaultStyle,this.props.style);
+
     let avatarSize = this.props.size || 40
     let image = this.props.image || "/userplaceholderimage.png" ;
     return(
