@@ -57,7 +57,7 @@ pmc.contact = React.createClass({
     let avatarSize = this.props.size || 40
     let image = this.props.image || "/userplaceholderimage.png" ;
     return(
-      <div>
+      <div className ='pmcContact'>
       <ListItem primaryText={this.props.contact.client.name}
         disableFocusRipple={true}
         disableTouchRipple={true}
