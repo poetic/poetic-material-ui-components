@@ -66,6 +66,10 @@ Package.onUse(function(api) {
     'client/components/text-auto/text-auto.jsx',
 
 
+    'client/pmc.css',
+  ],'client');
+
+  api.addAssets([
     'public/material-icons/MaterialIcons-Regular.eot',
     'public/material-icons/MaterialIcons-Regular.ttf',
     'public/material-icons/MaterialIcons-Regular.woff',
@@ -74,10 +78,7 @@ Package.onUse(function(api) {
     'public/cards/amex.png',
     'public/cards/mastercard.png',
     'public/cards/visa.png',
-
-
-    'client/pmc.css',
-  ],'client');
+  ],'client')
 
 
   api.export([
