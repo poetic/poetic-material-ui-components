@@ -74,7 +74,7 @@ pmc.appBar = React.createClass({
     if(this.props.icon)
       {
         icon = <IconButton
-          iconClassName="material-icons"
+          iconClassName="material-icons app-bar"
           onClick={this._handleAction}
           tooltipPosition="bottom-center"
           style={{position: 'relative',
@@ -86,7 +86,7 @@ pmc.appBar = React.createClass({
     if(this.props.iconRight)
       {
         iconRight = <IconButton
-          iconClassName="material-icons"
+          iconClassName="material-icons app-bar"
           onClick={this._handleActionRight}
           tooltipPosition="bottom-center"
           style={{margin:'none !important', height: '50px' }}

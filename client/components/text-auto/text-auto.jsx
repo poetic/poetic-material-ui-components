@@ -75,26 +75,60 @@ pmc.textAuto = React.createClass({
     });
     syncTypeahead(result)
   },
+  getFloatingFromDefault(){
+    let {label, hintText, defaultValue} = this.props
+
+    if(defaultValue){
+      return (
+        <TextField
+          floatingLabelText={label}
+          defaultValue={defaultValue}
+          hintText={hintText}
+          ref='typeaheadContainer'
+        />
+      )
+    } else {
+      return (
+        <TextField
+          floatingLabelText={label}
+          hintText={hintText}
+          ref='typeaheadContainer'
+        />
+      )
+    }
+  },
+
+  getWithoutFloat(){
+    let {label, hintText, defaultValue} = this.props
+
+    if(defaultValue){
+      return (
+        <TextField
+          defaultValue={defaultValue}
+          hintText={hintText}
+          ref='typeaheadContainer'
+        />
+      )
+    } else {
+      return (
+        <TextField
+          hintText={hintText}
+          ref='typeaheadContainer'
+        />
+      )
+    }
+  },
+
+  generateTextField(){
+    let {label, hintText, defaultValue, disableFloat} = this.props
+    if(!disableFloat){
+      return this.getFloatingFromDefault();
+    } else {
+      return this.getWithoutFloat();
+    }
+  },
+
   render(){
-    let {label,hintText,defaultValue} = this.props
-    defaultValue = defaultValue
-
-    let component =
-      <TextField
-        floatingLabelText={label}
-        hintText={hintText}
-        ref='typeaheadContainer'
-      />
-      if(defaultValue) {
-        component =
-          <TextField
-            floatingLabelText={label}
-            defaultValue={defaultValue}
-            hintText={hintText}
-            ref='typeaheadContainer'
-          />
-
-      }
-    return component
+    return this.generateTextField();
   }
 })

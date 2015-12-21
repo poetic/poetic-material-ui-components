@@ -211,7 +211,7 @@ pmc.contacts = React.createClass({
       }
     }
 
-    let spinner = <CircularProgress mode="indeterminate" size={5} ></CircularProgress>;
+    let spinner = this.props.loader || <CircularProgress mode="indeterminate" size={5} ></CircularProgress>;
 
     let contacts = this.state.contacts.map(function(contact,index){
         if (contact.name.givenName)

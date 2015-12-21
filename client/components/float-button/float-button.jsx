@@ -93,18 +93,18 @@ pmc.floatButton = React.createClass({
       left: {
         'position':'absolute',
         'bottom':'0px',
-        'marginBottom': '19px',
+        'marginBottom': '8px',
         'fontSize':'39px',
         'color':'#aeaeae',
-        'left':'28px',
+        'left':'20px',
       },
       right: {
         'position':'absolute',
-        'bottom':'0px',
-        'marginBottom': '19px',
+        'bottom':'0',
+        'marginBottom': '8px',
         'fontSize':'39px',
         'color':'#aeaeae',
-        'right':'28px',
+        'right':'20px',
       },
       leftMenuItems: {
         'position':'absolute',
