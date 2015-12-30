@@ -73,7 +73,7 @@ pmc.cameraAvatar = React.createClass({
     }
 
     avatar.push(
-      <div
+      <div key={'avatar-' + avatar.length}
         onClick={this._takePicture}
         >
         <Avatar className='pmcCameraAvatar'
