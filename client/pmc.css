@@ -92,24 +92,35 @@
 /*End Checkbox styles*/
 
 .pmcDateSelected {
-  position:relative;
+  position: relative;
   background-image: url(/calendar-arrow.png);
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  display:inline-block;
+  display: inline-block;
   text-align: center;
-  color:#fff;
-  width:80px;
+  color: #fff;
+  width: 70px;
+  padding-top: 10px;
+  height: 100%;
+  text-transform: uppercase;
 }
 
 .pmcDateNormal {
-position:absolute;
-background-image: none;
-display:inline-block;
-width:70px;
-text-align: center;
-color:#3a3a3a;
+  height: 100%;
+  position: absolute;
+  background-image: none;
+  display: inline-block;
+  width: 70px;
+  text-align: center;
+  text-transform: uppercase;
+  color: rgba(58,58,58, .5);
+  padding-top: 10px;
 }
+
+.pmcDateNormal p, .pmcDateSelected p{
+  margin: 0 !important;
+}
+
 .cardLogo {
   position: absolute;
   top: 0px;
@@ -157,4 +168,8 @@ color:#3a3a3a;
 {
   position: relative;
   top: 23px;
+}
+
+.date-selector-date {
+   position: relative;
 }
