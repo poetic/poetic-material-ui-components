@@ -45,32 +45,24 @@ pmc.contact = React.createClass({
       'margin-left': '19px',
     }).addClass('pmcContactText')
   },
+
   render() {
-    let defaultStyle = {
-      Avatar: {
-        height: '60px',
-        width: '60px'
-      }
-    }
-    let styles = _.extend(defaultStyle,this.props.style);
+    let image = this.props.image || "/userplaceholderimage.png";
 
-    let avatarSize = this.props.size || 40
-    let image = this.props.image || "/userplaceholderimage.png" ;
-    return(
-      <div className ='pmcContact'>
-      <ListItem primaryText={this.props.contact.client.name}
-        disableFocusRipple={true}
-        disableTouchRipple={true}
-        rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
-        leftAvatar={<Avatar src={image} size={avatarSize}/>}
-        onClick={this._handleContactClick}
-         />
-      <ListDivider />
+    return (
+      <div className="client-item" onClick={this._handleContactClick}>
+        <div className="client-avatar">
+          <div className='avatar-border'>
+            <img className="avatar" src={image} />
+          </div>
+        </div>
+        <div className="client-name">{this.props.contact.client.name}</div>
+        <span className="material-icons client-icon">keyboard_arrow_right</span>
       </div>
-    )
-  }
+    );
+  },
 
-})
+});
 
 Template.pmc_contact.helpers({
   _action () {

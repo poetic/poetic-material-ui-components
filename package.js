@@ -25,7 +25,9 @@ Package.onUse(function(api) {
     'momentjs:moment@2.8.4',
     'sewdn:masked-input',
     'sergeyt:typeahead@0.11.1_4',
+    'jsx'
   ], 'client');
+
   api.imply([
     'poetic:react-material-ui',
     'react',
@@ -36,40 +38,8 @@ Package.onUse(function(api) {
     'org.apache.cordova.contacts': '0.2.16'
   });
 
-  api.addFiles([
-    'before/lib/pmc.js',
-    'before/lib/utils.jsx',
-    'client/lib/theme-manager.jsx',
-
-    'client/components/action-button/action-button.html',
-    'client/components/action-button/action-button.jsx',
-    'client/components/app-bar/app-bar.html',
-    'client/components/app-bar/app-bar.jsx',
-    'client/components/camera-avatar/camera-avatar.html',
-    'client/components/camera-avatar/camera-avatar.jsx',
-    'client/components/contact/contact.html',
-    'client/components/contact/contact.jsx',
-    'client/components/contacts/contacts.html',
-    'client/components/contacts/contacts.jsx',
-    'client/components/dialog/dialog.jsx',
-    'client/components/credit-card/credit-card.html',
-    'client/components/credit-card/credit-card.jsx',
-    'client/components/date-selector/date-selector.jsx',
-    'client/components/float-button/float-button.jsx',
-    'client/components/phone-input/phone-input.html',
-    'client/components/phone-input/phone-input.jsx',
-    'client/components/sign-in/sign-in.html',
-    'client/components/sign-in/sign-in.jsx',
-    'client/components/simple-dialog/simple-dialog.jsx',
-    'client/components/spinner/spinner.html',
-    'client/components/spinner/spinner.jsx',
-    'client/components/text-auto/text-auto.jsx',
-
-
-    'client/pmc.css',
-  ],'client');
-
   api.addAssets([
+
     'public/material-icons/MaterialIcons-Regular.eot',
     'public/material-icons/MaterialIcons-Regular.ttf',
     'public/material-icons/MaterialIcons-Regular.woff',
@@ -78,8 +48,37 @@ Package.onUse(function(api) {
     'public/cards/amex.png',
     'public/cards/mastercard.png',
     'public/cards/visa.png',
-  ],'client')
+  ],'client');
 
+  api.addFiles([
+    'before/lib/pmc.js',
+    'client/components/action-button/action-button.html',
+    'client/components/app-bar/app-bar.html',
+    'client/components/camera-avatar/camera-avatar.html',
+    'client/components/contact/contact.html',
+    'client/components/contacts/contacts.html',
+    'client/components/credit-card/credit-card.html',
+    'client/components/phone-input/phone-input.html',
+    'client/components/sign-in/sign-in.html',
+    'client/components/spinner/spinner.html',
+    'client/pmc.css',
+    'before/lib/utils.jsx',
+    'client/lib/theme-manager.jsx',
+    'client/components/action-button/action-button.jsx',
+    'client/components/app-bar/app-bar.jsx',
+    'client/components/camera-avatar/camera-avatar.jsx',
+    'client/components/contact/contact.jsx',
+    'client/components/contacts/contacts.jsx',
+    'client/components/dialog/dialog.jsx',
+    'client/components/credit-card/credit-card.jsx',
+    'client/components/date-selector/date-selector.jsx',
+    'client/components/float-button/float-button.jsx',
+    'client/components/phone-input/phone-input.jsx',
+    'client/components/sign-in/sign-in.jsx',
+    'client/components/simple-dialog/simple-dialog.jsx',
+    'client/components/spinner/spinner.jsx',
+    'client/components/text-auto/text-auto.jsx',
+  ],'client');
 
   api.export([
     'pmc',

@@ -66,7 +66,7 @@ pmc.actionButton = React.createClass({
       _.extend({
       'lineHeight':'30px',
       'display':'block',
-      'color': '#979797',
+      'color': '#7F7F7F',
       'fontSize':'24px'
     },this.props.labelStyle)
     let disabled = false;

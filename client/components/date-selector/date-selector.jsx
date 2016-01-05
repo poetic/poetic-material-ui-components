@@ -50,13 +50,15 @@ pmc.dateSelector = React.createClass({
           _.map(allDays,function(day,index){
             let left = index * 70;
             let month = day.format('MMM')
-            let daystring = day.format('dd') + ' ' + day.format('D')
+            let daystring = day.format('dd').substring(0, 1);
+            daystring += day.format('D') < 10 ? ' 0' : ' ';
+            daystring += day.format('D');
             let className = (index === selectedIndex) ? 'pmcDateSelected' : 'pmcDateNormal'
             return <div key={index} className={className}
               onClick={onChange.bind(this,index)}
               style={{'left':left}}>
-              <p className={'day'+index} >{month}</p>
-              <p className={'day'+index} >{daystring}</p>
+              <p className={'date-selector-month day'+index} >{month}</p>
+              <p className={'date-selector-date day'+index} >{daystring}</p>
             </div>
             }.bind(this))
         }
