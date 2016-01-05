@@ -1,6 +1,6 @@
 Package.describe({
   name: 'poetic:material-ui-components',
-  version: '0.0.5',
+  version: '0.0.6',
   // Brief, one-line summary of the package.
   summary: 'A collection of helpful components using the material ui framework',
   // URL to the Git repository containing the source code for this package.
@@ -79,7 +79,6 @@ Package.onUse(function(api) {
     'client/components/spinner/spinner.jsx',
     'client/components/text-auto/text-auto.jsx',
   ],'client');
-
 
   api.export([
     'pmc',

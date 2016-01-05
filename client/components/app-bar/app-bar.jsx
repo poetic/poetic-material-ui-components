@@ -77,10 +77,12 @@ pmc.appBar = React.createClass({
           iconClassName="material-icons app-bar"
           onClick={this._handleAction}
           tooltipPosition="bottom-center"
-          style={{position: 'relative',
+          style={{
+            position: 'relative',
             top: '-8px',
-          lineHeight: '90px'}}
-          tooltip="Go Back">{this.props.icon}
+            lineHeight: '90px'
+          }}
+          >{this.props.icon}
         </IconButton>
       }
     if(this.props.iconRight)
@@ -90,7 +92,7 @@ pmc.appBar = React.createClass({
           onClick={this._handleActionRight}
           tooltipPosition="bottom-center"
           style={{margin:'none !important', height: '50px' }}
-          tooltip="Go Back">{this.props.iconRight}
+          >{this.props.iconRight}
         </IconButton>
       }
       return (

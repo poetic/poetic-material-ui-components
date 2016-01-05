@@ -69,7 +69,18 @@ pmc.signIn = React.createClass({
 
     Meteor.loginWithPassword( email, password, function(err){
       if(err) {
-        self.setState({ loading: false, error: err.reason });
+        let errorMessage = ''
+        switch(err.error) {
+          case 400:
+            errorMessage = 'Email and password are required';
+          break;
+          case 403:
+            errorMessage = 'Incorrect email or password';
+          break;
+          default:
+            errorMessage = 'Incorrect email or password';
+        }
+        self.setState({ loading: false, error: errorMessage });
       } else {
         dialog.dismiss();
         self.props.action(null, Meteor.userId());

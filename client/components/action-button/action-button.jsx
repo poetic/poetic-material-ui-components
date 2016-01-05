@@ -13,6 +13,11 @@ const {
 } = mui
 
 pmc.actionButton = React.createClass({
+
+  getInitialState() {
+    return { loading: false,};
+  },
+
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
@@ -30,14 +35,27 @@ pmc.actionButton = React.createClass({
       'width':'100%'
     })
   },
+
   componentWillMount() {
     if(!this.props.label){
       throw new Error("You must specify a label for action button");
     }
   },
+
+  resetState() {
+    this.setState({
+      loading: false
+    })
+  },
+
   _handleAction(e) {
+    this.setState({
+      loading:true
+    })
+
     this.props.action();
   },
+
   render() {
     let style = _.extend({
       'width': '100%',
@@ -51,26 +69,37 @@ pmc.actionButton = React.createClass({
       'color': '#7F7F7F',
       'fontSize':'24px'
     },this.props.labelStyle)
-let disabled = false;
+    let disabled = false;
 
-if(this.props.track !== undefined) {
-  disabled = !this.props.track
-}
-
-      return (
-        <div>
-        <RaisedButton
-        ref='actionButton'
-        label={this.props.label}
-        onClick={this.props.action ? this._handleAction : null}
-        type = {this.props.action == undefined ? 'submit' : 'button'}
-        labelStyle={labelStyle}
-        disabled={disabled}
-        primary={true}
-        style={style} />
-        </div>
-      )
+    if(this.props.track !== undefined) {
+      disabled = !this.props.track
     }
+
+    let actionButton =[
+      <RaisedButton
+      ref='actionButton'
+      label={this.props.label}
+      onClick={this.props.action ? this._handleAction : null}
+      type = {this.props.action == undefined ? 'submit' : 'button'}
+      labelStyle={labelStyle}
+      disabled={disabled}
+      primary={true}
+      style={style} />
+    ]
+
+
+    if(this.state.loading) {
+      if(this.props.useSpinner){
+        actionButton =[this.props.spinner];
+      }
+    }
+
+    return (
+      <div>
+      {actionButton}
+      </div>
+    )
+  }
 })
 
 Template.pmc_actionButton.helpers({
@@ -78,7 +107,7 @@ Template.pmc_actionButton.helpers({
     return this.action;
   },
   _track() {
-   return this.track;
+    return this.track;
   },
   actionButton() {
     return pmc.actionButton
