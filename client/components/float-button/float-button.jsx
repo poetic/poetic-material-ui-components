@@ -37,8 +37,9 @@ pmc.floatButton = React.createClass({
     }
   },
   componentDidMount(){
-    let dockBtn = this.refs.hideDock.getDOMNode()
-    let self = this
+    let dockBtn = this.refs.hideDock.getDOMNode();
+    let self = this;
+
     $(dockBtn).focusout('',function(){
       self.setState({
         showDockItems: false
@@ -67,13 +68,45 @@ pmc.floatButton = React.createClass({
       })
     })
   },
+
   _menuClick(action){
-    this._handleDockClick()
-    action()
+    this._handleDockClick();
+    action();
   },
-  render() {
-    let top = screen.height - 175;
-    let styles ={
+
+  getStyles({style}) {
+    let styles = {};
+
+    let iconStyle = () => {
+      return {
+      'position':'absolute',
+      'bottom':'0px',
+      'marginBottom': '8px',
+      'fontSize':'39px',
+      'color':'#aeaeae',
+      }
+    };
+
+    let menuItemStyles = () => {
+      return {
+        'position':'absolute',
+        'bottom':'0px',
+        'opacity':'0',
+        'display':'none'
+      };
+    };
+
+    let spanStyles = () => {
+      return {
+        'marginLeft':'20px',
+        'marginTop':'15px'
+      };
+    };
+
+    let right = _.extend(new iconStyle(), style, {right: '20px'});
+    let left = _.extend(new iconStyle(), style, {left: '20px'});
+
+    return {
       overlay: {
         'position':'fixed',
         'backgroundColor':'rgba(255,255,255,0.9)',
@@ -90,47 +123,20 @@ pmc.floatButton = React.createClass({
         'width':'100%',
         'height':'100vh',
       },
-      left: {
-        'position':'absolute',
-        'bottom':'0px',
-        'marginBottom': '8px',
-        'fontSize':'39px',
-        'color':'#aeaeae',
-        'left':'20px',
-      },
-      right: {
-        'position':'absolute',
-        'bottom':'0',
-        'marginBottom': '8px',
-        'fontSize':'39px',
-        'color':'#aeaeae',
-        'right':'20px',
-      },
-      leftMenuItems: {
-        'position':'absolute',
-        'bottom':'0px',
-        'left':'28px',
-        'opacity':'0',
-        'display':'none'
-      },
-      rightMenuItems: {
-        'position':'absolute',
-        'bottom':'0px',
-        'right':'20px',
-        'opacity':'0',
-        'display':'none'
-      },
-      spanLeft: {
-        'float':'right',
-        'marginLeft':'20px',
-        'marginTop':'15px'
-      },
-      spanRight: {
-        'float':'left',
-        'marginRight':'20px',
-        'marginTop':'15px'
-      }
+      left: _.extend(new iconStyle(), style, {left: '20px'}),
+      leftMenuItems: _.extend(new menuItemStyles(),{left: '28px'}),
+      right: _.extend(new iconStyle(), style, {right: '20px'}),
+      rightMenuItems: _.extend(new menuItemStyles(),{right: '20px'}),
+      spanLeft: _.extend(new spanStyles(),{'float': 'right'}),
+      spanRight: _.extend(new spanStyles(),{'float': 'left'}),
     }
+
+  },
+
+  render() {
+    let top = screen.height - 175;
+    let styles = this.getStyles(this.props);
+    console.dir(styles);
     let overlay = (this.state.showDockItems) ? styles.overlay : styles.hideOverlay;
     let items = this.props.items
     items = items ? items : []
@@ -159,7 +165,7 @@ pmc.floatButton = React.createClass({
           <FontIcon
             onClick={this._handleDockClick}
             ref='hideDock'
-            style={(this.state.left == undefined) ? styles.right : styles.left }
+            style={(this.state.left === undefined) ? styles.right : styles.left }
             className="material-icons hideDock">cancel</FontIcon>
         </Paper>
         {/**** End Overlay ***/}
