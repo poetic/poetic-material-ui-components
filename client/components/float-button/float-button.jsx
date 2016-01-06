@@ -136,7 +136,6 @@ pmc.floatButton = React.createClass({
   render() {
     let top = screen.height - 175;
     let styles = this.getStyles(this.props);
-    console.dir(styles);
     let overlay = (this.state.showDockItems) ? styles.overlay : styles.hideOverlay;
     let items = this.props.items
     items = items ? items : []
