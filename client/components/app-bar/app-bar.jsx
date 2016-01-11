@@ -87,6 +87,7 @@ pmc.appBar = React.createClass({
     }
 
     if(this.props.iconRight) {
+      console.log('right icon')
       iconRight = <IconButton
         iconClassName={"material-icons app-bar rightIcon " + this.props.iconRightAppendClass}
         onClick={this._handleActionRight}
