@@ -53,8 +53,8 @@ pmc.appBar = React.createClass({
         }
   },
   render() {
-    let icon = false;
-    let iconRight = false;
+    let icon = null;
+    let iconRight = null;
     let styles = {};
 
     styles.appBar = {
@@ -71,30 +71,30 @@ pmc.appBar = React.createClass({
       lineHeight: '50px',
     };
 
-    if(this.props.icon)
-      {
-        icon = <IconButton
-          iconClassName="material-icons app-bar leftIcon"
-          onClick={this._handleAction}
-          tooltipPosition="bottom-center"
-          style={{
-            position: 'relative',
-            top: '-8px',
-            lineHeight: '90px'
-          }}
-          >{this.props.icon}
-        </IconButton>
-      }
-    if(this.props.iconRight)
-      {
-        iconRight = <IconButton
-          iconClassName={"material-icons app-bar rightIcon " + this.props.iconRightAppendClass}
-          onClick={this._handleActionRight}
-          tooltipPosition="bottom-center"
-          style={{margin:'none !important', height: '50px' }}
-          >{this.props.iconRight}
-        </IconButton>
-      }
+    if(this.props.icon) {
+      console.dir(this.props.icon);
+      icon = <IconButton
+        iconClassName="material-icons app-bar leftIcon"
+        onClick={this._handleAction}
+        tooltipPosition="bottom-center"
+        style={{
+          position: 'relative',
+          top: '-8px',
+          lineHeight: '90px'
+        }}
+        >{this.props.icon}
+      </IconButton>
+    }
+
+    if(this.props.iconRight) {
+      iconRight = <IconButton
+        iconClassName={"material-icons app-bar rightIcon " + this.props.iconRightAppendClass}
+        onClick={this._handleActionRight}
+        tooltipPosition="bottom-center"
+        style={{margin:'none !important', height: '50px' }}
+        >{this.props.iconRight}
+      </IconButton>
+    }
       return (
         <div>
           <AppBar id={this.props.barId} className='pmcAppBar' title={this.props.title.toUpperCase()}
