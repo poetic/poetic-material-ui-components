@@ -98,8 +98,9 @@ pmc.floatButton = React.createClass({
 
     let spanStyles = () => {
       return {
-        'marginLeft':'20px',
-        'marginTop':'15px'
+        marginLeft:'20px',
+        marginRight:'20px',
+        marginTop:'15px'
       };
     };
 
