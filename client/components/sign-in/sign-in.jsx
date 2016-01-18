@@ -58,6 +58,8 @@ pmc.signIn = React.createClass({
   _showDialog(e) {
     if (this.props.passwordless) {
       this.refs.sign_dialog_passwordless.show();
+    } else if (this.props.overrideAction) {
+      this.props.overrideAction();
     } else { this.refs.sign_dialog.show(); }
 
     e.preventDefault();
