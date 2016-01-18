@@ -6,7 +6,8 @@ Note: do not reference this class directly, it is to be used by pmc.contacts onl
 
 Props
 ________
-action: takes a reference to a callback handler which is called on successful login. it returns the current userid to the callback handler specified.
+action: takes a reference to a callback handler which is called on successful login.
+it returns the current userid to the callback handler specified.
 
 **/
 
@@ -14,36 +15,48 @@ const {
   Dialog,
   TextField,
   LinearProgress,
-  RaisedButton
+  RaisedButton,
 } = mui;
 
 
 pmc.signIn = React.createClass({
+  propTypes: {
+    passwordless: React.PropTypes.bool,
+    requestCodeAction: React.PropTypes.func,
+    overrideAction: React.PropTypes.func,
+    passwordlessAction: React.PropTypes.func,
+    style: React.PropTypes.object,
+    label: React.PropTypes.string,
+    useSpinner: React.PropTypes.bool,
+    spinner: React.PropTypes.object,
+  },
+
+  childContextTypes: {
+    muiTheme: React.PropTypes.object,
+  },
 
   getInitialState() {
     return { loading: false, error: '' };
   },
 
-  childContextTypes: {
-    muiTheme: React.PropTypes.object
-  },
 
   getChildContext() {
     return { muiTheme: ThemeManager.getCurrentTheme() };
   },
 
+  componentDidMount() {
+    $(React.findDOMNode(this)).css({ height: '100%', width: '100%' });
+  },
+
   componentDidUpdate() {
-    if(this.state.loading){
+    if (this.state.loading) {
       this._signIn();
     }
   },
 
-  componentDidMount() {
-    $(React.findDOMNode(this)).css({ 'height':'100%', 'width':'100%' });
-  },
 
   _showDialog(e) {
-    if(this.props.passwordless) {
+    if (this.props.passwordless) {
       this.refs.sign_dialog_passwordless.show();
     } else { this.refs.sign_dialog.show(); }
 
@@ -55,37 +68,44 @@ pmc.signIn = React.createClass({
   },
 
   _signInPasswordless() {
-    let phoneNumber = this.refs.phone.getValue(),
-        code = this.refs.code.getValue();
+    const phoneNumber = this.refs.phone.getValue();
+    const code = this.refs.code.getValue();
 
-    this.props.passwordlessAction({ phoneNumber, code});
+    this.props.passwordlessAction({ phoneNumber, code });
   },
 
   _signIn() {
-    let self = this,
-        email = this.refs.email.getValue().toLowerCase(),
-        password = this.refs.password.getValue(),
-        dialog = this.refs.sign_dialog;
+    const { overrideAction } = this.props;
+    const self = this;
+    const email = this.refs.email.getValue().toLowerCase();
+    const password = this.refs.password.getValue();
+    const dialog = this.refs.sign_dialog;
 
-    Meteor.loginWithPassword( email, password, function(err){
-      if(err) {
-        let errorMessage = ''
-        switch(err.error) {
-          case 400:
-            errorMessage = 'Email and password are required';
-          break;
-          case 403:
-            errorMessage = 'Incorrect email or password';
-          break;
-          default:
-            errorMessage = 'Incorrect email or password';
+    const overrideActionSupplied = _.isFunction(overrideAction);
+
+    if (overrideActionSupplied) {
+      overrideAction();
+    } else {
+      Meteor.loginWithPassword(email, password, function validateResult(err) {
+        if (err) {
+          let errorMessage = '';
+          switch (err.error) {
+            case 400:
+              errorMessage = 'Email and password are required';
+              break;
+            case 403:
+              errorMessage = 'Incorrect email or password';
+              break;
+            default:
+              errorMessage = 'Incorrect email or password';
+          }
+          self.setState({ loading: false, error: errorMessage });
+        } else {
+          dialog.dismiss();
+          self.props.action(null, Meteor.userId());
         }
-        self.setState({ loading: false, error: errorMessage });
-      } else {
-        dialog.dismiss();
-        self.props.action(null, Meteor.userId());
-      }
-    });
+      });
+    }
   },
 
   _triggerLoadingState() {
@@ -97,44 +117,48 @@ pmc.signIn = React.createClass({
   },
 
   render() {
-    let style = _.extend({paddingTop: '20px'}, this.props.style);
-    let label = this.props.label || '';
-    let progress = []
-    let errorText = this.state.error
+    const style = _.extend({ paddingTop: '20px' }, this.props.style);
+    const label = this.props.label || '';
+    const progress = [];
+    const errorText = this.state.error;
 
-    let goButton = <RaisedButton
-                    fullWidth={true}
-                    ref='sign_btn'
-                    href='#'
-                    onClick={this._triggerLoadingState}
-                    primary={true}
-                    label='GO'
-                    />;
+    let goButton = (
+      <RaisedButton
+        fullWidth={true}
+        ref={'sign_btn'}
+        href={'#'}
+        onClick={this._triggerLoadingState}
+        primary={true}
+        label={'GO'}
+      />
+    );
 
-    if(this.state.loading) {
-      progress.push(<LinearProgress mode="indeterminate"  />)
-      if(this.props.useSpinner){
+    if (this.state.loading) {
+      progress.push(<LinearProgress mode="indeterminate"  />);
+      if (this.props.useSpinner) {
         goButton = this.props.spinner;
       }
     }
 
 
-    let signInLink = {
+    const signInLink = {
       color: '#24e47a',
       padding: '15px',
       textDecoration: 'none',
       marginTop: '10px',
-      marginBottom: '20px'
+      marginBottom: '20px',
     };
 
     return (
       <div>
         <div style={style}>
-          <span>{label} <a ref='sign_btn' onClick={this._showDialog} href='#' style={signInLink}>SIGN IN </a></span>
+          <span>{label}
+            <a ref='sign_btn' onClick={this._showDialog} href='#' style={signInLink}>SIGN IN </a>
+          </span>
         </div>
 
         <Dialog
-        title="Sign In" ref='sign_dialog' style={{marginLeft: '-5%', width: '110%'}}>
+        title="Sign In" ref="sign_dialog" style={{marginLeft: '-5%', width: '110%'}}>
           <p style={{'color': 'red'}}> {errorText} </p>
           <TextField
           hintText="Email" ref='email' type='email' fullWidth={true} />
