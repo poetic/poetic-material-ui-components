@@ -1,25 +1,25 @@
 /**
-pmc.contacts
+  pmc.contacts
 
-Props
-___________
+  Props
+  ___________
 
 action: takes a reference to callback handler which recieves an object of all chosen contacts
 
-**/
+ **/
 
 
 /**
-pmc._contact
+  pmc._contact
 
 Note: do not reference this class directly, it is to be used by pmc.contacts only!
-      For a contact-like comoponent, please see pmc.contact.
+For a contact-like comoponent, please see pmc.contact.
 
 Props
 ________
 feedback: takes a reference to the callback handler, _contactHandler() in pmc.contacts. it passes the updated state of the contact component
 
-**/
+ **/
 
 //Pick our components from mui
 const {
@@ -81,11 +81,11 @@ pmc._contact = React.createClass({
     if (show) {
       contact =
         <div className="contactContainer" onClick={this._handleContactCheck}>
-          <label className="pmcLabelCheckbox">
-            <input type="checkbox" className="checkbox" checked ={this.state.checked} />
-            {this.state.contact.name.givenName + ' ' + (this.state.contact.name.familyName || '') }
-          </label>
-        </div>
+      <label className="pmcLabelCheckbox">
+      <input type="checkbox" className="checkbox" checked ={this.state.checked} />
+      {this.state.contact.name.givenName + ' ' + (this.state.contact.name.familyName || '') }
+      </label>
+      </div>
     }
     return (
       <div>
@@ -186,7 +186,10 @@ pmc.contacts = React.createClass({
         position: 'absolute',
       },
       searchIcon: {
-        top:'20px',
+        top:'0',
+        height: '100%',
+        lineHeight: '57px',
+        marginLeft: '5px',
       },
       searchBar: {
         textIndent: '30px',
@@ -208,32 +211,32 @@ pmc.contacts = React.createClass({
     let spinner = this.props.loader || <CircularProgress mode="indeterminate" size={5} ></CircularProgress>;
 
     let contacts = this.state.contacts.map(function(contact,index){
-        if (contact.name.givenName)
+      if (contact.name.givenName)
         {
           return <pmc._contact key={contact.id} contact={contact} filter={this.state.filteredContacts} feedback={this._contactHandler} index={index} />
         }
-      }.bind(this))
+    }.bind(this))
 
 
     return (
       <div>
-        <pmc.appBar icon='arrow_back' action={this.props.cancel} title='IMPORT CLIENTS' />
-        <div style={{'marginTop':'65px'}}>
-          <div className='searchBarContainer' style={{'height':'60px','position': 'relative'}}>
-            <FontIcon className="material-icons" color='#3a3a3a' style={styles.searchIcon} >search</FontIcon>
-            <TextField hintText="Search contacts" className='searchBar'
-              hintStyle={{'bottom':'0px','top':'20px'}}
-              onChange={this._filterContacts}
-              fullWidth={true}
-              style={styles.searchBar} />
-          </div>
-          <div style={styles.contacts}>
-            {
-              (contacts.length) ? contacts : spinner
-            }
-          </div>
-        </div>
-        <pmc.actionButton label='Add TO CLIENT LIST' action={this._handleImportContacts} style={styles.actionButton} />
+      <pmc.appBar icon='arrow_back' action={this.props.cancel} title='IMPORT CLIENTS' />
+      <div style={{'marginTop':'65px'}}>
+      <div className='searchBarContainer' style={{lineHeight: '60px', 'height':'60px','position': 'relative'}}>
+      <FontIcon className="material-icons" color='#3a3a3a' style={styles.searchIcon} >search</FontIcon>
+      <TextField hintText="Search contacts" className='searchBar'
+      hintStyle={{'bottom':'0px','top':'20px'}}
+      onChange={this._filterContacts}
+      fullWidth={true}
+      style={styles.searchBar} />
+      </div>
+      <div style={styles.contacts}>
+      {
+        (contacts.length) ? contacts : spinner
+      }
+      </div>
+      </div>
+      <pmc.actionButton label='Add TO CLIENT LIST' action={this._handleImportContacts} style={styles.actionButton} />
       </div>
     )
   }
@@ -243,7 +246,7 @@ Template.pmc_contacts.helpers({
   _action () {
     return this.action
   },
-   cancel () {
+  cancel () {
     return this.cancel
   },
   contacts() {

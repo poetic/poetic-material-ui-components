@@ -191,7 +191,7 @@ Template.pmc_signIn.helpers({
   },
   _action() {
     return this.action;
-  }
+  },
 });
 
 

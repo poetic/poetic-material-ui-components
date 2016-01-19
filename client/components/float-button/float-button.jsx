@@ -56,7 +56,7 @@ pmc.floatButton = React.createClass({
 
     this.props.items.map(function(item, index){
       let icon = $(self.getDOMNode())[0].children[0].children[index];
-      let top = 0;
+      let top = -10;
       let topPos = self.state.showDockItems ? top : (top + ((index+1)*80));
       $(icon).velocity({
         bottom: topPos,
@@ -152,7 +152,7 @@ pmc.floatButton = React.createClass({
                 icon = <img className='customIcon' src={item.customURL} />;
               }
               return <div key={index} style={(this.state.left == undefined) ? styles.rightMenuItems : styles.leftMenuItems}>
-                <span style={(this.state.left == undefined) ? styles.spanRight : styles.spanLeft}>{item.label}</span>
+                <span className='floating-label' style={(this.state.left == undefined) ? styles.spanRight : styles.spanLeft}>{item.label}</span>
                 <FloatingActionButton
                   linkButton={true}
                   onClick={this._menuClick.bind(this, item.action)}
