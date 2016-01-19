@@ -68,27 +68,26 @@ pmc._contact = React.createClass({
     let show = true;
     let contact = null;
 
-    //check if filter prop is empty
+    // check if filter prop is empty
     if (!_.isEmpty(this.props.filter)) {
-
       let found = _.indexOf(this.props.filter, this.state.contact.id);
 
-      //set show to false if not found
-      if(found === -1) {
+      // set show to false if not found
+      if (found === -1) {
         show = false;
       }
     }
 
-    if(show) {
+    if (show) {
       contact =
-        <div className='contactContainer' onClick={this._handleContactCheck}>
+        <div className="contactContainer" onClick={this._handleContactCheck}>
           <label className="pmcLabelCheckbox">
             <input type="checkbox" className="checkbox" checked ={this.state.checked} />
             {this.state.contact.name.givenName + ' ' + (this.state.contact.name.familyName || '') }
           </label>
         </div>
     }
-    return(
+    return (
       <div>
       {
         show ? contact : null
@@ -96,9 +95,8 @@ pmc._contact = React.createClass({
       </div>
     )
   }
-
 })
-//********End pmc.contact*********
+// ********End pmc.contact*********
 
 pmc.contacts = React.createClass({
   childContextTypes: {
@@ -120,9 +118,7 @@ pmc.contacts = React.createClass({
     };
   },
   componentWillMount() {
-
     if (Meteor.isCordova){
-
       let cSort = function(a, b) {
         aName = a.name.givenName;
         bName = b.name.givenName;
@@ -139,7 +135,7 @@ pmc.contacts = React.createClass({
     }
   },
 
-  //This simply passes all chosen contacts as a single object, to the callback passed
+  // This simply passes all chosen contacts as a single object, to the callback passed
   _handleImportContacts() {
     this.props.action(this.state.chosenContacts)
   },
@@ -149,12 +145,12 @@ pmc.contacts = React.createClass({
   _contactHandler(contactObj) {
     let obj = this.state.chosenContacts;
 
-    //Check if contact was selected
-    if(contactObj.status) {
+    // Check if contact was selected
+    if (contactObj.status) {
       obj[contactObj.id] = this.state.contacts[contactObj.index];
       this.setState({
         chosenContacts: obj
-      })
+      });
     }else {
       delete obj[contactObj.id];
     }
@@ -163,20 +159,18 @@ pmc.contacts = React.createClass({
   // Handles filtering of contacts, filtered and accepted contacts will have their Id's stored in the
   //  filteredContacts state variable
   _filterContacts(e) {
-    let cSearch = new RegExp(e.currentTarget.value,'gi'); //global and case insensitive search
+    let cSearch = new RegExp(e.currentTarget.value,'gi'); // global and case insensitive search
     let self = this;
 
-    let fContacts =  _.map(this.state.contacts,function(contact){
-
+    let fContacts =  _.map(this.state.contacts, (contact) => {
       if (cSearch.test(contact.name.givenName)) {
         return contact.id;
       }
-    }.bind(this))
+    });
 
     this.setState({
-      filteredContacts: fContacts
+      filteredContacts: fContacts,
     })
-
   },
 
   render() {
@@ -184,30 +178,30 @@ pmc.contacts = React.createClass({
     let actionButtonTop = contactsHeight + 125;
     let styles = {
       contacts: {
-        'height': contactsHeight,
-        'width': '100%',
-        'overflowX': 'hidden',
-        'overflowY': 'scroll',
-        'WebkitOverflowScrolling': 'touch',
-        'position': 'absolute',
+        height: contactsHeight,
+        width: '100%',
+        overflowX: 'hidden',
+        overflowY: 'scroll',
+        WebkitOverflowScrolling: 'touch',
+        position: 'absolute',
       },
       searchIcon: {
-        'top':'20px'
+        top:'20px',
       },
       searchBar: {
-        'textIndent': '30px',
-        'display': 'inline-block',
-        'height': '100%',
-        'left': '0px',
-        'position': 'absolute',
+        textIndent: '30px',
+        display: 'inline-block',
+        height: '100%',
+        left: '0px',
+        position: 'absolute',
       },
       actionButton: {
         position:'absolute',
-        'marginLeft':'20px',
-        'marginRight':'20px',
-        'width': screen.width - 40,
-        'height':'70px',
-        top: actionButtonTop
+        marginLeft:'20px',
+        marginRight:'20px',
+        width: screen.width - 40,
+        height:'70px',
+        top: actionButtonTop,
       }
     }
 
@@ -236,7 +230,6 @@ pmc.contacts = React.createClass({
           <div style={styles.contacts}>
             {
               (contacts.length) ? contacts : spinner
-
             }
           </div>
         </div>
@@ -254,7 +247,6 @@ Template.pmc_contacts.helpers({
     return this.cancel
   },
   contacts() {
-
     return pmc.contacts;
   }
 })
