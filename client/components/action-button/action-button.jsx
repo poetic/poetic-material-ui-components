@@ -75,8 +75,9 @@ pmc.actionButton = React.createClass({
       disabled = !this.props.track
     }
 
-    let actionButton =[
+    let actionButton = [
       <RaisedButton
+      key="actionButton"
       ref='actionButton'
       label={this.props.label}
       onClick={this.props.action ? this._handleAction : null}
@@ -90,13 +91,13 @@ pmc.actionButton = React.createClass({
 
     if(this.state.loading) {
       if(this.props.useSpinner){
-        actionButton =[this.props.spinner];
+        actionButton = [this.props.spinner];
       }
     }
 
     return (
       <div>
-      {actionButton}
+       {actionButton}
       </div>
     )
   }
