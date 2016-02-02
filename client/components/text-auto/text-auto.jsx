@@ -1,134 +1,139 @@
-const {
-  TextField
-} = mui
+const { TextField } = mui;
+
+function registerEvent(el, event) {
+  $(el).on(event, function updateSuggestion(e, suggestion) {
+    this.updateActiveState(suggestion);
+  }.bind(this));
+}
 
 pmc.textAuto = React.createClass({
+
+  propTypes: {
+    dataSelect: React.PropTypes.object,
+    label: React.PropTypes.string,
+    hintText: React.PropTypes.string,
+    defaultValue: React.PropTypes.string,
+    dataSource: React.PropTypes.array,
+    disableFloat: React.PropTypes.bool,
+  },
+
   childContextTypes: {
-    muiTheme: React.PropTypes.object
+    muiTheme: React.PropTypes.object,
   },
-  getChildContext() {
-    return {
-      muiTheme: ThemeManager.getCurrentTheme()
-    };
-  },
+
   getInitialState() {
-    return({
-      activeObject: null
-    })
+    return { activeObject: null };
   },
-  updateActiveState(suggestion,dataset){
 
-    this.setState({
-      activeObject:{
-        suggestion: suggestion,
-      }
-    })
+  getChildContext() {
+    return { muiTheme: ThemeManager.getCurrentTheme() };
+  },
 
-    if(this.props.dataSelect){
-      self.props.dataSelect(e,suggestion,dataset)
-    }
-  },
-  getValue() {
-    return this.state.activeObject
-  },
-  setValue(value) {
-    let TextField = this.refs.typeaheadContainer
-    TextField.setValue(value)
-  },
-  clear() {
-    let textAuto = this.refs.typeaheadContainer
-    textAuto.clearValue()
-  },
-  componentDidMount(){
+  componentDidMount() {
     Meteor.typeahead.inject();
-    let typeaheadContainer = this.refs.typeaheadContainer.getDOMNode()
-    let typeaheadInput = $(typeaheadContainer).find('input')[0]
-    let self = this
+    const typeaheadContainer = this.refs.typeaheadContainer.getDOMNode();
+    const typeaheadInput = $(typeaheadContainer).find('input')[0];
 
-    $(typeaheadInput).on('typeahead:select',function(e,suggestion){
-      self.updateActiveState(suggestion)
-    })
-    $(typeaheadInput).on('typeahead:cursorchange',function(e,suggestion){
-      self.updateActiveState(suggestion)
-    })
+    ['typeahead:select', 'typeahead:autocomplete', 'typeahead:cursorchange'].forEach((event) => {
+      registerEvent.call(this, typeaheadInput, event);
+    });
 
-    Meteor.typeahead(typeaheadInput,this.typeaheadSource)
+    Meteor.typeahead(typeaheadInput, this.typeaheadSource);
   },
 
-  typeaheadSource(query,syncTypeahead,asyncTypeahead){
-    let dataSource = this.props.dataSource
-    let result =[]
+  getValue() {
+    return this.state.activeObject;
+  },
 
-    _.each(dataSource,function(dataItem){
-      let suggestion = dataItem.suggestion.toLowerCase()
-      let matchesQuery = suggestion.indexOf(query.toLowerCase())
-      matchesQuery = matchesQuery != -1
+  getFloatingFromDefault() {
+    const { label, hintText, defaultValue } = this.props;
 
-      if(matchesQuery){
-        result.push(
-          {
-            value:dataItem.suggestion,
-            obj: dataItem
-          }
-        )
+    if (defaultValue) {
+      return (
+        <TextField
+          floatingLabelText={label}
+          defaultValue={defaultValue}
+          hintText={hintText}
+          ref="typeaheadContainer"
+        />
+      );
+    }
+    return (
+      <TextField
+        floatingLabelText={label}
+        hintText={hintText}
+        ref="typeaheadContainer"
+      />
+    );
+  },
+
+  getWithoutFloat() {
+    const { hintText, defaultValue } = this.props;
+
+    if (defaultValue) {
+      return (
+        <TextField
+          defaultValue={defaultValue}
+          hintText={hintText}
+          ref="typeaheadContainer"
+        />
+      );
+    }
+    return (
+      <TextField
+        hintText={hintText}
+        ref="typeaheadContainer"
+      />
+    );
+  },
+
+  setValue(value) {
+    this.refs.typeaheadContainer.setValue(value);
+  },
+
+  clear() {
+    this.refs.typeaheadContainer.clearValue();
+  },
+
+  typeaheadSource(query, syncTypeahead/* ,  asyncTypeahead */) {
+    const dataSource = this.props.dataSource;
+    const result = [];
+
+    _.each(dataSource, (dataItem) => {
+      const suggestion = dataItem.suggestion.toLowerCase();
+      let matchesQuery = suggestion.indexOf(query.toLowerCase());
+      matchesQuery = matchesQuery !== -1;
+
+      if (query.toLowerCase() === suggestion) {
+        console.log('setting', { value: dataItem.suggestion, obj: dataItem });
+        this.setState({ activeObject: { suggestion: { value: dataItem.suggestion, obj: dataItem } } });
+      }
+
+      if (matchesQuery) {
+        result.push({ value: dataItem.suggestion, obj: dataItem });
       }
     });
-    syncTypeahead(result)
+    syncTypeahead(result);
   },
-  getFloatingFromDefault(){
-    let {label, hintText, defaultValue} = this.props
 
-    if(defaultValue){
-      return (
-        <TextField
-          floatingLabelText={label}
-          defaultValue={defaultValue}
-          hintText={hintText}
-          ref='typeaheadContainer'
-        />
-      )
-    } else {
-      return (
-        <TextField
-          floatingLabelText={label}
-          hintText={hintText}
-          ref='typeaheadContainer'
-        />
-      )
+  updateActiveState(suggestion, dataset) {
+    console.log('the suggestion object', suggestion);
+    this.setState({ activeObject: { suggestion } });
+
+    if (this.props.dataSelect) {
+      self.props.dataSelect(undefined, suggestion, dataset);
     }
   },
 
-  getWithoutFloat(){
-    let {label, hintText, defaultValue} = this.props
-
-    if(defaultValue){
-      return (
-        <TextField
-          defaultValue={defaultValue}
-          hintText={hintText}
-          ref='typeaheadContainer'
-        />
-      )
-    } else {
-      return (
-        <TextField
-          hintText={hintText}
-          ref='typeaheadContainer'
-        />
-      )
-    }
-  },
-
-  generateTextField(){
-    let {label, hintText, defaultValue, disableFloat} = this.props
-    if(!disableFloat){
+  generateTextField() {
+    const { disableFloat } = this.props;
+    if (!disableFloat) {
       return this.getFloatingFromDefault();
-    } else {
-      return this.getWithoutFloat();
     }
+    return this.getWithoutFloat();
   },
 
-  render(){
+  render() {
     return this.generateTextField();
-  }
-})
+  },
+});
