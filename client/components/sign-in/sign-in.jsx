@@ -36,7 +36,7 @@ pmc.signIn = React.createClass({
   },
 
   getInitialState() {
-    return { loading: false, error: '' };
+    return { loading: false, error: '', mode: 'signIn' };
   },
 
 
@@ -54,6 +54,13 @@ pmc.signIn = React.createClass({
     }
   },
 
+  resetComponentState() {
+    this.setState({
+      loading: false,
+      error: '',
+      mode: 'signIn'
+    });
+  },
 
   _showDialog(e) {
     if (this.props.passwordless) {
@@ -65,6 +72,21 @@ pmc.signIn = React.createClass({
     e.preventDefault();
   },
 
+  _errorResolver(err) {
+    let errorMessage;
+    switch (err.error) {
+      case 400:
+        errorMessage = 'Email and password are required';
+      break;
+      case 403:
+        errorMessage = 'Incorrect email or password';
+      break;
+      default:
+        errorMessage = 'Incorrect email or password';
+    }
+    return { errorMessage };
+  },
+
   _requestCode() {
     this.props.requestCodeAction(this.refs.phone.getValue());
   },
@@ -72,7 +94,6 @@ pmc.signIn = React.createClass({
   _signInPasswordless() {
     const phoneNumber = this.refs.phone.getValue();
     const code = this.refs.code.getValue();
-
     this.props.passwordlessAction({ phoneNumber, code });
   },
 
@@ -90,17 +111,7 @@ pmc.signIn = React.createClass({
     } else {
       Meteor.loginWithPassword(email, password, function validateResult(err) {
         if (err) {
-          let errorMessage = '';
-          switch (err.error) {
-            case 400:
-              errorMessage = 'Email and password are required';
-              break;
-            case 403:
-              errorMessage = 'Incorrect email or password';
-              break;
-            default:
-              errorMessage = 'Incorrect email or password';
-          }
+          const errorMessage = self._errorResolver(err);
           self.setState({ loading: false, error: errorMessage });
         } else {
           dialog.dismiss();
@@ -110,79 +121,186 @@ pmc.signIn = React.createClass({
     }
   },
 
+  _resetDialogContent() {
+    const errorText = this.state.error;
+    return [
+      <div>
+        <p style={{ color: 'red' }}>
+          { errorText }
+        </p>
+        <p style={{ textAlign: 'left' }}>
+          The email entered below will be sent an email
+          to reset your password.
+        </p>
+        <TextField
+          hintText="Email"
+          ref="resetEmail"
+          type="email"
+          fullWidth
+        />
+      </div>
+    ];
+  },
+
+  _signInDialogContent() {
+    const errorText = this.state.error;
+    return [
+      <div>
+        <p style={{ color: 'red' }}>
+          { errorText }
+        </p>
+        <TextField
+          hintText="Email"
+          ref="email"
+          type="email"
+          fullWidth
+        />
+        <TextField
+          hintText="Password"
+          ref="password"
+          type="password"
+          fullWidth
+        />
+      </div>
+    ];
+  },
+
   _triggerLoadingState() {
     this.setState({ loading: true });
+  },
+
+  _triggerResetState() {
+    this.setState({ mode: 'reset' });
   },
 
   closeModal() {
     this.refs.sign_dialog.dismiss();
   },
 
-  render() {
-    const style = _.extend({ paddingTop: '20px' }, this.props.style);
-    const label = this.props.label || '';
-    const progress = [];
-    const errorText = this.state.error;
-
-    let goButton = (
-      <RaisedButton
-        fullWidth={true}
-        ref={'sign_btn'}
-        href={'#'}
-        onClick={this._triggerLoadingState}
-        primary={true}
-        label={'GO'}
-      />
-    );
-
-    if (this.state.loading) {
-      progress.push(<LinearProgress mode="indeterminate"  />);
-      if (this.props.useSpinner) {
-        goButton = this.props.spinner;
-      }
+  _sendResetEmail() {
+    const resetEmail = this.refs.resetEmail.getValue();
+    if (resetEmail) {
+      Accounts.forgotPassword({ email: resetEmail }, err => {
+        console.dir(err);
+        if (err) {
+          this.setState({ error: err.reason });
+        } else {
+          this.closeModal();
+        }
+      });
+    } else {
+      this.setState({ loading: false, error: errorMessage });
     }
+  },
 
+  _getResetModeActions() {
+    const signInLinkStyle = this._getSignInStyle();
+    return [
+      <p
+        style={{
+          ...signInLinkStyle,
+          textAlign: 'right',
+          padding: '0px',
+          marginBottom: '0px',
+        }}
+        ref="sign_btn"
+        onClick={ this._sendResetEmail }
+        >
+        Reset Password
+      </p>
+    ];
+  },
 
-    const signInLink = {
+  _getSignInModeActions() {
+    const signInLinkStyle = this._getSignInStyle();
+    return [
+      <p
+        style={{
+          ...signInLinkStyle,
+          'float': 'left',
+          padding: '0px',
+          marginBottom: '0px',
+        }}
+        ref="sign_btn"
+        onClick={ this._triggerLoadingState }
+        >
+        GO
+      </p>,
+      <p
+        onClick={ this._triggerResetState }
+        style={{
+          ...signInLinkStyle,
+          'float': 'right',
+          padding: '0px',
+          marginBottom: '0px',
+        }}
+        >
+        RESET
+      </p>
+    ];
+  },
+
+  _getSignInActions() {
+    const signInModeActions = this._getSignInModeActions();
+    const resetModeActions = this._getResetModeActions();
+    if (this.state.mode === 'signIn') {
+      return signInModeActions;
+    }
+    return resetModeActions;
+  },
+
+  _getSignInStyle() {
+    return {
       color: '#24e47a',
       padding: '15px',
       textDecoration: 'none',
       marginTop: '10px',
       marginBottom: '20px',
     };
+  },
+
+  _generateDialogContent() {
+    if (this.state.mode === 'signIn') {
+      return this._signInDialogContent();
+    }
+   return this._resetDialogContent();
+  },
+
+  render() {
+    const style = _.extend({ paddingTop: '20px' }, this.props.style);
+    const label = this.props.label || '';
+    const progress = [];
+    const signInLink = this._getSignInStyle();
+    const dialogContent = this._generateDialogContent()
+
+    if (this.state.loading && this.props.useSpinner) {
+        goButton = this.props.spinner;
+    }
 
     return (
       <div>
-        <div style={style}>
-          <span>{label}
-            <a ref='sign_btn' onClick={this._showDialog} href='#' style={signInLink}>SIGN IN </a>
+        <div style={ style }>
+          <span>{ label }
+            <a ref="sign_btn" onClick={ this._showDialog } href='#' style={signInLink}>SIGN IN </a>
           </span>
         </div>
-
         <Dialog
-        title="Sign In" ref="sign_dialog" style={{marginLeft: '-5%', width: '110%'}}>
-          <p style={{'color': 'red'}}> {errorText} </p>
-          <TextField
-          hintText="Email" ref='email' type='email' fullWidth={true} />
-          <TextField
-          hintText="Password" ref='password' type='password' fullWidth={true} />
-
+          title="Sign In"
+          ref="sign_dialog"
+          onDismiss={ this.resetComponentState }
+          style={{
+            marginLeft: '-5%',
+            width: '110%'
+          }}
+        >
+          { dialogContent }
           <div className="sign-go">
-            {goButton}
+            { this._getSignInActions() }
           </div>
         </Dialog>
-
-        <Dialog
-        title="Sign In" ref='sign_dialog_passwordless' style={{marginLeft: '-5%', width: '110%'}}>
-          <pmc.phoneInput ref='phone' />
-          <TextField
-          hintText="Enter code recieved" ref='code' fullWidth={true} />
-          <a ref='request_btn' href='#' onClick={this._requestCode} style={{'textDecoration':'none','float':'left'}}>Request Code</a>
-          <a ref='sign_btn_passwordless' href='#' onClick={this._signInPasswordless} style={{'textDecoration':'none','float':'right'}}>GO</a>
-        </Dialog>
       </div>
-    )
-  }
+    );
+  },
 });
 
 Template.pmc_signIn.helpers({
