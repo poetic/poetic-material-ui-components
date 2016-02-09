@@ -235,7 +235,7 @@ pmc.signIn = React.createClass({
           marginBottom: '0px',
         }}
         >
-        RESET
+        FORGOT PASSWORD
       </p>
     ];
   },
@@ -285,7 +285,7 @@ pmc.signIn = React.createClass({
           </span>
         </div>
         <Dialog
-          title="Sign In"
+          title={ (this.state.mode === 'signIn') ? 'Sign IN' : 'Reset' }
           ref="sign_dialog"
           onDismiss={ this.resetComponentState }
           style={{
