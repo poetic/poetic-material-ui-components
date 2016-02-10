@@ -285,7 +285,7 @@ pmc.signIn = React.createClass({
           </span>
         </div>
         <Dialog
-          title={ (this.state.mode === 'signIn') ? 'Sign IN' : 'Reset' }
+          title={ (this.state.mode === 'signIn') ? 'Sign In' : 'Reset' }
           ref="sign_dialog"
           onDismiss={ this.resetComponentState }
           style={{
