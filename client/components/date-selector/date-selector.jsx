@@ -80,7 +80,7 @@ pmc.dateSelector = React.createClass({
 
             return (
               <div key={index} className={ className }
-                onClick={ () => { this.onChange(index) }}
+                onClick={ () => { onChange(index) }}
                 style={{ left}} >
                 <p className={'date-selector-month day'+index} >{month}</p>
                 <p className={'date-selector-date day'+index} >{daystring}</p>
