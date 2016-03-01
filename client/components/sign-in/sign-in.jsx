@@ -239,12 +239,31 @@ pmc.signIn = React.createClass({
       </p>
     ];
   },
+  _getOnlySignInModeActions() {
+    if (this.state.loading && this.props.useSpinner) {
+        return this.props.spinner;
+    }
+    return (
+      <RaisedButton
+        ref='sign_btn'
+        href='#'
+        onClick={this._triggerLoadingState}
+        label='GO'
+        primary
+        fullWidth
+      />
+    );
+  },
 
   _getSignInActions() {
+    const onlySignInModeAction = this._getOnlySignInModeActions();
     const signInModeActions = this._getSignInModeActions();
     const resetModeActions = this._getResetModeActions();
-    if (this.state.mode === 'signIn') {
+    const { includeReset } = this.props;
+    if (this.state.mode === 'signIn' && (includeReset)) {
       return signInModeActions;
+    } else {
+      return onlySignInModeAction;
     }
     return resetModeActions;
   },
@@ -263,7 +282,7 @@ pmc.signIn = React.createClass({
     if (this.state.mode === 'signIn') {
       return this._signInDialogContent();
     }
-   return this._resetDialogContent();
+    return this._resetDialogContent();
   },
 
   render() {
@@ -272,10 +291,6 @@ pmc.signIn = React.createClass({
     const progress = [];
     const signInLink = this._getSignInStyle();
     const dialogContent = this._generateDialogContent()
-
-    if (this.state.loading && this.props.useSpinner) {
-        goButton = this.props.spinner;
-    }
 
     return (
       <div>
