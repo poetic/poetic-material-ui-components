@@ -13,6 +13,14 @@ pmc._dialog = React.createClass({
     };
   },
 
+  _onDialogCancel(e) {
+    this.refs.pmc_dialog.dismiss();
+    const { actionCancel } = this.props;
+    if (_.isFunction(actionCancel)) {
+      actionCancel();
+    }
+  },
+
   _onDialogSubmit(e) {
     this.refs.pmc_dialog.dismiss();
     this.props.action();
@@ -23,7 +31,7 @@ pmc._dialog = React.createClass({
     let body = this.props.body;
     let buttons = this.props.buttonText || {confirm: 'Continue', cancel: 'Cancel'};
     let standardActions = [
-      { text: buttons.cancel },
+      { text: buttons.cancel, onTouchTap: this._onDialogCancel },
       { text: buttons.confirm, onTouchTap: this._onDialogSubmit, ref: 'submit' }
     ];
     return (

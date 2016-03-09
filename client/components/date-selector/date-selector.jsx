@@ -21,9 +21,12 @@ pmc.dateSelector = React.createClass({
       selectedIndex++;
     });
 
+    const initialSelectedIndex = selectedIndex;
+
     return {
       days,
       selectedIndex,
+      initialSelectedIndex,
       dateWidth,
       goToInitialDateStyle: {},
     };
@@ -59,6 +62,7 @@ pmc.dateSelector = React.createClass({
     const {
       days: allDays,
       selectedIndex,
+      initialSelectedIndex,
       dateWidth,
       goToInitialDateStyle,
     } = this.state;
@@ -76,7 +80,8 @@ pmc.dateSelector = React.createClass({
             let daystring = day.format('dd').substring(0, 1);
             daystring += day.format('D') < 10 ? ' 0' : ' ';
             daystring += day.format('D');
-            const className = (index === selectedIndex) ? 'pmcDateSelected' : 'pmcDateNormal'
+            let className = (index === selectedIndex) ? 'pmcDateSelected ' : 'pmcDateNormal ';
+            className += (index === initialSelectedIndex) ? 'pmcDateInitial' : '';
 
             return (
               <div key={index} className={ className }
