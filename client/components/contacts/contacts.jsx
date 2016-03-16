@@ -43,7 +43,7 @@ pmc._contact = React.createClass({
     this.setState({ checked: !status });
 
     this.props.feedback({
-      status,
+      status: !status,
       id: this.state.contact.id,
       index: this.state.index,
     });
