@@ -36,7 +36,12 @@ pmc.signIn = React.createClass({
   },
 
   getInitialState() {
-    return { loading: false, error: '', mode: 'signIn' };
+    const { mode = 'signIn' } = this.props;
+    return {
+      mode,
+      loading: false,
+      error: '',
+    };
   },
 
 
@@ -77,9 +82,6 @@ pmc.signIn = React.createClass({
     switch (err.error) {
       case 400:
         errorMessage = 'Email and password are required';
-      break;
-      case 403:
-        errorMessage = 'Incorrect email or password';
       break;
       default:
         errorMessage = 'Incorrect email or password';
@@ -189,53 +191,44 @@ pmc.signIn = React.createClass({
         }
       });
     } else {
-      this.setState({ loading: false, error: errorMessage });
+      this.setState({ loading: false, error: 'You must include a valid email' });
     }
   },
 
   _getResetModeActions() {
     const signInLinkStyle = this._getSignInStyle();
     return [
-      <p
-        style={{
-          ...signInLinkStyle,
-          textAlign: 'right',
-          padding: '0px',
-          marginBottom: '0px',
-        }}
-        ref="sign_btn"
+      <RaisedButton
+        ref='reset_btn'
+        href='#'
         onClick={ this._sendResetEmail }
-        >
-        Reset Password
-      </p>
+        label="Reset Password"
+        primary
+        fullWidth
+      />,
     ];
   },
 
   _getSignInModeActions() {
     const signInLinkStyle = this._getSignInStyle();
     return [
-      <p
-        style={{
-          ...signInLinkStyle,
-          'float': 'left',
-          padding: '0px',
-          marginBottom: '0px',
-        }}
-        ref="sign_btn"
-        onClick={ this._triggerLoadingState }
-        >
-        GO
-      </p>,
+      <RaisedButton
+        ref='sign_btn'
+        href='#'
+        onClick={this._triggerLoadingState}
+        label="LOGIN"
+        primary
+        fullWidth
+      />,
       <p
         onClick={ this._triggerResetState }
         style={{
           ...signInLinkStyle,
-          'float': 'right',
           padding: '0px',
           marginBottom: '0px',
         }}
         >
-        FORGOT PASSWORD
+        Forgot Password?
       </p>
     ];
   },
@@ -260,9 +253,12 @@ pmc.signIn = React.createClass({
     const signInModeActions = this._getSignInModeActions();
     const resetModeActions = this._getResetModeActions();
     const { includeReset } = this.props;
-    if (this.state.mode === 'signIn' && (includeReset)) {
-      return signInModeActions;
-    } else {
+    const { mode } = this.state;
+
+    if (mode === 'signIn') {
+      if (includeReset) {
+        return signInModeActions;
+      }
       return onlySignInModeAction;
     }
     return resetModeActions;
