@@ -209,9 +209,8 @@ pmc.signIn = React.createClass({
     ];
   },
 
-  _getSignInModeActions() {
-    const signInLinkStyle = this._getSignInStyle();
-    return [
+  _getSignInButton() {
+    return (
       <RaisedButton
         ref='sign_btn'
         href='#'
@@ -219,7 +218,17 @@ pmc.signIn = React.createClass({
         label="LOGIN"
         primary
         fullWidth
-      />,
+      />
+    );
+  },
+
+  _getSignInModeActions() {
+    const { includeReset, useSpinner, spinner } = this.props;
+    const { mode, loading } = this.state;
+    const signInLinkStyle = this._getSignInStyle();
+
+    return [
+      (loading & useSpinner) ? spinner : this._getSignInButton(),
       <p
         onClick={ this._triggerResetState }
         style={{
@@ -236,24 +245,16 @@ pmc.signIn = React.createClass({
     if (this.state.loading && this.props.useSpinner) {
         return this.props.spinner;
     }
-    return (
-      <RaisedButton
-        ref='sign_btn'
-        href='#'
-        onClick={this._triggerLoadingState}
-        label='GO'
-        primary
-        fullWidth
-      />
-    );
+    return this._getSignInButton();
   },
 
   _getSignInActions() {
     const onlySignInModeAction = this._getOnlySignInModeActions();
     const signInModeActions = this._getSignInModeActions();
     const resetModeActions = this._getResetModeActions();
-    const { includeReset } = this.props;
-    const { mode } = this.state;
+    const { includeReset, useSpinner, spinner } = this.props;
+    const { mode, loading } = this.state;
+
 
     if (mode === 'signIn') {
       if (includeReset) {
